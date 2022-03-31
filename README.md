@@ -96,16 +96,16 @@ Project Link: [https://github.com/andrefdre/Barcelparts](https://github.com/andr
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/andrefdre/Carro.svg?style=for-the-badge
-[contributors-url]: https://github.com/andrefdre/Carro/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/andrefdre/Carro.svg?style=for-the-badge
-[forks-url]: https://github.com/andrefdre/Carro/network/members
-[stars-shield]: https://img.shields.io/github/stars/andrefdre/Carro.svg?style=for-the-badge
-[stars-url]: https://github.com/andrefdre/Carro/stargazers
-[issues-shield]: https://img.shields.io/github/issues/andrefdre/Carro.svg?style=for-the-badge
-[issues-url]: https://github.com/andrefdre/Carro/issues
-[license-shield]: https://img.shields.io/github/license/andrefdre/Carro.svg?style=for-the-badge
-[license-url]: https://github.com/andrefdre/Carro/blob/main/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/andrefdre/Barcelparts.svg?style=for-the-badge
+[contributors-url]: https://github.com/andrefdre/Barcelparts/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/andrefdre/Barcelparts.svg?style=for-the-badge
+[forks-url]: https://github.com/andrefdre/Barcelparts/network/members
+[stars-shield]: https://img.shields.io/github/stars/andrefdre/Barcelparts.svg?style=for-the-badge
+[stars-url]: https://github.com/andrefdre/Barcelparts/stargazers
+[issues-shield]: https://img.shields.io/github/issues/andrefdre/Barcelparts.svg?style=for-the-badge
+[issues-url]: https://github.com/andrefdre/Barcelparts/issues
+[license-shield]: https://img.shields.io/github/license/andrefdre/Barcelparts.svg?style=for-the-badge
+[license-url]: https://github.com/andrefdre/Barcelparts/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/andr%C3%A9-cardoso-8bb264223/
 [product-screenshot]: Images/Logo.jpg
