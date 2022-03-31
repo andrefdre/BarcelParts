@@ -68,7 +68,7 @@ For more see the [open issues](https://github.com/andrefdre/Barcelparts/issues) 
 <!-- LICENSE -->
 ## License
 
-Distributed under the GNU GENERAL PUBLIC LICENSE. See `LICENSE.txt` for more information.
+Distributed under the MIT PUBLIC LICENSE. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
