@@ -16,7 +16,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
@@ -47,7 +46,6 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#Introduction">Introducion</a></li>
-    <li><a href="#Libraries">Libraries</a> </li> 
     <li><a href="#License">License</a></li>
     <li><a href="#Contact">Contact</a></li>
   </ol>
@@ -66,13 +64,6 @@ For more see the [open issues](https://github.com/andrefdre/Barcelparts/issues) 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- Required_Libraries -->
-## Libraries 
-
-
-
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- LICENSE -->
 ## License
@@ -85,8 +76,6 @@ Distributed under the GNU GENERAL PUBLIC LICENSE. See `LICENSE.txt` for more inf
 
 <!-- CONTACT -->
 ## Contact
-
-André Cardoso - andref@ua.pt
 
 Project Link: [https://github.com/andrefdre/Barcelparts](https://github.com/andrefdre/Barcelparts)
 
@@ -106,6 +95,4 @@ Project Link: [https://github.com/andrefdre/Barcelparts](https://github.com/andr
 [issues-url]: https://github.com/andrefdre/Barcelparts/issues
 [license-shield]: https://img.shields.io/github/license/andrefdre/Barcelparts.svg?style=for-the-badge
 [license-url]: https://github.com/andrefdre/Barcelparts/blob/main/LICENSE
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/andr%C3%A9-cardoso-8bb264223/
 [product-screenshot]: Images/Logo.jpg
