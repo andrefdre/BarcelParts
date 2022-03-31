@@ -23,7 +23,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/andrefdre/Barcelparts">
-    <img src="Images/Logo.jpg" alt="Logo" width="400" height="300">
+    <img src="Images\Logo.jpeg" alt="Logo" width="400" height="300">
   </a>
 
   <h3 align="center">Develop of BarcelParts Website</h3>
@@ -95,4 +95,4 @@ Project Link: [https://github.com/andrefdre/Barcelparts](https://github.com/andr
 [issues-url]: https://github.com/andrefdre/Barcelparts/issues
 [license-shield]: https://img.shields.io/github/license/andrefdre/Barcelparts.svg?style=for-the-badge
 [license-url]: https://github.com/andrefdre/Barcelparts/blob/main/LICENSE
-[product-screenshot]: Images/Logo.jpg
+[product-screenshot]: Images\Logo.jpeg
