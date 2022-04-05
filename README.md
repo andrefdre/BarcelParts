@@ -55,7 +55,7 @@
 <!-- Introduction -->
 ## Introduction
 
-<p>This project has the objective to develop a shopping website for the Lecture Web applications. </p>
+<p>This project has the objective to develop a shopping website for the Lecture Web applications.</p>
 
 
 
