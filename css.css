@@ -1,8 +1,9 @@
 body {
     background-color: #dfdfdf;
 }
+
 .navbar-light.second-navbar {
-    background-color: #00a1b6da;
+    background-color: #00a1b6;
 }
 
 .navbar-nav.first-navbar{
@@ -103,12 +104,44 @@ body {
 
 /* Declare heights because of positioning of img element */
 .carousel-item {
-  height: 32rem;
+  height: 24.5vw;
 }
-.carousel-item > img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 100%;
-  height: 32rem;
+
+/* Cards to display brands */
+.breakline{
+  border: 0; 
+  height: 2px; 
+  background-image: -webkit-linear-gradient(left, #00a1b6, #000000da, #000000);
+  background-image: -moz-linear-gradient(left, #f0f0f0, #00a1b6, #f0f0f0);
+  background-image: -ms-linear-gradient(left, #f0f0f0, #00a1b6, #f0f0f0);
+  background-image: -o-linear-gradient(left, #f0f0f0, #00a1b6, #f0f0f0); 
+}
+
+.brand{
+  color: #000000;
+  text-decoration-line: none;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+
+
+/* displaying items */
+
+.item-display{
+background-color: white;
+margin-right: calc(var(--bs-gutter-x) * .5);
+margin-left: calc(var(--bs-gutter-x) * .5);
+padding: 0%;
+border: #00000098 solid;
+border-width: 1px;
+border-radius: 2%;
+box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 768px){
+.row-cols-md-5>* {
+    flex: 0 0 auto;
+    width: 18% !important;
+
+}
 }
