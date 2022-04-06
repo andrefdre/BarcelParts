@@ -1,0 +1,114 @@
+body {
+    background-color: #dfdfdf;
+}
+.navbar-light.second-navbar {
+    background-color: #00a1b6da;
+}
+
+.navbar-nav.first-navbar{
+    flex-direction: row;
+    justify-content: space-between;
+    width: 150px;
+    align-items: center;
+}
+
+.nav-link.first-navbar{
+    padding-left: 0rem !important;
+    padding-right: 0rem !important;
+}
+
+.Logo{
+    height: 50px;
+    width: 50px;
+}
+
+.Logo-footer{
+    height: 20px;
+    width: 20px;
+}
+
+.btn-outline-success{
+    color: #000000;
+    border-color: #000000;
+}
+
+.dropdown-submenu {
+    position: relative;
+  }
+  
+  .dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+  }
+
+
+
+@media (min-width: 576px){
+    .container, .container-sm {
+        max-width: 540px;
+    }
+    }
+
+@media (min-width: 768px){
+    .container, .container-md, .container-sm {
+        max-width: 720px;
+}
+ }
+@media (min-width: 992px){
+    .container, .container-lg, .container-md, .container-sm {
+    max-width: 900px;
+}
+}
+            
+@media (min-width: 1200px){
+    .container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1000px;
+}
+  }
+@media (min-width: 1400px){
+    .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 1200px;
+}
+  }
+  
+  .bi {
+    vertical-align: -.125em;
+    fill: currentColor;
+  }
+
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+/* Carousel base class */
+.carousel {
+  margin-bottom: 4rem;
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  bottom: 3rem;
+  z-index: 10;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel-item {
+  height: 32rem;
+}
+.carousel-item > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 32rem;
+}
