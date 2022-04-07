@@ -22,7 +22,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/andrefdre/Barcelparts">
+  <a href="https://github.com/BarcelParts/BarcelParts/">
     <img src="Images\Logo.jpeg" alt="Logo" width="400" height="300">
   </a>
 
@@ -31,11 +31,11 @@
   <p align="center">
     <br />
     <br />
-    <a href="https://github.com/andrefdre/Barcelparts/issues">Issues</a>
+    <a href="https://github.com/BarcelParts/BarcelParts/issues">Issues</a>
     ·
-    <a href="https://github.com/andrefdre/Barcelparts/projects/1">Project</a>
+    <a href="https://github.com/BarcelParts/BarcelParts/projects/1">Project</a>
     ·
-    <a href="https://github.com/andrefdre/Barcelparts/wiki">Wiki</a>
+    <a href="https://github.com/BarcelParts/BarcelParts/wiki">Wiki</a>
   </p>
 </div>
 
@@ -60,7 +60,7 @@
 
 
 
-For more see the [open issues](https://github.com/andrefdre/Barcelparts/issues) for a full list of proposed features (and known issues).
+For more see the [open issues](https://github.com/BarcelParts/BarcelParts/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -77,7 +77,7 @@ Distributed under the MIT PUBLIC LICENSE. See `LICENSE.txt` for more information
 <!-- CONTACT -->
 ## Contact
 
-Project Link: [https://github.com/andrefdre/Barcelparts](https://github.com/andrefdre/Barcelparts)
+Project Link: [https://github.com/BarcelParts/BarcelParts/](https://github.com/BarcelParts/BarcelParts/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -85,14 +85,14 @@ Project Link: [https://github.com/andrefdre/Barcelparts](https://github.com/andr
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/andrefdre/Barcelparts.svg?style=for-the-badge
-[contributors-url]: https://github.com/andrefdre/Barcelparts/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/andrefdre/Barcelparts.svg?style=for-the-badge
-[forks-url]: https://github.com/andrefdre/Barcelparts/network/members
-[stars-shield]: https://img.shields.io/github/stars/andrefdre/Barcelparts.svg?style=for-the-badge
-[stars-url]: https://github.com/andrefdre/Barcelparts/stargazers
-[issues-shield]: https://img.shields.io/github/issues/andrefdre/Barcelparts.svg?style=for-the-badge
-[issues-url]: https://github.com/andrefdre/Barcelparts/issues
-[license-shield]: https://img.shields.io/github/license/andrefdre/Barcelparts.svg?style=for-the-badge
-[license-url]: https://github.com/andrefdre/Barcelparts/blob/main/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/BarcelParts/BarcelParts.svg?style=for-the-badge
+[contributors-url]: https://github.com/BarcelParts/BarcelParts/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/BarcelParts/BarcelParts.svg?style=for-the-badge
+[forks-url]: https://github.com/BarcelParts/BarcelParts/network/members
+[stars-shield]: https://img.shields.io/github/stars/BarcelParts/BarcelParts.svg?style=for-the-badge
+[stars-url]: https://github.com/BarcelParts/BarcelParts/stargazers
+[issues-shield]: https://img.shields.io/github/issues/BarcelParts/BarcelParts.svg?style=for-the-badge
+[issues-url]: https://github.com/BarcelParts/BarcelParts/issues
+[license-shield]: https://img.shields.io/github/license/BarcelParts/BarcelParts.svg?style=for-the-badge
+[license-url]: https://github.com/BarcelParts/BarcelParts/blob/main/LICENSE
 [product-screenshot]: Images\Logo.jpeg
