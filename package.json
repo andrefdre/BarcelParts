@@ -1,0 +1,23 @@
+{
+  "name": "barcelparts",
+  "version": "1.0.0",
+  "description": "Parts car seller",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrefdre/Barcelparts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrefdre/Barcelparts/issues"
+  },
+  "homepage": "https://github.com/andrefdre/Barcelparts#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
