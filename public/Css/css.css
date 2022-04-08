@@ -37,10 +37,17 @@ body {
 }
 
 /* Sets the color of the navbar button border */
-.btn-outline-success {
-  color: #000000;
-  border-color: #000000;
+.btn-outline-secondary {
+  color: #656565;
+  border-color: #656565;
 }
+.btn-outline-secondary:hover {
+  color: #0000006e;
+  border-color: #656565;
+  background-color: #656565;
+
+}
+
 
 .dropdown-submenu {
   position: relative;
@@ -155,6 +162,9 @@ body {
   text-decoration-line: none;
   font-size: 1.3em;
   font-weight: 600;
+}
+a.brand:hover{
+  color: #726f6f;
 }
 
 
