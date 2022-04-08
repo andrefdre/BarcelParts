@@ -180,6 +180,24 @@ a.brand:hover{
   border-radius: 2%;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
+
+.item {
+  color: #000000;
+  text-decoration-line: none;
+  text-align: center;
+  font-size: 0.75em;
+  font-weight: 600;
+}
+
+a.item:hover{
+  color: #726f6f;
+}
+
+.card-item-body{
+  padding: 0.7rem 0.7rem;
+}
+
+
 @media (min-width: 200px) {
   .row-cols-2>* {
     flex: 0 0 auto;
