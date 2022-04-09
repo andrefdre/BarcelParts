@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark-mode">
 
 <head>
   <!-- Required meta tags -->
@@ -29,8 +29,8 @@
       <!--Creates the logo image -->
       <a class="navbar-brand"><img class="Logo" src=".\Images\Logo.jpeg" alt=""></a>
       <!-- Have a Separate div to add the Group name in the middle of the navbar -->
-      <div class="navbar-nav  first-navbar d-none d-md-block">
-        <p>Group TRUSTAUTO</p>
+      <div class="navbar-nav first-navbar d-none d-md-block">
+        <p class="group-brand">Group TRUSTAUTO</p>
       </div>
       <!-- Creates the Components justified to the end of the page such as Account information and the cart item -->
       <div class="justify-content-end">
@@ -100,9 +100,20 @@
               <li><a class="dropdown-item" href="#">Transmission</a></li>
 
               <li><a class="dropdown-item" href="#">Light</a></li>
+              <li class="dropdown-submenu">
+                <a href="#" class="dropdown-item dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="nav-label">Service C</span><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Motor</a></li>
+                  <li><a class="dropdown-item" href="#">Motor</a></li>
+                  <li><a class="dropdown-item" href="#">Motor</a></li>
+                  <li><a class="dropdown-item" href="#">Motor</a></li>
+                  <li><a class="dropdown-item" href="#">Motor</a></li>
+                </ul>
+            </li>
             </ul>
           </li>
-          <!-- Other navbar items that will appear in teh navbar -->
+
+          <!-- Other navbar items that will appear in the navbar -->
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="#">Catalog</a>
           </li>
