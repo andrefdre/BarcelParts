@@ -1,34 +1,21 @@
-const {MongoClient} = require('mongodb');
+const MongoClient = require('mongodb').MongoClient
+const express = require('express')
 
-async function main() {
-	// we'll add code here soon
-    const uri = "mongodb+srv://barcelparts:barcelparts@cluster0.uv4lk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-    const client = new MongoClient(uri);
+const app = express()
 
+app.use(express.json())
+var database
 
-    try {
-        // Connect to the MongoDB cluster
-        await client.connect();
- 
-        // Make the appropriate DB calls
-        await  listDatabases(client);
- 
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
-}
+app.get('/', (req, resp) => {
+    resp.send('Welcome')
 
-main().catch(console.error);
+})
 
+app.listen(8080, () => {
+    MongoClient.connect('mongodb+srv://barcelparts:barcelparts@cluster0.uv4lk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true }, (error, result) => {
+        if (error) throw error
+        database = result.db('Barcelparts')
+        console.log('Connection successful')
+    })
 
-async function listDatabases(client){
-    databasesList = await client.db().admin().listDatabases();
- 
-    console.log("Databases:");
-    databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-};
- 
-
-mongoose.connect('mongodb+srv://barcelparts:barcelparts@cluster0.uv4lk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
+})
