@@ -182,7 +182,7 @@ body {
   background-color: #242526;
 }
 
-.dark-mode>body>.navbar-light .navbar-nav .nav-link ,.dark-mode>body>.group-brand {
+.dark-mode>body>.navbar-light .navbar-nav .nav-link ,.dark-mode>body>.navbar-light .navbar-nav .group-brand {
   color: #ffffff;
 }
 
