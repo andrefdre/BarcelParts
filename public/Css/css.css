@@ -1,0 +1,333 @@
+/* Main css code for all pages */
+/* Sets the color of the background */
+body {
+  background-color: #dfdfdf;
+}
+
+/* Sets the color of the second navbar background*/
+.navbar.second-navbar {
+  background-color: #00a1b6;
+}
+
+.navbar-nav.first-navbar {
+  flex-direction: row;
+  justify-content: space-between;
+  width: 150px;
+  align-items: center;
+}
+
+.nav-link.first-navbar {
+  padding-left: 0rem !important;
+  padding-right: 0rem !important;
+}
+
+.navbar-brand {
+  font-size: calc(0.75rem + 0.75vw);
+  padding-right: 15px;
+}
+
+/* Sets the size of the logo image */
+.Logo {
+  height: 50px;
+  width: 50px;
+}
+
+.Logo-footer {
+  height: 20px;
+  width: 20px;
+}
+
+/* Sets the color of the navbar button border */
+.btn-outline-secondary {
+  color: #656565;
+  border-color: #656565;
+}
+.btn-outline-secondary:hover {
+  color: #0000006e;
+  border-color: #656565;
+  background-color: #656565;
+
+}
+
+
+/* dropdown menu/submenu */
+.navbar-nav .dropdown-menu {
+  position:absolute;
+}
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  -webkit-border-radius: 0 6px 6px 6px;
+  -moz-border-radius: 0 6px 6px;
+  border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #ccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+  border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+  float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  -webkit-border-radius: 6px 0 6px 6px;
+  -moz-border-radius: 6px 0 6px 6px;
+  border-radius: 6px 0 6px 6px;
+}
+
+/* Sets the sizes of the container width  */
+@media (min-width: 576px) {
+
+  .container,
+  .container-sm {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+
+  .container,
+  .container-md,
+  .container-sm {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm {
+    max-width: 900px;
+  }
+}
+
+@media (min-width: 1200px) {
+
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl {
+    max-width: 1000px;
+  }
+}
+
+@media (min-width: 1400px) {
+
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl,
+  .container-xxl {
+    max-width: 1200px;
+  }
+}
+
+.bi {
+  vertical-align: -.125em;
+  fill: currentColor;
+}
+
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+/* Dark-mode */
+.dark-mode>body{
+  background-color: #18191a;
+}
+
+.dark-mode>body>.second-navbar {
+  background-color: #242526;
+}
+
+.dark-mode>body>.navbar-light .navbar-nav .nav-link ,.dark-mode>body>.navbar-light .navbar-nav .group-brand {
+  color: #ffffff;
+}
+
+.dark-mode>body>.navbar-light .navbar-brand   {
+  color: #00a1b6;
+}
+
+.dark-mode>body>.container-md>.break-line {
+  border: 0;
+  height: 2px;
+  background-image: -webkit-linear-gradient(left, #00a1b6, #00a1b6, #00a1b6);
+  background-image: -moz-linear-gradient(left, #f0f0f0, #00a1b6, #f0f0f0);
+  background-image: -ms-linear-gradient(left, #f0f0f0, #00a1b6, #f0f0f0);
+  background-image: -o-linear-gradient(left, #f0f0f0, #00a1b6, #f0f0f0);
+}
+
+.dark-mode>body>.container-md>h2 {
+  color: #ffffff;
+}
+/* Ends the main css code  */
+
+
+
+
+/* Carousel base class */
+.carousel {
+  margin-bottom: 4rem;
+}
+
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  bottom: 3rem;
+  z-index: 10;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel-item {
+  height: 24.5vw;
+}
+
+/* Cards to display brands */
+.break-line {
+  border: 0;
+  height: 2px;
+  background-image: -webkit-linear-gradient(left, #00a1b6, #000000da, #000000);
+  background-image: -moz-linear-gradient(left, #f0f0f0, #00a1b6, #f0f0f0);
+  background-image: -ms-linear-gradient(left, #f0f0f0, #00a1b6, #f0f0f0);
+  background-image: -o-linear-gradient(left, #f0f0f0, #00a1b6, #f0f0f0);
+}
+
+.brand {
+  color: #000000;
+  text-decoration-line: none;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+a.brand:hover{
+  color: #726f6f;
+}
+
+
+/* displaying items */
+
+.item-display {
+  background-color: white;
+  margin-right: calc(var(--bs-gutter-x) * .5);
+  margin-left: calc(var(--bs-gutter-x) * .5);
+  padding: 0%;
+  border: #00000098 solid;
+  border-width: 1px;
+  border-radius: 2%;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.item {
+  color: #000000;
+  text-decoration-line: none;
+  text-align: center;
+  font-size: 0.75em;
+  font-weight: 600;
+}
+
+a.item:hover{
+  color: #726f6f;
+}
+
+.card-item-body{
+  padding: 0.7rem 0.7rem;
+}
+
+
+@media (min-width: 200px) {
+  .row-cols-2>* {
+    flex: 0 0 auto;
+    width: 41%;
+  }
+  }
+
+@media (min-width: 320px) {
+  .row-cols-2>* {
+    flex: 0 0 auto;
+    width: 42.4%;
+  }
+  }
+
+  @media (min-width: 375px) {
+    .row-cols-2>* {
+      flex: 0 0 auto;
+      width: 43.5%;
+    }
+    }
+
+@media (min-width: 400px) {
+.row-cols-2>* {
+  flex: 0 0 auto;
+  width: 44.1%;
+}
+}
+
+@media (min-width: 768px){
+.row-cols-md-3>* {
+    flex: 0 0 auto;
+    width: 30% !important;
+}
+}
+
+
+@media (min-width: 992px) {
+  .row-cols-lg-6>* {
+    flex: 0 0 auto;
+    width: 14% !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row-cols-lg-6>* {
+    flex: 0 0 auto;
+    width: 14.26% !important;
+  }
+}
+
+@media (min-width: 1400px) {
+  .row-cols-lg-6>* {
+    flex: 0 0 auto;
+    width: 14.66% !important;
+
+  }
+}
