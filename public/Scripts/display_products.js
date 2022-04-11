@@ -7,8 +7,16 @@ app.use(express.json())
 var database
 
 app.get('/', (req, resp) => {
-    resp.send('Welcome')
+    resp.sendFile('/Barcelparts/public' + '/Main_Page.html')
 
+})
+
+app.get('/api/Products',(req,resp)=>{
+
+    database.collection('Products').find({}).toArray((err,result) =>{
+        if(err) throw err
+        resp.send(result.Marca)
+    })
 })
 
 app.listen(8080, () => {
