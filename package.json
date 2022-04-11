@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/andrefdre/Barcelparts#readme",
   "dependencies": {
+    "axios": "^0.26.1",
     "express": "^4.17.3",
     "mongodb": "^4.5.0",
     "mongoose": "^6.2.10",

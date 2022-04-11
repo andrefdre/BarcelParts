@@ -4,19 +4,14 @@ const express = require('express')
 const app = express()
 
 app.use(express.json())
+
 var database
 
-app.get('/', (req, resp) => {
-    resp.sendFile('/Barcelparts/public' + '/Main_Page.html')
-
-})
-
-app.get('/api/Products',(req,resp)=>{
-
-    database.collection('Products').find({}).toArray((err,result) =>{
-        if(err) throw err
-        resp.send(result.Marca)
-    })
+app.get('/',(req,resp)=>{
+        database.collection('Products').find({}).toArray((err,result) =>{
+            if(err) throw err
+            console.log(result.Ref)
+        })
 })
 
 app.listen(8080, () => {
