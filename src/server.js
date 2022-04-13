@@ -1,9 +1,15 @@
+
 const mongoose = require('mongoose');
 const express = require('express');
+var cors = require('cors');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
 const Data_Product = require('./data_product');
 
 const API_PORT = 3001;
 const app = express();
+app.use(cors());
+const router = express.Router();
 
 const dbRoute ='mongodb+srv://barcelparts:barcelparts@cluster0.uv4lk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
@@ -22,7 +28,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // this is our get method
 // this method fetches all available data in our database
 router.get('/getData', (req, res) => {
-    Data.find((err, data) => {
+    Data_Product.find((err, data) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, data: data });
     });
@@ -32,7 +38,7 @@ router.get('/getData', (req, res) => {
   // this method overwrites existing data in our database
   router.post('/updateData', (req, res) => {
     const { id, update } = req.body;
-    Data.findByIdAndUpdate(id, update, (err) => {
+    Data_Product.findByIdAndUpdate(id, update, (err) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true });
     });
@@ -42,7 +48,7 @@ router.get('/getData', (req, res) => {
   // this method removes existing data in our database
   router.delete('/deleteData', (req, res) => {
     const { id } = req.body;
-    Data.findByIdAndRemove(id, (err) => {
+    Data_Product.findByIdAndRemove(id, (err) => {
       if (err) return res.send(err);
       return res.json({ success: true });
     });

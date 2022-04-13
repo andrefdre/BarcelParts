@@ -1,0 +1,17 @@
+POST  http://localhost:3001/putData
+Content-Type: application/json
+
+{
+    "id": "Joseh",
+        "Cod_Fornecedor": "String",
+        "Fornecedor": "String",
+        "Marca": "String",
+        "Ref": "String",
+        "Design": "String",
+        "Cod_Familia": "String",
+        "Familia": "String",
+        "Cod_SubFamilia": "String",
+        "SubFamilia": "String",
+        "Preço": "String",
+        "Stock": "String"
+}

@@ -24,7 +24,7 @@
 <div align="center">
 
   <a href="https://github.com/BarcelParts/BarcelParts/">
-    <img src="Images\Logo.jpeg" alt="Logo" width="400" height="300">
+    <img src="public\Assets\Images\Logo.jpeg" alt="Logo" width="400" height="300">
   </a>
 
   <h3 align="center">Develop of BarcelParts Website</h3>
