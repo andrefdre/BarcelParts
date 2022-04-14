@@ -1,8 +1,9 @@
 import React from 'react';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import ReactDOM from 'react-dom';
-import Main_Page from './Main_Page';
-import Product_Page from './Product_Page';  
+import Main_Page from './Pages/Main_Page';
+import Product_Page from './Pages/Product_Page';  
+import Register_Page from './Pages/Register_Page'
 import reportWebVitals from './reportWebVitals';
 
 
@@ -12,6 +13,7 @@ ReactDOM.render(
  <Routes>
       <Route path="/" element={<Main_Page />} />
       <Route path="/Product_Page" element={<Product_Page />} />
+      <Route path='/Register' element={<Register_Page/>} />
     </Routes>
   </BrowserRouter>,
    document.getElementById("root")
