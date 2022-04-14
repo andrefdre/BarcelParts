@@ -13,7 +13,7 @@ ReactDOM.render(
  <Routes>
       <Route path="/" element={<Main_Page />} />
       <Route path="/Product_Page" element={<Product_Page />} />
-      <Route path='/Register' element={<Register_Page/>} />
+      <Route path='/Register_Page' element={<Register_Page/>} />
     </Routes>
   </BrowserRouter>,
    document.getElementById("root")
