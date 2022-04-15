@@ -1,14 +1,14 @@
 import mongodb from "mongodb"
 const ObjectId = mongodb.ObjectID
-let restaurants
+let products
 
-export default class RestaurantsDAO {
+export default class ProductsDAO {
   static async injectDB(conn) {
-    if (restaurants) {
+    if (products) {
       return
     }
     try {
-      restaurants = await conn.db(process.env.BARCELPARTS_NS).collection("Products")
+      products = await conn.db(process.env.BARCELPARTS_NS).collection("Products")
     } catch (e) {
       console.error(
         `Unable to establish a collection handle in BARCELPARTS DAO: ${e}`,
@@ -16,12 +16,13 @@ export default class RestaurantsDAO {
     }
   }
 
-  static async getRestaurants({
+  static async getProducts({
     filters = null,
     page = 0,
-    restaurantsPerPage = 20,
+    ProductsPerPage = 20,
   } = {}) {
     let query
+
     if (filters) {
       if ("name" in filters) {
         query = { $text: { $search: filters["name"] } }
@@ -29,31 +30,36 @@ export default class RestaurantsDAO {
         query = { "cuisine": { $eq: filters["cuisine"] } }
       } else if ("zipcode" in filters) {
         query = { "address.zipcode": { $eq: filters["zipcode"] } }
+        // My filters
+      } else if ("Design" in filters) {
+        query = { $text: { $search: filters["Design"] } }
+      } else if ("Marca" in filters) {
+        query = { "Marca": { $eq: filters["Marca"] } }
       }
     }
 
     let cursor
     
     try {
-      cursor = await restaurants
+      cursor = await products
         .find(query)
     } catch (e) {
       console.error(`Unable to issue find command, ${e}`)
       return { restaurantsList: [], totalNumRestaurants: 0 }
     }
 
-    const displayCursor = cursor.limit(restaurantsPerPage).skip(restaurantsPerPage * page)
+    const displayCursor = cursor.limit(ProductsPerPage).skip(ProductsPerPage * page)
 
     try {
-      const restaurantsList = await displayCursor.toArray()
-      const totalNumRestaurants = await restaurants.countDocuments(query)
+      const ProductsList = await displayCursor.toArray()
+      const totalNumProducts = await products.countDocuments(query)
 
-      return { restaurantsList, totalNumRestaurants }
+      return { ProductsList, totalNumProducts }
     } catch (e) {
       console.error(
         `Unable to convert cursor to array or problem counting documents, ${e}`,
       )
-      return { restaurantsList: [], totalNumRestaurants: 0 }
+      return { ProductsList: [], totalNumProducts: 0 }
     }
   }
 
@@ -102,14 +108,14 @@ export default class RestaurantsDAO {
     }
   }
 
-  static async getCuisines() {
-    let cuisines = []
+  static async getMarcas() {
+    let Marcas = []
     try {
-      cuisines = await restaurants.distinct("cuisine")
-      return cuisines
+      Marcas = await products.distinct("Marca")
+      return Marcas
     } catch (e) {
-      console.error(`Unable to get cuisines, ${e}`)
-      return cuisines
+      console.error(`Unable to get Marcas, ${e}`)
+      return Marcas
     }
   }
 }

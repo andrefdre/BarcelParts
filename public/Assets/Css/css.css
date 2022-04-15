@@ -53,6 +53,8 @@ body {
 /* dropdown menu/submenu */
 .navbar-nav .dropdown-menu {
   position:absolute;
+  z-index: 2000;
+  background-color: #dfdfdf;
 }
 
 .dropdown-submenu {

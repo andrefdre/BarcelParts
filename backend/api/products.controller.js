@@ -1,8 +1,8 @@
 import productsDAO from "../dao/productsDAO.js"
 
-export default class RestaurantsController {
-    static async apiGetRestaurants(req, res, next) {
-      const restaurantsPerPage = req.query.restaurantsPerPage ? parseInt(req.query.restaurantsPerPage, 10) : 20
+export default class ProductsController {
+    static async apiGetProducts(req, res, next) {
+      const ProductsPerPage = req.query.ProductsPerPage ? parseInt(req.query.ProductsPerPage, 10) : 20
       const page = req.query.page ? parseInt(req.query.page, 10) : 0
   
       let filters = {}
@@ -13,22 +13,30 @@ export default class RestaurantsController {
       } else if (req.query.name) {
         filters.name = req.query.name
       }
+    //   My filters 
+      else if (req.query.Design) {
+        filters.Design = req.query.Design
+      }else if (req.query.Marca) {
+        filters.Marca = req.query.Marca
+      }
   
-      const { restaurantsList, totalNumRestaurants } = await productsDAO.getRestaurants({
+      const { ProductsList, totalNumProducts } = await productsDAO.getProducts({
         filters,
         page,
-        restaurantsPerPage,
+        ProductsPerPage,
       })
   
       let response = {
-        restaurants: restaurantsList,
+        products: ProductsList,
         page: page,
         filters: filters,
-        entries_per_page: restaurantsPerPage,
-        total_results: totalNumRestaurants,
+        entries_per_page: ProductsPerPage,
+        total_results: totalNumProducts,
       }
       res.json(response)
     }
+
+
     static async apiGetRestaurantById(req, res, next) {
       try {
         let id = req.params.id || {}
@@ -44,10 +52,10 @@ export default class RestaurantsController {
       }
     }
   
-    static async apiGetRestaurantCuisines(req, res, next) {
+    static async apiGetProductsMarcas(req, res, next) {
       try {
-        let cuisines = await productsDAO.getCuisines()
-        res.json(cuisines)
+        let Marcas = await productsDAO.getMarcas()
+        res.json(Marcas)
       } catch (e) {
         console.log(`api, ${e}`)
         res.status(500).json({ error: e })
