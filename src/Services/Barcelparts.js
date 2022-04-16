@@ -2,18 +2,18 @@ import http from "../http-common";
 
 class ProductsDataService {
   getAll(page = 0) {
-    return http.get(`products?page=${page}`);
+    return http.get(`?page=${page}`);
   }
 
   get(id) {
-    return http.get(`/products?id=${id}`);
+    return http.get(`?id=${id}`);
   }
 
   find(query, by = "name", page = 0) {
-    return http.get(`products?${by}=${query}&page=${page}`);
+    return http.get(`?${by}=${query}&page=${page}`);
   } 
 
-  getMarcas(id) {
+  getMarcas() {
     return http.get(`/Marcas`);
   }
 
