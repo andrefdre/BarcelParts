@@ -1,12 +1,41 @@
-import React from "react";
-import { Route, Routes} from "react-router";
+import React, { useState, useEffect } from "react";
+import { Link, Route, Routes } from "react-router-dom";
+import ProductDataService from "./Services/Barcelparts.js"
 import Main_Page from './Pages/Main_Page';
-import Product_Page from './Pages/Product_Page';
+import Research_Page from './Pages/Research_Page';
 import Register_Page from './Pages/Register_Page'
 
 
 function App() {
-    var user=null;
+    var user = null;
+
+    const [search, setSearch] = useState("");
+    const [products, setProducts] = useState([]);
+    var search_display;
+
+    const onChangeSearch = e => {
+        const search = e.target.value;
+        setSearch(search);
+    }
+
+    const find = (query, by) => {
+        ProductDataService.find(query, by)
+          .then(response => {
+            console.log(response.data);
+            setProducts(response.data.products);
+            // Trying to filter the data still experimenting
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      };
+    
+      const findByName = () => {
+        find(search, "name")
+        search_display=search;
+      };
+    
+
     return (
         <div>
             {/* <!-- Creates the Nav that will disappear --> */}
@@ -23,23 +52,22 @@ function App() {
                     <div class="justify-content-end">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0 first-navbar">
                             <li class="nav-item ">
-                                { user ?(
-                                   <li class="nav-item dropdown">
-                                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                                       aria-expanded="false">
-                                       My Account
-                                   </a>
-                                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                       <li><a class="dropdown-item" href="#">My data</a></li>
-   
-                                       <li><a class="dropdown-item" href="#">Buying History</a></li>
-   
-                                       <li><a class="dropdown-item" href="#">Sign Out</a></li>
-                                   </ul>
-                               </li>
-                                ):(
-                                    <a class="nav-link first-navbar" aria-current="page" href="/Register_Page"> <i class="fa-solid fa-user"></i>
-                                    Login/Register</a> 
+                                {user ? (
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            My Account
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><a class="dropdown-item" href="#">My data</a></li>
+
+                                            <li><a class="dropdown-item" href="#">Buying History</a></li>
+
+                                            <li><a class="dropdown-item" href="#">Sign Out</a></li>
+                                        </ul>
+                                    </li>
+                                ) : (
+                                    <a class="nav-link first-navbar" aria-current="page" href="/Register_Page"> <i class="fa-solid fa-user"></i> Login/Register</a>
                                 )
                                 }
 
@@ -78,8 +106,8 @@ function App() {
                     <div class="row justify-content-end">
                         <div class="col-10 d-none d-md-flex d-lg-none">
                             <form class="d-flex">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
-                                <button class="btn btn-outline-secondary" type="submit" style={{ 'font-size': '10px' }}>Search</button>
+                                <input class="form-control me-2" type="search" value={search} placeholder="Search" onChange={onChangeSearch} aria-label="Search"></input>
+                                <Link to="/Research_Page" className="btn btn-outline-secondary align-items-center" onClick={findByName} type="button">Search</Link>
                             </form>
                         </div>
                         {/* <!-- Adds the hamburger button that will appear when the page is shrunken to display the items in the navbar so it looks cleaner in small screens --> */}
@@ -133,14 +161,14 @@ function App() {
                         </ul>
                         {/* <!-- Adds the research form  --> */}
                         <form class="d-flex d-md-none">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
-                            <button class="btn btn-outline-secondary" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
+                            <Link to="/Research_Page" className="btn btn-outline-secondary" onClick={findByName} type="button">Search</Link>
                         </form>
                     </div>
                     {/* <!-- Adds the research form  --> */}
                     <form class="d-none d-lg-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
-                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                        <input class="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
+                        <Link to="/Research_Page" className="btn btn-outline-secondary" onClick={findByName} type="button">Search</Link>
                     </form>
                 </div>
             </nav>
@@ -148,9 +176,9 @@ function App() {
 
             <div class="">
                 <Routes>
-                <Route path="/" element={<Main_Page />} />
-                <Route path="/Product_Page" element={<Product_Page />} />
-                <Route path='/Register_Page' element={<Register_Page/>} />
+                    <Route path="/" element={<Main_Page />} />
+                    <Route path="/Research_Page" element={<Research_Page {...{ products,search_display}} />} />
+                    <Route path='/Register_Page' element={<Register_Page />} />
                 </Routes>
             </div>
 
