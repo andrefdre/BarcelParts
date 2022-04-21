@@ -24,14 +24,7 @@ export default class ProductsDAO {
     let query
 
     if (filters) {
-      if ("name" in filters) {
-        query = { $text: { $search: filters["name"] } }
-      } else if ("cuisine" in filters) {
-        query = { "cuisine": { $eq: filters["cuisine"] } }
-      } else if ("zipcode" in filters) {
-        query = { "address.zipcode": { $eq: filters["zipcode"] } }
-        // My filters
-      } else if ("Design" in filters) {
+       if ("Design" in filters) {
         query = { $text: { $search: filters["Design"] } }
       } else if ("Marca" in filters) {
         query = { "Marca": { $eq: filters["Marca"] } }
@@ -45,7 +38,7 @@ export default class ProductsDAO {
         .find(query)
     } catch (e) {
       console.error(`Unable to issue find command, ${e}`)
-      return { restaurantsList: [], totalNumRestaurants: 0 }
+      return { ProductsList: [], totalNumProducts: 0 }
     }
 
     const displayCursor = cursor.limit(ProductsPerPage).skip(ProductsPerPage * page)
@@ -116,6 +109,17 @@ export default class ProductsDAO {
     } catch (e) {
       console.error(`Unable to get Marcas, ${e}`)
       return Marcas
+    }
+  }
+
+  static async getCategories() {
+    let Categories = []
+    try {
+      Categories = await products.distinct("NomeFamilia")
+      return Categories
+    } catch (e) {
+      console.error(`Unable to get Categories, ${e}`)
+      return Categories
     }
   }
 }

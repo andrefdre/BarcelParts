@@ -225,7 +225,7 @@ body {
   height: 24.5vw;
 }
 
-/* Cards to display brands */
+/* Separation line */
 .break-line {
   border: 0;
   height: 2px;
@@ -235,6 +235,16 @@ body {
   background-image: -o-linear-gradient(left, #f0f0f0, #00a1b6, #f0f0f0);
 }
 
+.vr{
+  width: 2px;
+  padding: 0%;
+  background-image: -webkit-linear-gradient(top, #00a1b6, #000000da, #000000);
+  background-image: -moz-linear-gradient(top, #f0f0f0, #00a1b6, #f0f0f0);
+  background-image: -ms-linear-gradient(top, #f0f0f0, #00a1b6, #f0f0f0);
+  background-image: -o-linear-gradient(top, #f0f0f0, #00a1b6, #f0f0f0);
+}
+
+/* Cards to display brands */
 .brand {
   color: #000000;
   text-decoration-line: none;
@@ -307,10 +317,16 @@ a.item:hover{
 @media (min-width: 768px){
 .row-cols-md-3>* {
     flex: 0 0 auto;
-    width: 30% !important;
+    width: 28.5% !important;
 }
 }
 
+@media (min-width: 992px){
+  .row-cols-lg-4>*{
+      flex: 0 0 auto;
+      width: 21.2% !important;
+  }
+  }
 
 @media (min-width: 992px) {
   .row-cols-lg-6>* {

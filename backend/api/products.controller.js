@@ -6,15 +6,7 @@ export default class ProductsController {
       const page = req.query.page ? parseInt(req.query.page, 10) : 0
   
       let filters = {}
-      if (req.query.cuisine) {
-        filters.cuisine = req.query.cuisine
-      } else if (req.query.zipcode) {
-        filters.zipcode = req.query.zipcode
-      } else if (req.query.name) {
-        filters.name = req.query.name
-      }
-    //   My filters 
-      else if (req.query.Design) {
+       if (req.query.Design) {
         filters.Design = req.query.Design
       }else if (req.query.Marca) {
         filters.Marca = req.query.Marca
@@ -56,6 +48,16 @@ export default class ProductsController {
       try {
         let Marcas = await productsDAO.getMarcas()
         res.json(Marcas)
+      } catch (e) {
+        console.log(`api, ${e}`)
+        res.status(500).json({ error: e })
+      }
+    }
+
+    static async apiGetProductsCategories(req, res, next) {
+      try {
+        let Categories = await productsDAO.getCategories()
+        res.json(Categories)
       } catch (e) {
         console.log(`api, ${e}`)
         res.status(500).json({ error: e })

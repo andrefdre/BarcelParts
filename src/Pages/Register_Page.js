@@ -1,13 +1,13 @@
 import React from "react";
 
 
-function Product_Page() {
+function Register_Page() {
 
   return (
     <React.Fragment>
       {/* <!-- Main Content of the Webpage --> */}
       {/* <!-- Items that will not be displayed with all width of the Page --> */}
-      <div class="container-md">
+      <div className="container-md">
         <form>
           <input type="text" placeholder="Name"></input>
           <input type="email" placeholder="Email"></input>
@@ -19,4 +19,4 @@ function Product_Page() {
 
 }
 
-export default Product_Page;
+export default Register_Page;

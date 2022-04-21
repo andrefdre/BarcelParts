@@ -4,14 +4,16 @@ import ProductDataService from "./Services/Barcelparts.js"
 import Main_Page from './Pages/Main_Page';
 import Research_Page from './Pages/Research_Page';
 import Register_Page from './Pages/Register_Page'
+import About_Page from './Pages/About_Page'
 
 
 function App() {
     var user = null;
 
     const [search, setSearch] = useState("");
+    const [search_display, setSearch_display] = useState("");
     const [products, setProducts] = useState([]);
-    var search_display;
+    // var search_display;
 
     const onChangeSearch = e => {
         const search = e.target.value;
@@ -31,64 +33,64 @@ function App() {
       };
     
       const findByName = () => {
-        find(search, "name")
-        search_display=search;
+        find(search, "Design")
+        setSearch_display(search)
       };
     
 
     return (
         <div>
             {/* <!-- Creates the Nav that will disappear --> */}
-            <nav class="navbar navbar-expand-lg navbar-light first-navbar">
-                {/* <!-- Uses the class container fluid to have the navbar expand all the page --> */}
-                <div class="container-fluid ">
+            <nav className="navbar navbar-expand-lg navbar-light first-navbar">
+                {/* <!-- Uses the className container fluid to have the navbar expand all the page --> */}
+                <div className="container-fluid ">
                     {/* <!--Creates the logo image --> */}
-                    <a class="navbar-brand"><img class="Logo" src="./Assets/Images/logo.jpeg" alt=""></img></a>
+                    <a className="navbar-brand"><img className="Logo" src="./Assets/Images/logo.jpeg" alt=""></img></a>
                     {/* <!-- Have a Separate div to add the Group name in the middle of the navbar --> */}
-                    <div class="navbar-nav first-navbar d-none d-md-block">
-                        <p class="group-brand">Group TRUSTAUTO</p>
+                    <div className="navbar-nav first-navbar d-none d-md-block">
+                        <p className="group-brand">Group TRUSTAUTO</p>
                     </div>
                     {/* <!-- Creates the Components justified to the end of the page such as Account information and the cart item --> */}
-                    <div class="justify-content-end">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0 first-navbar">
-                            <li class="nav-item ">
+                    <div className="justify-content-end">
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0 first-navbar">
+                            <li className="nav-item ">
                                 {user ? (
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                    <li className="nav-item dropdown">
+                                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                             aria-expanded="false">
                                             My Account
                                         </a>
-                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item" href="#">My data</a></li>
+                                        <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><a className="dropdown-item" href="#">My data</a></li>
 
-                                            <li><a class="dropdown-item" href="#">Buying History</a></li>
+                                            <li><a className="dropdown-item" href="#">Buying History</a></li>
 
-                                            <li><a class="dropdown-item" href="#">Sign Out</a></li>
+                                            <li><a className="dropdown-item" href="#">Sign Out</a></li>
                                         </ul>
                                     </li>
                                 ) : (
-                                    <a class="nav-link first-navbar" aria-current="page" href="/Register_Page"> <i class="fa-solid fa-user"></i> Login/Register</a>
+                                    <a className="nav-link first-navbar" aria-current="page" href="/Register_Page"> <i className="fa-solid fa-user"></i> Login/Register</a>
                                 )
                                 }
 
                             </li>
                             {/* <!-- More research here is needed since I am not sure how appearing and disappearing components is done for now it's like this but nothing activates it --> */}
-                            <li class="nav-item dropdown d-none">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                            <li className="nav-item dropdown d-none">
+                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     My Account
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#">My data</a></li>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a className="dropdown-item" href="#">My data</a></li>
 
-                                    <li><a class="dropdown-item" href="#">Buying History</a></li>
+                                    <li><a className="dropdown-item" href="#">Buying History</a></li>
 
-                                    <li><a class="dropdown-item" href="#">Sign Out</a></li>
+                                    <li><a className="dropdown-item" href="#">Sign Out</a></li>
                                 </ul>
                             </li>
                             {/* <!-- Cart icon --> */}
                             <li>
-                                <a class="nav-link first-navbar" aria-current="page" href="#"> <i class="fa-solid fa-cart-shopping">
+                                <a className="nav-link first-navbar" aria-current="page" href="#"> <i className="fa-solid fa-cart-shopping">
                                 </i></a>
                             </li>
                         </ul>
@@ -97,88 +99,86 @@ function App() {
             </nav>
 
             {/* <!-- Creates the Navbar that will stick to the top --> */}
-            <nav class="navbar sticky-top navbar-expand-lg navbar-light second-navbar">
-                {/* <!-- Uses the class container fluid to have the navbar expand all the page --> */}
-                <div class="container-fluid">
+            <nav className="navbar sticky-top navbar-expand-lg navbar-light second-navbar">
+                {/* <!-- Uses the className container fluid to have the navbar expand all the page --> */}
+                <div className="container-fluid">
                     {/* <!-- Adds the Company name to the navbar --> */}
-                    <a class="navbar-brand" href="/">BarcelParts</a>
+                    <a className="navbar-brand" href="/">BarcelParts</a>
                     {/* <!-- Adds the research form  --> */}
-                    <div class="row justify-content-end">
-                        <div class="col-10 d-none d-md-flex d-lg-none">
-                            <form class="d-flex">
-                                <input class="form-control me-2" type="search" value={search} placeholder="Search" onChange={onChangeSearch} aria-label="Search"></input>
+                    <div className="row justify-content-end">
+                        <div className="col-10 d-none d-md-flex d-lg-none">
+                            <form className="d-flex">
+                                <input className="form-control me-2" type="search" value={search} placeholder="Search" onChange={onChangeSearch} aria-label="Search"></input>
                                 <Link to="/Research_Page" className="btn btn-outline-secondary align-items-center" onClick={findByName} type="button">Search</Link>
                             </form>
                         </div>
                         {/* <!-- Adds the hamburger button that will appear when the page is shrunken to display the items in the navbar so it looks cleaner in small screens --> */}
-                        <button class="col-md-2 navbar-toggler" type="button" data-bs-toggle="collapse"
+                        <button className="col-md-2 navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                             aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
+                            <span className="navbar-toggler-icon"></span>
                         </button>
                     </div>
 
                     {/* <!-- Items that will be displayed in the navbar that will go inside the Hamburger button when page is shrunken --> */}
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             {/* <!-- Adds a navbar dropdown which will have all the categories in the Website --> */}
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     Categories
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#">Motor</a></li>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a className="dropdown-item" href="#">Motor</a></li>
 
-                                    <li><a class="dropdown-item" href="#">Transmission</a></li>
+                                    <li><a className="dropdown-item" href="#">Transmission</a></li>
 
-                                    <li><a class="dropdown-item" href="#">Light</a></li>
-                                    <li class="dropdown-submenu">
-                                        <a href="#" class="dropdown-item dropdown-toggle" data-toggle="dropdown" role="button"
-                                            aria-haspopup="true" aria-expanded="false"> <span class="nav-label">Service C</span><span
-                                                class="caret"></span></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Motor</a></li>
-                                            <li><a class="dropdown-item" href="#">Motor</a></li>
-                                            <li><a class="dropdown-item" href="#">Motor</a></li>
-                                            <li><a class="dropdown-item" href="#">Motor</a></li>
-                                            <li><a class="dropdown-item" href="#">Motor</a></li>
+                                    <li><a className="dropdown-item" href="#">Light</a></li>
+                                    <li className="dropdown-submenu">
+                                        <a href="#" className="dropdown-item dropdown-toggle" data-toggle="dropdown" role="button"
+                                            aria-haspopup="true" aria-expanded="false"> <span className="nav-label">Service C</span><span
+                                                className="caret"></span></a>
+                                        <ul className="dropdown-menu">
+                                            <li><a className="dropdown-item" href="#">Motor</a></li>
+                                            <li><a className="dropdown-item" href="#">Motor</a></li>
+                                            <li><a className="dropdown-item" href="#">Motor</a></li>
+                                            <li><a className="dropdown-item" href="#">Motor</a></li>
+                                            <li><a className="dropdown-item" href="#">Motor</a></li>
                                         </ul>
                                     </li>
                                 </ul>
                             </li>
 
                             {/* <!-- Other navbar items that will appear in the navbar --> */}
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="/Product_Page">Catalog</a>
+                            <li className="nav-item">
+                                <a className="nav-link" aria-current="page" href="/Product_Page">Catalog</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">News</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/About_Page">About</a>
                             </li>
                         </ul>
                         {/* <!-- Adds the research form  --> */}
-                        <form class="d-flex d-md-none">
-                            <input class="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
+                        <form className="d-flex d-md-none">
+                            <input className="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
                             <Link to="/Research_Page" className="btn btn-outline-secondary" onClick={findByName} type="button">Search</Link>
                         </form>
                     </div>
                     {/* <!-- Adds the research form  --> */}
-                    <form class="d-none d-lg-flex">
-                        <input class="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
+                    <form className="d-none d-lg-flex">
+                        <input className="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
                         <Link to="/Research_Page" className="btn btn-outline-secondary" onClick={findByName} type="button">Search</Link>
                     </form>
                 </div>
             </nav>
 
 
-            <div class="">
+            <div className="">
                 <Routes>
                     <Route path="/" element={<Main_Page />} />
                     <Route path="/Research_Page" element={<Research_Page {...{ products,search_display}} />} />
                     <Route path='/Register_Page' element={<Register_Page />} />
+                    <Route path='/About_Page' element={<About_Page />} />
                 </Routes>
             </div>
 
@@ -202,25 +202,25 @@ function App() {
                 </symbol>
             </svg>
 
-            {/* <!-- Creates the footer with a container-fluid class so it goes all the webpage and fixes it to the bottom  --> */}
-            <div class="container-fluid fixed-bottom">
+            {/* <!-- Creates the footer with a container-fluid className so it goes all the webpage and fixes it to the bottom  --> */}
+            <div className="container-fluid fixed-bottom">
                 {/* <!-- Creates a footer and organizes how the content will be displayed --> */}
-                <footer class="d-flex flex-wrap justify-content-between align-items-center py-3">
+                <footer className="d-flex flex-wrap justify-content-between align-items-center py-3">
                     {/* <!-- Adds the logo and company name  --> */}
-                    <div class="col-md-2 d-flex align-items-center">
-                        <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-                            <a class="navbar-brand"><img class="Logo-footer" src="./Assets/Images/Logo.jpeg" alt=""></img></a>
+                    <div className="col-md-2 d-flex align-items-center">
+                        <a href="/" className="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                            <a className="navbar-brand"><img className="Logo-footer" src="./Assets/Images/Logo.jpeg" alt=""></img></a>
                         </a>
-                        <span class="text-muted">BarcelParts</span>
+                        <span className="text-muted">BarcelParts</span>
                     </div>
                     {/* <!-- Adds the Social accounts  --> */}
-                    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-                        {/* <!-- <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter" /></svg></a></li> --> */}
-                        <li class="ms-3"><a class="text-muted" href="https://www.instagram.com/explore/tags/barcelparts/"><svg
-                            class="bi" width="24" height="24">
+                    <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
+                        {/* <!-- <li className="ms-3"><a className="text-muted" href="#"><svg className="bi" width="24" height="24"><use xlink:href="#twitter" /></svg></a></li> --> */}
+                        <li className="ms-3"><a className="text-muted" href="https://www.instagram.com/explore/tags/barcelparts/"><svg
+                            className="bi" width="24" height="24">
                             <use xlinkHref="#instagram" />
                         </svg></a></li>
-                        <li class="ms-3"><a class="text-muted" href="https://www.facebook.com/barcelparts.trust"><svg class="bi"
+                        <li className="ms-3"><a className="text-muted" href="https://www.facebook.com/barcelparts.trust"><svg className="bi"
                             width="24" height="24">
                             <use xlinkHref="#facebook" />
                         </svg></a></li>
