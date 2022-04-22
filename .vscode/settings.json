@@ -1,6 +1,15 @@
 {
     "cSpell.words": [
+        "Arcozelo",
         "BarcelParts",
         "TRUSTAUTO"
+    ],
+    "cSpell.ignoreWords": [
+        "Hengst",
+        "OCAP",
+        "Pagid",
+        "frontstore",
+        "labelledby",
+        "xlink"
     ]
 }

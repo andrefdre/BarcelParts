@@ -1,3 +1,4 @@
+//Declares the imports necessary for this page
 import React, { useState, useEffect } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import ProductDataService from "./Services/Barcelparts.js"
@@ -6,7 +7,7 @@ import Research_Page from './Pages/Research_Page';
 import Register_Page from './Pages/Register_Page'
 import About_Page from './Pages/About_Page'
 
-
+//Creates the React function that will be rendered in the index Page
 function App() {
     var user = null;
 
@@ -20,24 +21,29 @@ function App() {
         setSearch(search);
     }
 
+    //Function that will search the database for the information asked 
     const find = (query, by) => {
+        //Call function that will send a get request to the backend
         ProductDataService.find(query, by)
-          .then(response => {
-            console.log(response.data);
-            setProducts(response.data.products);
-            // Trying to filter the data still experimenting
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      };
-    
-      const findByName = () => {
-        find(search, "Design")
-        setSearch_display(search)
-      };
-    
+            .then(response => {
+                //Stores the acquired data in the variable products
+                setProducts(response.data.products);
+            })
+            //If there is an error catches it and displays it in the console
+            .catch(e => {
+                console.log(e);
+            });
+    };
 
+    //Function that will search the item we want in the Design component of the products array in database
+    const findByName = () => {
+        //Calls the find function
+        find(search, "Design")
+        //sets the Search_display variable 
+        setSearch_display(search)
+    };
+
+  //Html that will be rendered 
     return (
         <div>
             {/* <!-- Creates the Nav that will disappear --> */}
@@ -54,6 +60,7 @@ function App() {
                     <div className="justify-content-end">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0 first-navbar">
                             <li className="nav-item ">
+                                {/* If there is a user display information about account if there is change to a button to create/login to account */}
                                 {user ? (
                                     <li className="nav-item dropdown">
                                         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -74,20 +81,6 @@ function App() {
                                 }
 
                             </li>
-                            {/* <!-- More research here is needed since I am not sure how appearing and disappearing components is done for now it's like this but nothing activates it --> */}
-                            <li className="nav-item dropdown d-none">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    My Account
-                                </a>
-                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a className="dropdown-item" href="#">My data</a></li>
-
-                                    <li><a className="dropdown-item" href="#">Buying History</a></li>
-
-                                    <li><a className="dropdown-item" href="#">Sign Out</a></li>
-                                </ul>
-                            </li>
                             {/* <!-- Cart icon --> */}
                             <li>
                                 <a className="nav-link first-navbar" aria-current="page" href="#"> <i className="fa-solid fa-cart-shopping">
@@ -107,6 +100,7 @@ function App() {
                     {/* <!-- Adds the research form  --> */}
                     <div className="row justify-content-end">
                         <div className="col-10 d-none d-md-flex d-lg-none">
+                            {/* Form that will retrieve the search parameter to search the database */}
                             <form className="d-flex">
                                 <input className="form-control me-2" type="search" value={search} placeholder="Search" onChange={onChangeSearch} aria-label="Search"></input>
                                 <Link to="/Research_Page" className="btn btn-outline-secondary align-items-center" onClick={findByName} type="button">Search</Link>
@@ -135,6 +129,7 @@ function App() {
                                     <li><a className="dropdown-item" href="#">Transmission</a></li>
 
                                     <li><a className="dropdown-item" href="#">Light</a></li>
+                                    {/* Creates a submenu for the Sub-Categories  */}
                                     <li className="dropdown-submenu">
                                         <a href="#" className="dropdown-item dropdown-toggle" data-toggle="dropdown" role="button"
                                             aria-haspopup="true" aria-expanded="false"> <span className="nav-label">Service C</span><span
@@ -172,11 +167,12 @@ function App() {
                 </div>
             </nav>
 
-
+            {/* Where all the rest of the page will be presented depending on the route */}
             <div className="">
+                {/* Routes to the correct pages based on the path of the Page and passes the props to the child Pages */}
                 <Routes>
                     <Route path="/" element={<Main_Page />} />
-                    <Route path="/Research_Page" element={<Research_Page {...{ products,search_display}} />} />
+                    <Route path="/Research_Page" element={<Research_Page {...{ products, search_display }} />} />
                     <Route path='/Register_Page' element={<Register_Page />} />
                     <Route path='/About_Page' element={<About_Page />} />
                 </Routes>
