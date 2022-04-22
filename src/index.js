@@ -1,3 +1,4 @@
+//Declares the imports necessary
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ReactDOM from 'react-dom';
@@ -5,7 +6,7 @@ import App from './app';
 import reportWebVitals from './reportWebVitals';
 
 
-
+//Render of the Page Website
 ReactDOM.render(
   <BrowserRouter>
       <App />
