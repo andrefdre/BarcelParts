@@ -26,6 +26,8 @@ function App() {
         //Call function that will send a get request to the backend
         ProductDataService.find(query, by)
             .then(response => {
+                //Console log for debugging and developing
+                console.log(response.data.products)
                 //Stores the acquired data in the variable products
                 setProducts(response.data.products);
             })
@@ -43,7 +45,7 @@ function App() {
         setSearch_display(search)
     };
 
-  //Html that will be rendered 
+    //Html that will be rendered 
     return (
         <div>
             {/* <!-- Creates the Nav that will disappear --> */}

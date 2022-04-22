@@ -81,7 +81,7 @@ const Research_Page = function (props) {
           {/* Function that will loop through each element of Products array and print each Product information in the Page  */}
           {props.products.map((product) => {
             return (
-              <div className="col item-display mb-3" key={product._id}>
+              <div className="col item-display mb-3 h-100" key={product._id}>
                 <div className="card shadow-sm">
                   {/* Display image that will be acquired by API */}
                   <svg className="bd-placeholder-img card-img-top" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
@@ -92,12 +92,17 @@ const Research_Page = function (props) {
                   </svg>
                 </div>
                 {/* Place where information from each product will be displayed */}
-                <div className="card-body">
-                  <a className="brand" href="#" style={{ 'fontSize': '1rem', 'alignItems': 'center' }}>{product.Design}</a>
-                  <p className="card-text">
-                    <strong>Producer: </strong>{product.Marca}<br />
-                    <strong>Price: </strong>{product.PrecoCusto}€<br />
-                  </p>
+                <div className="card-body ">
+                  <a className="brand d-flex justify-content-center" href="#" style={{ 'fontSize': '0.9rem'}}>{product.Design}</a>
+                  <p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.7rem'}}>
+                    <strong >Producer: </strong>{product.Marca}</p>
+                    {product.NumArmazem > 0 
+                    ? <p><strong className="d-flex justify-content-center" style={{'fontSize': '0.7rem', 'color': '#3eb94f'}}>Available in Store</strong></p>
+                    : <p><strong className="d-flex justify-content-center" style={{'fontSize': '0.7rem'}}>Not available in Store</strong></p>
+   
+                    }
+                  
+                  <strong ><p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.9rem', 'color': '#00a1b6'  }}>{product.PrecoCusto}€</p>  </strong>
                 </div>
               </div>
             );

@@ -1,7 +1,9 @@
+//Declares the necessary imports
 import express from "express"
 import cors from "cors";
 import routes from "./api/routes.js"
 
+//Creates the express
 const app = express();
 
 

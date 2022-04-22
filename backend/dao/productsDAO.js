@@ -1,21 +1,27 @@
+//Declares the imports necessary
 import mongodb from "mongodb"
 const ObjectId = mongodb.ObjectID
+//Variable for products information about connection with DB
 let products
 
 export default class ProductsDAO {
+  //Establishes connection with MongoDB collection Products
   static async injectDB(conn) {
     if (products) {
       return
     }
     try {
       products = await conn.db(process.env.BARCELPARTS_NS).collection("Products")
-    } catch (e) {
+    }
+    //Catches erros and displays in console
+    catch (e) {
       console.error(
         `Unable to establish a collection handle in BARCELPARTS DAO: ${e}`,
       )
     }
   }
 
+  //Function to get the products from the database
   static async getProducts({
     filters = null,
     page = 0,
@@ -23,8 +29,9 @@ export default class ProductsDAO {
   } = {}) {
     let query
 
+    //Sets the query based on filters
     if (filters) {
-       if ("Design" in filters) {
+      if ("Design" in filters) {
         query = { $text: { $search: filters["Design"] } }
       } else if ("Marca" in filters) {
         query = { "Marca": { $eq: filters["Marca"] } }
@@ -32,11 +39,13 @@ export default class ProductsDAO {
     }
 
     let cursor
-    
+
     try {
       cursor = await products
         .find(query)
-    } catch (e) {
+    }
+    //Catches erros and displays in console
+    catch (e) {
       console.error(`Unable to issue find command, ${e}`)
       return { ProductsList: [], totalNumProducts: 0 }
     }
@@ -47,8 +56,11 @@ export default class ProductsDAO {
       const ProductsList = await displayCursor.toArray()
       const totalNumProducts = await products.countDocuments(query)
 
+      //Returns the result
       return { ProductsList, totalNumProducts }
-    } catch (e) {
+    }
+    //Catches erros and displays in console
+    catch (e) {
       console.error(
         `Unable to convert cursor to array or problem counting documents, ${e}`,
       )
@@ -56,68 +68,78 @@ export default class ProductsDAO {
     }
   }
 
-  
-  static async getRestaurantByID(id) {
+  //Gets Product by id still not fully implemented
+  static async getProductByID(id) {
     try {
       const pipeline = [
         {
-            $match: {
-                _id: new ObjectId(id),
-            },
+          $match: {
+            _id: new ObjectId(id),
+          },
         },
+        {
+          $lookup: {
+            from: "reviews",
+            let: {
+              id: "$_id",
+            },
+            pipeline: [
               {
-                  $lookup: {
-                      from: "reviews",
-                      let: {
-                          id: "$_id",
-                      },
-                      pipeline: [
-                          {
-                              $match: {
-                                  $expr: {
-                                      $eq: ["$restaurant_id", "$$id"],
-                                  },
-                              },
-                          },
-                          {
-                              $sort: {
-                                  date: -1,
-                              },
-                          },
-                      ],
-                      as: "reviews",
+                $match: {
+                  $expr: {
+                    $eq: ["$restaurant_id", "$$id"],
                   },
+                },
               },
               {
-                  $addFields: {
-                      reviews: "$reviews",
-                  },
+                $sort: {
+                  date: -1,
+                },
               },
-          ]
+            ],
+            as: "reviews",
+          },
+        },
+        {
+          $addFields: {
+            reviews: "$reviews",
+          },
+        },
+      ]
       return await restaurants.aggregate(pipeline).next()
-    } catch (e) {
+    }
+    //Catches erros and displays in console
+    catch (e) {
       console.error(`Something went wrong in getRestaurantByID: ${e}`)
       throw e
     }
   }
 
+  //Function to get the products brands without repeating the same from the database
   static async getMarcas() {
     let Marcas = []
     try {
+      //Gets the brands
       Marcas = await products.distinct("Marca")
       return Marcas
-    } catch (e) {
+    }
+    //Catches erros and displays in console
+    catch (e) {
       console.error(`Unable to get Marcas, ${e}`)
       return Marcas
     }
   }
 
+  //Function to get the products categories without repeating the same from the database
   static async getCategories() {
     let Categories = []
     try {
+      //Gets the categories
       Categories = await products.distinct("NomeFamilia")
       return Categories
-    } catch (e) {
+    }
+    //Catches erros and displays in console
+    catch (e) {
       console.error(`Unable to get Categories, ${e}`)
       return Categories
     }
