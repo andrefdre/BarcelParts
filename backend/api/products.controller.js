@@ -15,6 +15,8 @@ export default class ProductsController {
       filters.Design = req.query.Design
     } else if (req.query.Marca) {
       filters.Marca = req.query.Marca
+    } else if (req.query.NomeFamilia) {
+      filters.NomeFamilia = req.query.NomeFamilia
     }
 
     //Calls the function to retrieve the products based on the requirements

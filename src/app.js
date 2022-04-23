@@ -11,36 +11,19 @@ import About_Page from './Pages/About_Page'
 function App() {
     var user = null;
 
+    //Variables for searching items
     const [search, setSearch] = useState("");
     const [search_display, setSearch_display] = useState("");
-    const [products, setProducts] = useState([]);
-    // var search_display;
 
+    //Function to set the search variable when there is a change in the form
     const onChangeSearch = e => {
         const search = e.target.value;
         setSearch(search);
     }
 
-    //Function that will search the database for the information asked 
-    const find = (query, by) => {
-        //Call function that will send a get request to the backend
-        ProductDataService.find(query, by)
-            .then(response => {
-                //Console log for debugging and developing
-                console.log(response.data.products)
-                //Stores the acquired data in the variable products
-                setProducts(response.data.products);
-            })
-            //If there is an error catches it and displays it in the console
-            .catch(e => {
-                console.log(e);
-            });
-    };
-
-    //Function that will search the item we want in the Design component of the products array in database
-    const findByName = () => {
+    //Function that handles the search click
+    const SearchHandler = () => {
         //Calls the find function
-        find(search, "Design")
         //sets the Search_display variable 
         setSearch_display(search)
     };
@@ -85,8 +68,7 @@ function App() {
                             </li>
                             {/* <!-- Cart icon --> */}
                             <li>
-                                <a className="nav-link first-navbar" aria-current="page" href="#"> <i className="fa-solid fa-cart-shopping">
-                                </i></a>
+                                <a className="nav-link first-navbar" aria-current="page" href="#"> <i className="fa-solid fa-cart-shopping"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -105,7 +87,7 @@ function App() {
                             {/* Form that will retrieve the search parameter to search the database */}
                             <form className="d-flex">
                                 <input className="form-control me-2" type="search" value={search} placeholder="Search" onChange={onChangeSearch} aria-label="Search"></input>
-                                <Link to="/Research_Page" className="btn btn-outline-secondary align-items-center" onClick={findByName} type="button">Search</Link>
+                                <Link to="/Research_Page" className="btn btn-outline-secondary align-items-center" onClick={SearchHandler} type="button">Search</Link>
                             </form>
                         </div>
                         {/* <!-- Adds the hamburger button that will appear when the page is shrunken to display the items in the navbar so it looks cleaner in small screens --> */}
@@ -158,13 +140,13 @@ function App() {
                         {/* <!-- Adds the research form  --> */}
                         <form className="d-flex d-md-none">
                             <input className="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
-                            <Link to="/Research_Page" className="btn btn-outline-secondary" onClick={findByName} type="button">Search</Link>
+                            <Link to="/Research_Page" className="btn btn-outline-secondary" onClick={SearchHandler} type="button">Search</Link>
                         </form>
                     </div>
                     {/* <!-- Adds the research form  --> */}
                     <form className="d-none d-lg-flex">
                         <input className="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
-                        <Link to="/Research_Page" className="btn btn-outline-secondary" onClick={findByName} type="button">Search</Link>
+                        <Link to="/Research_Page" className="btn btn-outline-secondary" onClick={SearchHandler} type="button">Search</Link>
                     </form>
                 </div>
             </nav>
@@ -174,7 +156,7 @@ function App() {
                 {/* Routes to the correct pages based on the path of the Page and passes the props to the child Pages */}
                 <Routes>
                     <Route path="/" element={<Main_Page />} />
-                    <Route path="/Research_Page" element={<Research_Page {...{ products, search_display }} />} />
+                    <Route path="/Research_Page" element={<Research_Page {...{ search_display }} />} />
                     <Route path='/Register_Page' element={<Register_Page />} />
                     <Route path='/About_Page' element={<About_Page />} />
                 </Routes>

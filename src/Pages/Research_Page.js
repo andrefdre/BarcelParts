@@ -4,10 +4,37 @@ import ProductDataService from "../Services/Barcelparts.js"
 
 //Creates the React function that will be rendered in the app Page through routes
 const Research_Page = function (props) {
-
-  //Creates the variable for categories
+  //Creates the variables
+  const [products, setProducts] = useState([]);
   const [Categories, setCategories] = useState([]);
 
+  //Function that will search the database for the information asked 
+  const find = (query, by) => {
+    //Call function that will send a get request to the backend
+    ProductDataService.find(query, by)
+      .then(response => {
+        //Console log for debugging and developing
+        console.log(response.data.products)
+        //Stores the acquired data in the variable products
+        setProducts(response.data.products);
+      })
+      //If there is an error catches it and displays it in the console
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  //Function to get all the products
+  const getAll = () => {
+    ProductDataService.getAll()
+      .then(response => {
+        console.log(response.data);
+        setProducts(response.data.products);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
 
   //Function that will send a get request to the backend to retrieve the categories to display in the page
   const getCategories = () => {
@@ -22,21 +49,24 @@ const Research_Page = function (props) {
       });
   };
 
+  //Function that will search the item we want in the Design component of the products array in database
+  const findByName = () => {
+    //Calls the find function
+    find(props.search_display, "Design")
+  };
 
-  // Code necessary to retrieve all the products will be implemented in the products page
-  // const [products, setProducts] = useState([]);
+  //Function that will search the item we want in the Design component of the products array in database
+  const CategoryHandler = (e) => {
+    console.log(e.target.text)
+    //Calls the find function
+    find(e.target.text, "NomeFamilia")
+  };
 
-
-  // const getAll = () => {
-  //   ProductDataService.getAll()
-  //     .then(response => {
-  //       console.log(response.data);
-  //       setProducts(response.data.products);
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     });
-  // };
+  //useEffect to run a function when the dependency array changes
+  useEffect(() => {
+    //Run function findByName
+    findByName();
+  }, [props.search_display]); //dependency array
 
 
   //useEffect to run a function only once since the dependency array is empty
@@ -52,23 +82,27 @@ const Research_Page = function (props) {
       {/* break line for spacing from the navbar  */}
       <br></br>
       {/* Row for displaying the search word and categories title */}
-      <div className="row d-flex">
+      <div className="row d-flex align-items-center">
         <div className="col-3">
           <h2>Categories</h2>
         </div>
-        <div className="col-9">
+        <div className="col-6">
           <h2>{props.search_display}</h2>
+        </div>
+        <div className="col-3 d-flex justify-content-end align-items-center">
+          <span className="p-2">Filters</span>
+          <i className="fa-solid fa-sliders"></i>
         </div>
       </div>
       {/* Row for displaying the categories retrieved from database and search results */}
-      <div className="row w-100">
+      <div className="row">
         <div className="col-3">
           {/* Function that will loop through each element of Categories array and print each Category in the Page  */}
           {Categories.map((Category) => {
             return (
               <div>
                 {/* Display each Category */}
-                <a className="item" href="#">{Category}</a>
+                <a className="item" onClick={CategoryHandler}>{Category}</a>
                 <br></br>
               </div>
             )
@@ -77,9 +111,9 @@ const Research_Page = function (props) {
         {/* Creates a vertical line to split Categories and search results */}
         <div class="vr"></div>
         {/* Creates a row for displaying search results */}
-        <div className="col-9 row row-cols-2 row-cols-md-3 row-cols-lg-4 h-100">
+        <div className="col-9 row row-cols-2 row-cols-md-3 row-cols-lg-4 h-100 d-flex justify-content-end">
           {/* Function that will loop through each element of Products array and print each Product information in the Page  */}
-          {props.products.map((product) => {
+          {products.map((product) => {
             return (
               <div className="col item-display mb-3 h-100" key={product._id}>
                 <div className="card shadow-sm">
@@ -93,16 +127,16 @@ const Research_Page = function (props) {
                 </div>
                 {/* Place where information from each product will be displayed */}
                 <div className="card-body ">
-                  <a className="brand d-flex justify-content-center" href="#" style={{ 'fontSize': '0.9rem'}}>{product.Design}</a>
-                  <p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.7rem'}}>
+                  <a className="brand d-flex justify-content-center" href="#" style={{ 'fontSize': '0.9rem' }}>{product.Design}</a>
+                  <p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>
                     <strong >Producer: </strong>{product.Marca}</p>
-                    {product.NumArmazem > 0 
-                    ? <p><strong className="d-flex justify-content-center" style={{'fontSize': '0.7rem', 'color': '#3eb94f'}}>Available in Store</strong></p>
-                    : <p><strong className="d-flex justify-content-center" style={{'fontSize': '0.7rem'}}>Not available in Store</strong></p>
-   
-                    }
-                  
-                  <strong ><p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.9rem', 'color': '#00a1b6'  }}>{product.PrecoCusto}€</p>  </strong>
+                  {product.NumArmazem > 0
+                    ? <p><strong className="d-flex justify-content-center" style={{ 'fontSize': '0.7rem', 'color': '#3eb94f' }}>Available in Store</strong></p>
+                    : <p><strong className="d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>Not available in Store</strong></p>
+
+                  }
+
+                  <strong ><p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.9rem', 'color': '#00a1b6' }}>{product.PrecoCusto}€</p>  </strong>
                 </div>
               </div>
             );

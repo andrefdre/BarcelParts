@@ -35,6 +35,8 @@ export default class ProductsDAO {
         query = { $text: { $search: filters["Design"] } }
       } else if ("Marca" in filters) {
         query = { "Marca": { $eq: filters["Marca"] } }
+      } else if ("NomeFamilia" in filters) {
+        query = { "NomeFamilia": { $eq: filters["NomeFamilia"] } }
       }
     }
 
