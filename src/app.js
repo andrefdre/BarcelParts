@@ -14,11 +14,14 @@ function App() {
     //Variables for searching items
     const [search, setSearch] = useState("");
     const [search_display, setSearch_display] = useState("");
+    const [search_url, setSearch_url] = useState("/Research_Page");
 
     //Function to set the search variable when there is a change in the form
     const onChangeSearch = e => {
         const search = e.target.value;
         setSearch(search);
+        //Sets the search url to retrieve the search parameters in the research page
+        setSearch_url("/Research_Page?by=Design&query=" + search)
     }
 
     //Function that handles the search click
@@ -87,7 +90,7 @@ function App() {
                             {/* Form that will retrieve the search parameter to search the database */}
                             <form className="d-flex">
                                 <input className="form-control me-2" type="search" value={search} placeholder="Search" onChange={onChangeSearch} aria-label="Search"></input>
-                                <Link to="/Research_Page" className="btn btn-outline-secondary align-items-center" onClick={SearchHandler} type="button">Search</Link>
+                                <Link to={search_url} className="btn btn-outline-secondary align-items-center" onClick={SearchHandler} type="button">Search</Link>
                             </form>
                         </div>
                         {/* <!-- Adds the hamburger button that will appear when the page is shrunken to display the items in the navbar so it looks cleaner in small screens --> */}
@@ -140,13 +143,13 @@ function App() {
                         {/* <!-- Adds the research form  --> */}
                         <form className="d-flex d-md-none">
                             <input className="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
-                            <Link to="/Research_Page" className="btn btn-outline-secondary" onClick={SearchHandler} type="button">Search</Link>
+                            <Link to={search_url} className="btn btn-outline-secondary" onClick={SearchHandler} type="button">Search</Link>
                         </form>
                     </div>
                     {/* <!-- Adds the research form  --> */}
                     <form className="d-none d-lg-flex">
                         <input className="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
-                        <Link to="/Research_Page" className="btn btn-outline-secondary" onClick={SearchHandler} type="button">Search</Link>
+                        <Link to={search_url} className="btn btn-outline-secondary" onClick={SearchHandler} type="button">Search</Link>
                     </form>
                 </div>
             </nav>

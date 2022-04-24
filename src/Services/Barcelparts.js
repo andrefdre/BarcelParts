@@ -21,7 +21,7 @@ class ProductsDataService {
   //Function to send a get request to get all Marcas
   getMarcas() {
     return http.get(`/Marcas`);
-  }
+  } 
 
   //Function to send a get request to get all categories
   getCategories() {

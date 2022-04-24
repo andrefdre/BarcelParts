@@ -1,22 +1,50 @@
 //Declares the imports necessary for this page
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import ProductDataService from "../Services/Barcelparts.js"
 
 //Creates the React function that will be rendered in the app Page through routes
 const Research_Page = function (props) {
+
+  const observer = useRef()
+
+  // Variables used to store the query parameters
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  //Getting the query and search name from the link
+  const query = urlParams.get('query')
+  const by = urlParams.get('by')
+
+
   //Creates the variables
   const [products, setProducts] = useState([]);
+  const [page, setPage] = useState('0');
   const [Categories, setCategories] = useState([]);
 
+
+  const lastProductElementRef = useCallback(node => {
+    if (observer.current) observer.current.disconnect()
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        console.log('Visible')
+        setPage(page => parseInt(page) + 1)
+        console.log(page)
+        //find(query, by, page);
+      }
+    })
+    if (node) observer.current.observe(node)
+  }, [page, products])
+
   //Function that will search the database for the information asked 
-  const find = (query, by) => {
+  const find = (query, by, page) => {
     //Call function that will send a get request to the backend
-    ProductDataService.find(query, by)
+    ProductDataService.find(query, by, page)
       .then(response => {
         //Console log for debugging and developing
-        console.log(response.data.products)
+        //console.log(response.data.products)
         //Stores the acquired data in the variable products
-        setProducts(response.data.products);
+        var products_temp = [...products , ...response.data.products]
+        console.log(products_temp)
+        setProducts(products_temp);
       })
       //If there is an error catches it and displays it in the console
       .catch(e => {
@@ -49,24 +77,16 @@ const Research_Page = function (props) {
       });
   };
 
-  //Function that will search the item we want in the Design component of the products array in database
-  const findByName = () => {
-    //Calls the find function
-    find(props.search_display, "Design")
-  };
-
-  //Function that will search the item we want in the Design component of the products array in database
-  const CategoryHandler = (e) => {
-    console.log(e.target.text)
-    //Calls the find function
-    find(e.target.text, "NomeFamilia")
-  };
-
   //useEffect to run a function when the dependency array changes
+  //This function will search the database when query or by changes 
   useEffect(() => {
-    //Run function findByName
-    findByName();
-  }, [props.search_display]); //dependency array
+    setPage('0')
+    //Why don't the array get set to an empty one
+    setProducts([]);
+    console.log(products)
+    //Run function find
+    find(query, by, page);
+  }, [query, by]); //dependency array
 
 
   //useEffect to run a function only once since the dependency array is empty
@@ -87,7 +107,7 @@ const Research_Page = function (props) {
           <h2>Categories</h2>
         </div>
         <div className="col-6">
-          <h2>{props.search_display}</h2>
+          <h2>{query}</h2>
         </div>
         <div className="col-3 d-flex justify-content-end align-items-center">
           <span className="p-2">Filters</span>
@@ -100,46 +120,79 @@ const Research_Page = function (props) {
           {/* Function that will loop through each element of Categories array and print each Category in the Page  */}
           {Categories.map((Category) => {
             return (
-              <div>
+              <div key={Category}>
                 {/* Display each Category */}
-                <a className="item" onClick={CategoryHandler}>{Category}</a>
+                <a className="item" href={"/Research_Page?by=NomeFamilia&query=" + Category} >{Category}</a>
                 <br></br>
               </div>
             )
           })}
         </div>
         {/* Creates a vertical line to split Categories and search results */}
-        <div class="vr"></div>
+        <div className="vr"></div>
         {/* Creates a row for displaying search results */}
         <div className="col-9 row row-cols-2 row-cols-md-3 row-cols-lg-4 h-100 d-flex justify-content-end">
           {/* Function that will loop through each element of Products array and print each Product information in the Page  */}
-          {products.map((product) => {
-            return (
-              <div className="col item-display mb-3 h-100" key={product._id}>
-                <div className="card shadow-sm">
-                  {/* Display image that will be acquired by API */}
-                  <svg className="bd-placeholder-img card-img-top" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                    role="img" viewBox="0 0 250 250" aria-label="Placeholder: Thumbnail" preserveAspectRatio="none"
-                    focusable="false">
-                    <title>Placeholder</title>
-                    <image width="100%" xlinkHref="./Assets/Images/Blueprint_logo.svg" x="0" y="0" />
-                  </svg>
-                </div>
-                {/* Place where information from each product will be displayed */}
-                <div className="card-body ">
-                  <a className="brand d-flex justify-content-center" href="#" style={{ 'fontSize': '0.9rem' }}>{product.Design}</a>
-                  <p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>
-                    <strong >Producer: </strong>{product.Marca}</p>
-                  {product.NumArmazem > 0
-                    ? <p><strong className="d-flex justify-content-center" style={{ 'fontSize': '0.7rem', 'color': '#3eb94f' }}>Available in Store</strong></p>
-                    : <p><strong className="d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>Not available in Store</strong></p>
+          {products.map((product, index) => {
+            //Writes the last product of the array to have an ref to search more items
+            if (products.length === index + 1) {
+              return (
+                <div className="col item-display mb-3 h-100" key={product._id} ref={lastProductElementRef}>
+                  <div className="card shadow-sm">
+                    {/* Display image that will be acquired by API */}
+                    <svg className="bd-placeholder-img card-img-top" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                      role="img" viewBox="0 0 250 250" aria-label="Placeholder: Thumbnail" preserveAspectRatio="none"
+                      focusable="false">
+                      <title>Placeholder</title>
+                      <image width="100%" xlinkHref="./Assets/Images/Blueprint_logo.svg" x="0" y="0" />
+                    </svg>
+                  </div>
+                  {/* Place where information from each product will be displayed */}
+                  <div className="card-body ">
+                    <a className="brand d-flex justify-content-center" href="#" style={{ 'fontSize': '0.9rem' }}>{product.Design}</a>
+                    <p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>
+                      <strong >Producer: </strong>{product.Marca}</p>
+                    {/* Checks if the product is available in store or not */}
+                    {product.NumArmazem > 0
+                      ? <p><strong className="d-flex justify-content-center" style={{ 'fontSize': '0.7rem', 'color': '#3eb94f' }}>Available in Store</strong></p>
+                      : <p><strong className="d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>Not available in Store</strong></p>
+                    }
 
-                  }
-
-                  <strong ><p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.9rem', 'color': '#00a1b6' }}>{product.PrecoCusto}€</p>  </strong>
+                    <strong ><p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.9rem', 'color': '#00a1b6' }}>{product.PrecoCusto}€</p>  </strong>
+                  </div>
                 </div>
-              </div>
-            );
+              )
+            }
+
+            //Writes the other products
+            else {
+              return (
+                <div className="col item-display mb-3 h-100" key={product._id}>
+                  <div className="card shadow-sm">
+                    {/* Display image that will be acquired by API */}
+                    <svg className="bd-placeholder-img card-img-top" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                      role="img" viewBox="0 0 250 250" aria-label="Placeholder: Thumbnail" preserveAspectRatio="none"
+                      focusable="false">
+                      <title>Placeholder</title>
+                      <image width="100%" xlinkHref="./Assets/Images/Blueprint_logo.svg" x="0" y="0" />
+                    </svg>
+                  </div>
+                  {/* Place where information from each product will be displayed */}
+                  <div className="card-body ">
+                    <a className="brand d-flex justify-content-center" href="#" style={{ 'fontSize': '0.9rem' }}>{product.Design}</a>
+                    <p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>
+                      <strong >Producer: </strong>{product.Marca}</p>
+                    {product.NumArmazem > 0
+                      ? <p><strong className="d-flex justify-content-center" style={{ 'fontSize': '0.7rem', 'color': '#3eb94f' }}>Available in Store</strong></p>
+                      : <p><strong className="d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>Not available in Store</strong></p>
+
+                    }
+
+                    <strong ><p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.9rem', 'color': '#00a1b6' }}>{product.PrecoCusto}€</p>  </strong>
+                  </div>
+                </div>
+              )
+            }
           })
           }
         </div>
