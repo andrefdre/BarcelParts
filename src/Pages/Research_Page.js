@@ -40,11 +40,9 @@ const Research_Page = function (props) {
     ProductDataService.find(query, by, page)
       .then(response => {
         //Console log for debugging and developing
-        //console.log(response.data.products)
+        console.log(response.data.products)
         //Stores the acquired data in the variable products
-        var products_temp = [...products , ...response.data.products]
-        console.log(products_temp)
-        setProducts(products_temp);
+        setProducts(response.data.products);
       })
       //If there is an error catches it and displays it in the console
       .catch(e => {
