@@ -3,8 +3,9 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import ProductDataService from "../Services/Barcelparts.js"
 
 //Creates the React function that will be rendered in the app Page through routes
-const Research_Page = function (props) {
+const Research_Page = function () {
 
+  //Creates the observer to perform the lazy loading
   const observer = useRef()
 
   // Variables used to store the query parameters
@@ -19,36 +20,70 @@ const Research_Page = function (props) {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState('0');
   const [Categories, setCategories] = useState([]);
+  const [Loading, setLoading] = useState(true);
+  const [HasMore, setHasMore] = useState('false');
 
-
+//Detects when the node(last product) is in the view of the observer and if so loads more products
   const lastProductElementRef = useCallback(node => {
+    //If page is loading do nothing
+    if (Loading) return 
     if (observer.current) observer.current.disconnect()
     observer.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
-        console.log('Visible')
-        setPage(page => parseInt(page) + 1)
-        console.log(page)
-        //find(query, by, page);
+        if (HasMore) {
+          //Sets the Loading variable so it doesn't increment more numbers if it is still loading the page
+          setLoading(true)
+          //Increments the page to get new products
+          setPage(page => (parseInt(page) + 1).toString())
+          //Queries the database and adds it to the previous products list
+          scroll_find(query, by, page);
+
+          //Console log for debugging and developing
+          //console.log("Loading: ",Loading)
+          //console.log('Visible')
+          //console.log("Page Number: ",page)
+        }
       }
     })
     if (node) observer.current.observe(node)
-  }, [page, products])
+  }, [products])
 
-  //Function that will search the database for the information asked 
-  const find = (query, by, page) => {
+  //Function that will search the database for the information asked and adds it to the previous information
+  const scroll_find = (query, by, page) => {
     //Call function that will send a get request to the backend
     ProductDataService.find(query, by, page)
       .then(response => {
         //Console log for debugging and developing
-        console.log(response.data.products)
+        console.log(response.data)
         //Stores the acquired data in the variable products
-        setProducts(response.data.products);
+        setProducts([...products, ...response.data.products]);
+        //See is there is more documents in the database
+        setHasMore(parseInt(response.data.total_results) - (parseInt(page) + 1) * 28 > 0)
       })
       //If there is an error catches it and displays it in the console
       .catch(e => {
         console.log(e);
       });
   };
+
+  const find = (query, by, page) => {
+    //Call function that will send a get request to the backend
+    ProductDataService.find(query, by, page)
+      .then(response => {
+        //Console log for debugging and developing
+        console.log(response.data)
+        //Stores the acquired data in the variable products
+        setProducts(response.data.products);
+        //See is there is more documents in the database
+        setHasMore(parseInt(response.data.total_results) - (parseInt(page) + 1) * 20 > 0)
+      })
+      //If there is an error catches it and displays it in the console
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  
 
   //Function to get all the products
   const getAll = () => {
@@ -84,6 +119,8 @@ const Research_Page = function (props) {
     console.log(products)
     //Run function find
     find(query, by, page);
+    setPage('1')
+    window.scrollTo(0, 0)
   }, [query, by]); //dependency array
 
 
@@ -93,6 +130,11 @@ const Research_Page = function (props) {
     getCategories()
   }, []) // <-- empty dependency array
 
+  window.requestAnimationFrame(function() {
+    setLoading(false)
+    console.log("Loading: ",Loading)
+  })
+  
   //Html that will be rendered 
   return (
     //div that has the class container to display within a percentage of the page
@@ -155,7 +197,6 @@ const Research_Page = function (props) {
                       ? <p><strong className="d-flex justify-content-center" style={{ 'fontSize': '0.7rem', 'color': '#3eb94f' }}>Available in Store</strong></p>
                       : <p><strong className="d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>Not available in Store</strong></p>
                     }
-
                     <strong ><p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.9rem', 'color': '#00a1b6' }}>{product.PrecoCusto}€</p>  </strong>
                   </div>
                 </div>
@@ -183,9 +224,7 @@ const Research_Page = function (props) {
                     {product.NumArmazem > 0
                       ? <p><strong className="d-flex justify-content-center" style={{ 'fontSize': '0.7rem', 'color': '#3eb94f' }}>Available in Store</strong></p>
                       : <p><strong className="d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>Not available in Store</strong></p>
-
                     }
-
                     <strong ><p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.9rem', 'color': '#00a1b6' }}>{product.PrecoCusto}€</p>  </strong>
                   </div>
                 </div>
@@ -193,6 +232,7 @@ const Research_Page = function (props) {
             }
           })
           }
+          <div>{Loading && 'Loading...'}</div>
         </div>
       </div>
     </div>

@@ -3,12 +3,15 @@ const Product = require("../schema/product_schema.js");
 
 class ProductsController {
     static async apiGetProducts(req, res, next) {
-        const ProductsPerPage = req.query.ProductsPerPage ? parseInt(req.query.ProductsPerPage, 10) : 20
+        //Gets the ProductsPerPage from the url if not inserted default value is 28
+        const ProductsPerPage = req.query.ProductsPerPage ? parseInt(req.query.ProductsPerPage, 10) : 28
+        //Gets the Page from the url if not inserted default value is 0
         const page = req.query.page ? parseInt(req.query.page, 10) : 0
 
         let filters = {}
         let query={}
-                                                                                                                    
+        
+        //If filters are passed then create a structure with the filters
         if (req.query.Design) {
             filters.Design = req.query.Design
         } else if (req.query.Marca) {
@@ -29,15 +32,18 @@ class ProductsController {
         }
 
         try {
-            //Calls the function to retrieve the products categories
-            let ProductsList = await Product.find(query).limit(ProductsPerPage);
+            //Calls the function to retrieve the products with the established limit and paginates it with skip
+            let ProductsList = await Product.find(query).limit(ProductsPerPage).skip(ProductsPerPage * page);
+            //Gets the total number of documents in the database for pagination
+            const totalNumProducts = await Product.countDocuments(query)
 
+            //Creates the response variable
             let response = {
                 products: ProductsList,
                 page: page,
                 filters: filters,
                 entries_per_page: ProductsPerPage,
-                // total_results: totalNumProducts,
+                total_results: totalNumProducts,
             }
 
             //Stores the result in the res
