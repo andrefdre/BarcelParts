@@ -1,7 +1,5 @@
 //Declares the imports necessary
 import http from "../http-common";
-import axios from 'axios';
-import {useEffect, useState} from 'react'
 
 // Creates a function that will be exported with a list of functions inside
 class ProductsDataService {
