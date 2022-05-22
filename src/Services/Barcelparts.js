@@ -10,7 +10,7 @@ class ProductsDataService {
 
   //Function to send a get request to product by id
   get(id) {
-    return http.get(`?id=${id}`);
+    return http.get(`Product?id=${id}`);
   }
 
   //Function to send a get request to find a product with a certain characteristic
@@ -26,6 +26,10 @@ class ProductsDataService {
   //Function to send a get request to get all categories
   getCategories() {
     return http.get(`/Categories`);
+  }
+
+  getUser(UserId) {
+    return http.post('/User')
   }
 
 }
