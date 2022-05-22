@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-
+//Creates the schema structure for products
 const ProductSchema = new mongoose.Schema({
     Cod_Fornecedor: String,
     Fornecedor: String,
@@ -17,6 +17,6 @@ const ProductSchema = new mongoose.Schema({
     PrecoCusto: String,
     NumArmazem: String
 },
-{ collection : 'Products' });
+{ collection : 'Products' }); //Tells from what collection of mongodb to get the information
 
 module.exports = mongoose.model("Product", ProductSchema);

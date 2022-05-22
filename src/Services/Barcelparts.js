@@ -14,9 +14,9 @@ class ProductsDataService {
   }
 
   //Function to send a get request to find a product with a certain characteristic
-  find(query, by = "Design", page = 0) {
-    return http.get(`?${by}=${query}&page=${page}`);
-  }
+  find(query, by = "Design", page = 0, sort) {
+    return http.get(`?${by}=${query}&page=${page}&sort=${sort}`);
+  }  
 
   //Function to send a get request to get all Marcas
   getMarcas() {

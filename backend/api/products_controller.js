@@ -3,12 +3,17 @@ const Product = require("../schema/product_schema.js");
 
 class ProductsController {
     static async apiGetProducts(req, res, next) {
-        const ProductsPerPage = req.query.ProductsPerPage ? parseInt(req.query.ProductsPerPage, 10) : 20
+        //Gets the ProductsPerPage from the url if not inserted default value is 28
+        const ProductsPerPage = req.query.ProductsPerPage ? parseInt(req.query.ProductsPerPage, 10) : 28
+        //Gets the Page from the url if not inserted default value is 0
         const page = req.query.page ? parseInt(req.query.page, 10) : 0
 
         let filters = {}
         let query={}
-                                                                                                                    
+        let sort_buffer={}
+        let sort={};
+        
+        //If filters are passed then create a structure with the filters
         if (req.query.Design) {
             filters.Design = req.query.Design
         } else if (req.query.Marca) {
@@ -28,16 +33,41 @@ class ProductsController {
             }
         }
 
-        try {
-            //Calls the function to retrieve the products categories
-            let ProductsList = await Product.find(query).limit(ProductsPerPage);
+         //If Sort filter is passed then create a buffer with the filters
+        if(req.query.sort){
+            sort_buffer=req.query.sort
+        }
 
+        //Sets the sort query based on sort filter
+        if (sort_buffer){
+            if("PriceAscending" == sort_buffer){
+                sort = {'PrecoCusto': 1}
+            }
+            else if("PriceDescending" == sort_buffer){
+                sort = {'PrecoCusto': -1}
+            }
+            else if("A-Z" == sort_buffer){
+                sort = {'Design': 1}
+            }
+            else if("Z-A" == sort_buffer){
+                sort = {'Design': -1}
+            }
+        }
+
+        try {
+            //Calls the function to retrieve the products sorted with the established limit and paginates it with skip
+            let ProductsList = await Product.find(query).sort(sort).limit(ProductsPerPage).skip(ProductsPerPage * page);
+            //Gets the total number of documents in the database for pagination
+            const totalNumProducts = await Product.countDocuments(query)
+
+            //Creates the response variable
             let response = {
                 products: ProductsList,
                 page: page,
                 filters: filters,
+                sort: sort,
                 entries_per_page: ProductsPerPage,
-                // total_results: totalNumProducts,
+                total_results: totalNumProducts,
             }
 
             //Stores the result in the res

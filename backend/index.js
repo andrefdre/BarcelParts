@@ -24,6 +24,7 @@ db.once("open", function () {
     console.log("Connected successfully");
 });
 
+//Listens on the port to retrieve information from frontend 
 app.listen(port,() => {
     console.log('listening on port ' + port);
 })
