@@ -18,15 +18,16 @@ const Research_Page = function () {
 
   //Creates the variables
   const [products, setProducts] = useState([]);
+  const [Sort, setSort] = useState('');
   const [page, setPage] = useState('0');
   const [Categories, setCategories] = useState([]);
   const [Loading, setLoading] = useState(true);
   const [HasMore, setHasMore] = useState('false');
 
-//Detects when the node(last product) is in the view of the observer and if so loads more products
+  //Detects when the node(last product) is in the view of the observer and if so loads more products
   const lastProductElementRef = useCallback(node => {
     //If page is loading do nothing
-    if (Loading) return 
+    if (Loading) return
     if (observer.current) observer.current.disconnect()
     observer.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
@@ -36,12 +37,7 @@ const Research_Page = function () {
           //Increments the page to get new products
           setPage(page => (parseInt(page) + 1).toString())
           //Queries the database and adds it to the previous products list
-          scroll_find(query, by, page);
-
-          //Console log for debugging and developing
-          //console.log("Loading: ",Loading)
-          //console.log('Visible')
-          //console.log("Page Number: ",page)
+          scroll_find(query, by, page, Sort);
         }
       }
     })
@@ -49,9 +45,9 @@ const Research_Page = function () {
   }, [products])
 
   //Function that will search the database for the information asked and adds it to the previous information
-  const scroll_find = (query, by, page) => {
+  const scroll_find = (query, by, page, sort) => {
     //Call function that will send a get request to the backend
-    ProductDataService.find(query, by, page)
+    ProductDataService.find(query, by, page, sort)
       .then(response => {
         //Console log for debugging and developing
         console.log(response.data)
@@ -66,9 +62,9 @@ const Research_Page = function () {
       });
   };
 
-  const find = (query, by, page) => {
+  const find = (query, by, page, sort) => {
     //Call function that will send a get request to the backend
-    ProductDataService.find(query, by, page)
+    ProductDataService.find(query, by, page, sort)
       .then(response => {
         //Console log for debugging and developing
         console.log(response.data)
@@ -83,13 +79,12 @@ const Research_Page = function () {
       });
   };
 
-  
+
 
   //Function to get all the products
   const getAll = () => {
     ProductDataService.getAll()
       .then(response => {
-        console.log(response.data);
         setProducts(response.data.products);
       })
       .catch(e => {
@@ -110,18 +105,36 @@ const Research_Page = function () {
       });
   };
 
+
+  // Handle Sort changes
+  const handleChange = (e) => {
+    // Creates a loop for setting the other checkboxes to false so only one can be activated
+    for (var i = 1; i <= 4; i++) {
+      document.getElementById(i).checked = false;
+    }
+    // Sets the current checkbox to checked
+    document.getElementById(e.target.id).checked = true;
+    // to get the checked name
+
+    // Sets the sort value with the value from checkbox
+    setSort(e.target.value);
+  };
+
   //useEffect to run a function when the dependency array changes
   //This function will search the database when query or by changes 
   useEffect(() => {
-    setPage('0')
     //Why don't the array get set to an empty one
     setProducts([]);
+    //Displays the result for debugging
     console.log(products)
     //Run function find
-    find(query, by, page);
+    setPage('0');
+    find(query, by, page, Sort);
+    console.log(page)
+
     setPage('1')
     window.scrollTo(0, 0)
-  }, [query, by]); //dependency array
+  }, [query, by, Sort]); //dependency array
 
 
   //useEffect to run a function only once since the dependency array is empty
@@ -130,11 +143,11 @@ const Research_Page = function () {
     getCategories()
   }, []) // <-- empty dependency array
 
-  window.requestAnimationFrame(function() {
+  window.requestAnimationFrame(function () {
+    //When page finishes loading set Loading to false
     setLoading(false)
-    console.log("Loading: ",Loading)
   })
-  
+
   //Html that will be rendered 
   return (
     //div that has the class container to display within a percentage of the page
@@ -149,9 +162,38 @@ const Research_Page = function () {
         <div className="col-6">
           <h2>{query}</h2>
         </div>
-        <div className="col-3 d-flex justify-content-end align-items-center">
+        {/* <div className="col-3 d-flex justify-content-end align-items-center">
           <span className="p-2">Filters</span>
           <i className="fa-solid fa-sliders"></i>
+        </div> */}
+        <div class="dropdown show col-3 d-flex justify-content-end align-items-center">
+          <a className="nav-link text-decoration-none btn-secondary" href="#" id="filtersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span className="p-2">Filters</span>
+            <i className="fa-solid fa-sliders"></i>
+          </a>
+
+          <ul class="dropdown-menu " aria-labelledby="filtersDropdown">
+            <li className="dropdown-item">
+              <label>
+                <input type="checkbox" name="Sort" id="1" value="PriceAscending" onChange={handleChange} /> Price Increasing
+              </label>
+            </li>
+            <li className="dropdown-item">
+              <label>
+                <input type="checkbox" name="Sort" id="2" value="PriceDescending" onChange={handleChange} /> Price Decreasing
+              </label>
+            </li>
+            <li className="dropdown-item">
+              <label>
+                <input type="checkbox" name="Sort" id="3" value="A-Z" onChange={handleChange} /> Name: A-Z
+              </label>
+            </li>
+            <li className="dropdown-item">
+              <label>
+                <input type="checkbox" name="Sort" id="4" value="Z-A" onChange={handleChange} /> Name: Z-A
+              </label>
+            </li>
+          </ul>
         </div>
       </div>
       {/* Row for displaying the categories retrieved from database and search results */}
@@ -174,7 +216,7 @@ const Research_Page = function () {
         <div className="col-9 row row-cols-2 row-cols-md-3 row-cols-lg-4 h-100 d-flex justify-content-end">
           {/* Function that will loop through each element of Products array and print each Product information in the Page  */}
           {products.map((product, index) => {
-            //Writes the last product of the array to have an ref to search more items
+            //Writes the last product of the array to have an ref to search more item
             if (products.length === index + 1) {
               return (
                 <div className="col item-display mb-3 h-100" key={product._id} ref={lastProductElementRef}>
@@ -232,6 +274,7 @@ const Research_Page = function () {
             }
           })
           }
+          <div className="d-flex">{products.length == 0 && 'No products found'}</div>
           <div>{Loading && 'Loading...'}</div>
         </div>
       </div>

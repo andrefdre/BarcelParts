@@ -49,6 +49,16 @@ body {
 
 }
 
+.btn-secondary {
+  color: #656565;
+  background: none;
+}
+.btn-secondary:hover {
+  color: #0000006e;
+  background: none;
+  border: none;
+}
+
 
 /* dropdown menu/submenu */
 .navbar-nav .dropdown-menu {

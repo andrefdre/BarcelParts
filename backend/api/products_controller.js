@@ -10,6 +10,8 @@ class ProductsController {
 
         let filters = {}
         let query={}
+        let sort_buffer={}
+        let sort={};
         
         //If filters are passed then create a structure with the filters
         if (req.query.Design) {
@@ -31,9 +33,30 @@ class ProductsController {
             }
         }
 
+         //If Sort filter is passed then create a buffer with the filters
+        if(req.query.sort){
+            sort_buffer=req.query.sort
+        }
+
+        //Sets the sort query based on sort filter
+        if (sort_buffer){
+            if("PriceAscending" == sort_buffer){
+                sort = {'PrecoCusto': 1}
+            }
+            else if("PriceDescending" == sort_buffer){
+                sort = {'PrecoCusto': -1}
+            }
+            else if("A-Z" == sort_buffer){
+                sort = {'Design': 1}
+            }
+            else if("Z-A" == sort_buffer){
+                sort = {'Design': -1}
+            }
+        }
+
         try {
-            //Calls the function to retrieve the products with the established limit and paginates it with skip
-            let ProductsList = await Product.find(query).limit(ProductsPerPage).skip(ProductsPerPage * page);
+            //Calls the function to retrieve the products sorted with the established limit and paginates it with skip
+            let ProductsList = await Product.find(query).sort(sort).limit(ProductsPerPage).skip(ProductsPerPage * page);
             //Gets the total number of documents in the database for pagination
             const totalNumProducts = await Product.countDocuments(query)
 
@@ -42,6 +65,7 @@ class ProductsController {
                 products: ProductsList,
                 page: page,
                 filters: filters,
+                sort: sort,
                 entries_per_page: ProductsPerPage,
                 total_results: totalNumProducts,
             }
