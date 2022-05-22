@@ -80,6 +80,21 @@ class ProductsController {
         }
     }
 
+    static async apiGetProductById(req, res, next) {
+        try {
+          //Calls the function to retrieve the products brands
+          console.log(req.query.Id)
+          let response = await Product.findById(req.query.Id)
+          //Stores the result in the res
+          res.json(response)
+        }
+        //Catches erros and displays them 
+        catch (e) {
+          console.log(`api, ${e}`)
+          res.status(500).json({ error: e })
+        }
+      }
+
     static async apiGetProductsMarcas(req, res, next) {
         try {
           //Calls the function to retrieve the products brands
