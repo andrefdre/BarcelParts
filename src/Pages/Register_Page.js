@@ -5,6 +5,8 @@ import LogoutButton from "../Services/logout";
 import { useEffect } from 'react';
 import { gapi } from 'gapi-script';
 
+
+//client id given by the google Google Cloud Platform
 const clientId = "1040605938120-vj3qmpjvouj820vrum6lu196p1j1p2jp.apps.googleusercontent.com";
 
 
@@ -35,6 +37,8 @@ function Register_Page() {
           <input type="password" placeholder="password"></input>
         </form>
       </div>
+
+      {/* <!-- call the buttons to login and logout with Google OAuth --> */}
       <LoginButton />
       <LogoutButton />
     </React.Fragment>
