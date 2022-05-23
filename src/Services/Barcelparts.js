@@ -35,8 +35,7 @@ class ProductsDataService {
 
 
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:5000/api/routes/UpdateUser");
-    xhr.setRequestHeader("Accept", "application/json");
+    xhr.open("POST", "http://localhost:5000/api/routes/CreateUser");
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.onreadystatechange = function () {
