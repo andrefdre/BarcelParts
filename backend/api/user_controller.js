@@ -5,7 +5,7 @@ class UserController {
     static async apiGetUserById(req, res, next) {
         try {
             //Calls the function to retrieve the products brands
-            let user = await User.findById(req.query.Id)
+            let user = await User.findById(req.body._id)
             //Stores the result in the res
             res.json(user)
         }
@@ -36,14 +36,13 @@ class UserController {
 
     static async apiUpdateUser(req, res, next) {
         try {
-
             var user = await User.findById(req.body._id);
 
-            if (req.Body.Address) {
-                user.Address = req.Body.Address;
+            if (req.body.Address) {
+                user.Address = req.body.Address;
             } 
-            if (req.Body.Carrinho) {
-                user.Carrinho = req.Body.Carrinho
+            if (req.body.Carrinho) {
+                user.Carrinho = req.body.Carrinho
             }
 
             await user.save();
