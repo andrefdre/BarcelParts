@@ -20,7 +20,7 @@ class UserController {
         try {
             var user = req.body;
             //Calls the function to retrieve the products brands
-            console.log(user);
+            console.log(user._id);
             User.create(user, function (err, doc) {
                 if (err) return err;
                 else { res.send("User Created"); }
