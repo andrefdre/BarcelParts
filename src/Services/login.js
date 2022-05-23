@@ -1,3 +1,4 @@
+import { response } from 'express';
 import { GoogleLogin } from 'react-google-login';
 import ProductDataService from "../Services/Barcelparts.js"
 
@@ -6,7 +7,19 @@ const clientId = "1040605938120-vj3qmpjvouj820vrum6lu196p1j1p2jp.apps.googleuser
 function Login() {
 
     const verifyIfUserExists = (userData) => {
-        console.log(ProductDataService.findUser(userData));
+        ProductDataService.findUser(userData)
+            .then(response => {
+                //Console log for debugging and developing
+                console.log(response.data)
+            
+            })
+            //If there is an error catches it and displays it in the console
+            .catch(e => {
+                console.log(e);
+            });
+            if(response.data == null){              //if the user doesn't exist, we create it
+                ProductDataService.createUser(userData)
+            }
     }
 
     const onSuccess = (res) => {
@@ -20,11 +33,12 @@ function Login() {
             "Email": res.profileObj.email
         }
 
-        verifyIfUserExists(userData)
-/*
-        console.log(ProductDataService.createUser(userData));
+        if (verifyIfUserExists(userData)) {
 
-        */
+        }
+
+
+
     }
 
     const onFailure = (res) => {
