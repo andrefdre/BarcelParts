@@ -5,7 +5,7 @@ class UserController {
     static async apiGetUserById(req, res, next) {
         try {
             //Calls the function to retrieve the products brands
-            let user = await User.findById(req.Body._id)
+            let user = await User.findById(req.body._id)
             //Stores the result in the res
             res.json(user)
         }
