@@ -1,4 +1,4 @@
-import { response } from 'express';
+
 import { GoogleLogin } from 'react-google-login';
 import ProductDataService from "../Services/Barcelparts.js"
 import React from "react";
@@ -12,15 +12,14 @@ function Login() {
             .then(response => {
                 //Console log for debugging and developing
                 console.log(response.data)
-            
+                if(response.data == null){              //if the user doesn't exist, we create it
+                    ProductDataService.createUser(userData)
+                }
             })
             //If there is an error catches it and displays it in the console
             .catch(e => {
                 console.log(e);
             });
-            if(response.data == null){              //if the user doesn't exist, we create it
-                ProductDataService.createUser(userData)
-            }
     }
 
     const onSuccess = (res) => {
