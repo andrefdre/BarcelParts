@@ -29,33 +29,14 @@ class ProductsDataService {
   }
 
   //function to create a new user on the database
-  createUser() {
-
-    console.log("ab")
-
-
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:5000/api/routes/UpdateUser");
-    xhr.setRequestHeader("Accept", "application/json");
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        console.log(xhr.status);
-        console.log(xhr.responseText);
-      }
-    };
-
-    let data = `{
-      "_id": "121212121212",
-        "user_FirstName": "andre",
-        "user_LastName": "segundo",
-        "User_image": "htp/etc/etc",
-        "Email": "blabla@bla.com"
-      }`;
-
-    xhr.send(data);
+  createUser(data) {
+    return http.post('/CreateUser',data)    
   }
+
+    //function to get the user in case it exists in the database
+    findUser(data) {
+      return http.post('/User',data)    
+    }
 
 }
 
