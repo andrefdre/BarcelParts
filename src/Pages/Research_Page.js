@@ -67,7 +67,7 @@ const Research_Page = function () {
     ProductDataService.find(query, by, page, sort)
       .then(response => {
         //Console log for debugging and developing
-        console.log(response.data)
+        console.log(response)
         //Stores the acquired data in the variable products
         setProducts(response.data.products);
         //See is there is more documents in the database
@@ -129,6 +129,7 @@ const Research_Page = function () {
     console.log(products)
     //Run function find
     setPage('0');
+
     find(query, by, page, Sort);
     console.log(page)
 

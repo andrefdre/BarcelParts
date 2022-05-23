@@ -13,5 +13,6 @@ router.route("/Marcas").get(productsCtrl.apiGetProductsMarcas)
 router.route("/Categories").get(productsCtrl.apiGetProductsCategories)
 router.route("/User").post(userCtrl.apiGetUserById)
 router.route("/CreateUser").post(userCtrl.apiCreateUser)
+router.route("/UpdateUser").post(userCtrl.apiUpdateUser)
 
 module.exports = router
