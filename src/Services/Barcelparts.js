@@ -33,6 +33,11 @@ class ProductsDataService {
     return http.post('/CreateUser',data)    
   }
 
+    //function to get the user in case it exists in the database
+    findUser(data) {
+      return http.post('/User',data)    
+    }
+
 }
 
 //Exportes the function to be used in other places

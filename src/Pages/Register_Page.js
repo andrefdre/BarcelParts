@@ -4,7 +4,6 @@ import LoginButton from "../Services/login";
 import LogoutButton from "../Services/logout";
 import { useEffect } from 'react';
 import { gapi } from 'gapi-script';
-import ProductDataService from "../Services/Barcelparts.js"
 
 
 //client id given by the google Google Cloud Platform
@@ -33,7 +32,6 @@ function Register_Page() {
       {/* <!-- Items that will not be displayed with all width of the Page --> */}
 
       <div className="col-md-12 text-center ">
-      <button type="button" onClick={ProductDataService.createUser}>Click Me</button>
         <br></br>
         <div>
           <h3>Welcome to the official Barcelparts webpage!</h3>
