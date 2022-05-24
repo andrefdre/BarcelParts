@@ -6,6 +6,7 @@ import Main_Page from './Pages/Main_Page';
 import Research_Page from './Pages/Research_Page';
 import Register_Page from './Pages/Register_Page'
 import About_Page from './Pages/About_Page'
+import Product_Page from './Pages/Product_Page'
 
 //Creates the React function that will be rendered in the index Page
 function App() {
@@ -162,6 +163,7 @@ function App() {
                     <Route path="/Research_Page" element={<Research_Page {...{ search_display }} />} />
                     <Route path='/Register_Page' element={<Register_Page />} />
                     <Route path='/About_Page' element={<About_Page />} />
+                    <Route path='/Product_Page' element={<Product_Page />} />
                 </Routes>
             </div>
 

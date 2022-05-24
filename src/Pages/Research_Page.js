@@ -232,7 +232,7 @@ const Research_Page = function () {
                   </div>
                   {/* Place where information from each product will be displayed */}
                   <div className="card-body ">
-                    <a className="brand d-flex justify-content-center" href="#" style={{ 'fontSize': '0.9rem' }}>{product.Design}</a>
+                    <a className="brand d-flex justify-content-center" href={"/Product_Page?id=" + product._id} style={{ 'fontSize': '0.9rem' }}>{product.Design}</a>
                     <p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>
                       <strong >Producer: </strong>{product.Marca}</p>
                     {/* Checks if the product is available in store or not */}
@@ -261,7 +261,7 @@ const Research_Page = function () {
                   </div>
                   {/* Place where information from each product will be displayed */}
                   <div className="card-body ">
-                    <a className="brand d-flex justify-content-center" href="#" style={{ 'fontSize': '0.9rem' }}>{product.Design}</a>
+                    <a className="brand d-flex justify-content-center" href={"/Product_Page?id=" + product._id} style={{ 'fontSize': '0.9rem' }}>{product.Design}</a>
                     <p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>
                       <strong >Producer: </strong>{product.Marca}</p>
                     {product.NumArmazem > 0
