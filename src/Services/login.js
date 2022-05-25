@@ -11,10 +11,11 @@ function Login() {
             .then(response => {
                 //Console log for debugging and developing
                 console.log(response.data)
-                if(response.data == null){              //if the user doesn't exist, we create it
+                if (response.data == null) {              //if the user doesn't exist, we create it
                     ProductDataService.createUser(userData)
                 }
             })
+
             //If there is an error catches it and displays it in the console
             .catch(e => {
                 console.log(e);
@@ -22,7 +23,6 @@ function Login() {
     }
 
     const onSuccess = (res) => {
-        console.log("LOGIN SUCCESS! CUrrent user: ", res.profileObj)
 
         var userData = {
             "_id": res.profileObj.googleId,
@@ -32,16 +32,17 @@ function Login() {
             "Email": res.profileObj.email
         }
 
-        if (verifyIfUserExists(userData)) {
+        verifyIfUserExists(userData);
+        console.log("LOGIN SUCCESS! CUrrent user: ", res.profileObj)
 
-        }
-
-
-
+        var CryptoJS = require("crypto-js");
+        //Encrypt THE COOKIE and add it to the browser
+        document.cookie = "userGoogleId=" + CryptoJS.AES.encrypt(res.profileObj.googleId, 'secret key 123').toString();
     }
 
     const onFailure = (res) => {
         console.log("LOGIN FAILED! res: ", res)
+
     }
 
     return (
