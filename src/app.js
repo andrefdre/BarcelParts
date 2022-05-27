@@ -4,9 +4,11 @@ import { Link, Route, Routes } from "react-router-dom";
 import ProductDataService from "./Services/Barcelparts.js"
 import Main_Page from './Pages/Main_Page';
 import Research_Page from './Pages/Research_Page';
+import Catalog_Page from './Pages/Catalog_Page';
 import Register_Page from './Pages/Register_Page'
 import About_Page from './Pages/About_Page'
 import Product_Page from './Pages/Product_Page'
+import Cart_Page from './Pages/Cart_Page'
 
 //Creates the React function that will be rendered in the index Page
 function App() {
@@ -72,7 +74,7 @@ function App() {
                             </li>
                             {/* <!-- Cart icon --> */}
                             <li>
-                                <a className="nav-link first-navbar" aria-current="page" href="#"> <i className="fa-solid fa-cart-shopping"></i></a>
+                                <a className="nav-link first-navbar" aria-current="page" href="/Cart_Page"> <i className="fa-solid fa-cart-shopping"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -135,7 +137,7 @@ function App() {
 
                             {/* <!-- Other navbar items that will appear in the navbar --> */}
                             <li className="nav-item">
-                                <a className="nav-link" aria-current="page" href="/Product_Page">Catalog</a>
+                                <a className="nav-link" aria-current="page" href="/Catalog_Page">Catalog</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="/About_Page">About</a>
@@ -160,10 +162,12 @@ function App() {
                 {/* Routes to the correct pages based on the path of the Page and passes the props to the child Pages */}
                 <Routes>
                     <Route path="/" element={<Main_Page />} />
-                    <Route path="/Research_Page" element={<Research_Page {...{ search_display }} />} />
+                    <Route path="/Research_Page" element={<Research_Page/>} />
+                    <Route path="/Catalog_Page" element={<Catalog_Page/>} />
                     <Route path='/Register_Page' element={<Register_Page />} />
                     <Route path='/About_Page' element={<About_Page />} />
                     <Route path='/Product_Page' element={<Product_Page />} />
+                    <Route path='/Cart_Page' element={<Cart_Page />} />
                 </Routes>
             </div>
 
