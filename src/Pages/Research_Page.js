@@ -50,7 +50,7 @@ const Research_Page = function () {
     ProductDataService.find(query, by, page, sort)
       .then(response => {
         //Console log for debugging and developing
-        console.log(response.data)
+        //console.log(response.data)
         //Stores the acquired data in the variable products
         setProducts([...products, ...response.data.products]);
         //See is there is more documents in the database
@@ -67,7 +67,7 @@ const Research_Page = function () {
     ProductDataService.find(query, by, page, sort)
       .then(response => {
         //Console log for debugging and developing
-        console.log(response)
+        //console.log(response)
         //Stores the acquired data in the variable products
         setProducts(response.data.products);
         //See is there is more documents in the database
@@ -126,7 +126,7 @@ const Research_Page = function () {
     //Why don't the array get set to an empty one
     setProducts([]);
     //Displays the result for debugging
-    console.log(products)
+    //console.log(products)
     //Run function find
     setPage('0');
 
@@ -167,13 +167,13 @@ const Research_Page = function () {
           <span className="p-2">Filters</span>
           <i className="fa-solid fa-sliders"></i>
         </div> */}
-        <div class="dropdown show col-3 d-flex justify-content-end align-items-center">
+        <div className="dropdown show col-3 d-flex justify-content-end align-items-center">
           <a className="nav-link text-decoration-none btn-secondary" href="#" id="filtersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span className="p-2">Filters</span>
             <i className="fa-solid fa-sliders"></i>
           </a>
 
-          <ul class="dropdown-menu " aria-labelledby="filtersDropdown">
+          <ul className="dropdown-menu " aria-labelledby="filtersDropdown">
             <li className="dropdown-item">
               <label>
                 <input type="checkbox" name="Sort" id="1" value="PriceAscending" onChange={handleChange} /> Price Increasing

@@ -193,8 +193,8 @@ function App() {
                 <footer className="d-flex flex-wrap justify-content-between align-items-center py-3">
                     {/* <!-- Adds the logo and company name  --> */}
                     <div className="col-md-2 d-flex align-items-center">
-                        <a href="/" className="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-                            <a className="navbar-brand"><img className="Logo-footer" src="./Assets/Images/Logo.jpeg" alt=""></img></a>
+                        <a href="/" className="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1 navbar-brand">
+                            <img className="Logo-footer" src="./Assets/Images/Logo.jpeg" alt=""></img>
                         </a>
                         <span className="text-muted">BarcelParts</span>
                     </div>

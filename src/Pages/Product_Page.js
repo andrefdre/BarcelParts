@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import NumericInput from 'react-numeric-input';
 import ProductDataService from "../Services/Barcelparts.js"
 
 function Product_Page() {
@@ -10,13 +11,14 @@ function Product_Page() {
   const id = urlParams.get('id')
 
   const [product, setProduct] = useState([]);
+  const [number, setNumber] = useState(1);
 
   const findbyId = (id) => {
     //Call function that will send a get request to the backend
     ProductDataService.get(id)
       .then(response => {
         //Console log for debugging and developing
-        console.log(response.data)
+        //console.log(response.data)
 
         setProduct(response.data);
       })
@@ -25,6 +27,17 @@ function Product_Page() {
         console.log(e);
       });
   };
+
+  const onChangeNumber = (value) => {
+    setNumber(value);
+    
+  }
+
+  const AddToCartHandler = () =>{
+    console.log(number)
+
+
+  }
 
 
 
@@ -52,20 +65,21 @@ function Product_Page() {
           <h3 style={{ 'color': '#00a1b6' }}>{product.PrecoCusto} €</h3>
           <hr className="break-line"></hr>
           <div className="Product-Brand">
-            <label style={{ 'fontSize': '1.2rem', 'color': '#00a1b6', 'font-weight': 'bold' }}>Brand</label> <span>{product.Marca}</span>
+            <label style={{ 'fontSize': '1.2rem', 'color': '#00a1b6', 'fontWeight': 'bold' }}>Brand</label> <span>{product.Marca}</span>
           </div>
           <div className="Product-Reference">
-            <label style={{ 'fontSize': '1.2rem', 'color': '#00a1b6', 'font-weight': 'bold' }}>Reference</label> <span>{product.Ref}</span>
+            <label style={{ 'fontSize': '1.2rem', 'color': '#00a1b6', 'fontWeight': 'bold' }}>Reference</label> <span>{product.Ref}</span>
           </div>
           <div className="Product-Provider">
-            <label style={{ 'fontSize': '1.2rem', 'color': '#00a1b6', 'font-weight': 'bold' }}>Provider</label> <span>{product.Fornecedor}</span>
+            <label style={{ 'fontSize': '1.2rem', 'color': '#00a1b6', 'fontWeight': 'bold' }}>Provider</label> <span>{product.Fornecedor}</span>
           </div>
           <br></br>
           <div className="Product-Description">
             <p>{product.Description}</p>
           </div>
-          <div class="qty">
-          <input id="demo_vertical" type="number" value="" name="demo_vertical"/>
+          <div className="qty  mb-1">
+          <NumericInput min={0} max={100} value={number} style={{ input:{ width: '4pc' , height:'2pc' } ,wrap: {marginRight: '2px'}}} onChange={onChangeNumber}/>
+          <button type="button" className="btn btn-outline-secondary" onClick={AddToCartHandler}>Add to cart</button>
           </div>
           {/* Checks if the product is available in store or not */}
           {product.NumArmazem > 0

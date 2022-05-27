@@ -1,18 +1,22 @@
 //Declares the imports necessary
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import App from './app';
 import reportWebVitals from './reportWebVitals';
 
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
+
+
 
 //Render of the Page Website
-ReactDOM.render(
+root.render(
   <BrowserRouter>
       <App />
-  </BrowserRouter>,
-  document.getElementById("root")
+  </BrowserRouter>
 );
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
