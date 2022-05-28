@@ -53,6 +53,7 @@ const Research_Page = function () {
         //console.log(response.data)
         //Stores the acquired data in the variable products
         setProducts([...products, ...response.data.products]);
+        setLoading(false)
         //See is there is more documents in the database
         setHasMore(parseInt(response.data.total_results) - (parseInt(page) + 1) * 28 > 0)
       })
@@ -70,23 +71,11 @@ const Research_Page = function () {
         //console.log(response)
         //Stores the acquired data in the variable products
         setProducts(response.data.products);
+        setLoading(false)
         //See is there is more documents in the database
         setHasMore(parseInt(response.data.total_results) - (parseInt(page) + 1) * 20 > 0)
       })
       //If there is an error catches it and displays it in the console
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
-
-
-  //Function to get all the products
-  const getAll = () => {
-    ProductDataService.getAll()
-      .then(response => {
-        setProducts(response.data.products);
-      })
       .catch(e => {
         console.log(e);
       });
@@ -144,10 +133,10 @@ const Research_Page = function () {
     getCategories()
   }, []) // <-- empty dependency array
 
-  window.requestAnimationFrame(function () {
-    //When page finishes loading set Loading to false
-    setLoading(false)
-  })
+  // window.requestAnimationFrame(function () {
+  //   //When page finishes loading set Loading to false
+  //   setLoading(false)
+  // })
 
   //Html that will be rendered 
   return (
@@ -214,7 +203,7 @@ const Research_Page = function () {
         {/* Creates a vertical line to split Categories and search results */}
         <div className="vr"></div>
         {/* Creates a row for displaying search results */}
-        <div className="col-9 row row-cols-2 row-cols-md-3 row-cols-lg-4 h-100 d-flex justify-content-end">
+        <div className="col-9 row row-cols-2 row-cols-md-3 row-cols-lg-4 h-100 d-flex justify-content-around">
           {/* Function that will loop through each element of Products array and print each Product information in the Page  */}
           {products.map((product, index) => {
             //Writes the last product of the array to have an ref to search more item
@@ -275,8 +264,15 @@ const Research_Page = function () {
             }
           })
           }
-          <div className="d-flex">{products.length == 0 && 'No products found'}</div>
-          <div>{Loading && 'Loading...'}</div>
+
+          {products.length == 0 && Loading == false
+            ? 'No products found'
+            : ''
+          }
+          {Loading == true
+            ? <i class="fa-solid fa-spinner"></i>
+            : ''
+          }
         </div>
       </div>
     </div>
