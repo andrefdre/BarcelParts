@@ -42,6 +42,7 @@ function Login() {
 
     const onFailure = (res) => {
         console.log("LOGIN FAILED! res: ", res)
+        alert("LOGIN FAILED! \n Please try again... ")
 
     }
 
