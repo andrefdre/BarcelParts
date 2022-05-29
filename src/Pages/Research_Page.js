@@ -117,8 +117,7 @@ const Research_Page = function () {
     //Displays the result for debugging
     //console.log(products)
     //Run function find
-    setPage('0');
-
+    setPage('1');
     find(query, by, page, Sort);
     console.log(page)
 
@@ -133,10 +132,6 @@ const Research_Page = function () {
     getCategories()
   }, []) // <-- empty dependency array
 
-  // window.requestAnimationFrame(function () {
-  //   //When page finishes loading set Loading to false
-  //   setLoading(false)
-  // })
 
   //Html that will be rendered 
   return (
