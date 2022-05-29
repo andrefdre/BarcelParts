@@ -5,7 +5,6 @@ import LoginButton from "../Services/login";
 import LogoutButton from "../Services/logout";
 import { useEffect } from 'react';
 import { gapi } from 'gapi-script';
-import sha256 from 'crypto-js/sha256';
 
 
 function Register_Page() {
@@ -24,34 +23,6 @@ function Register_Page() {
     gapi.load('client:auth2', start);
   });
 
-  //function to get cookie from its name
-  function getCookie() {
-    let name = "userGoogleId=";
-
-    let ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-
-
-        var separatedCookie = c.substring(name.length, c.length)
-
-        //decrypt cookie
-        var CryptoJS = require("crypto-js");
-        var bytes = CryptoJS.AES.decrypt(separatedCookie, 'secret key 123');
-        var decodedCookie = bytes.toString(CryptoJS.enc.Utf8);
-
-        console.log(decodedCookie)
-        return decodedCookie;
-      }
-    }
-    console.log("")
-    return ""
-  }
-
   //this variable is useful if we need an access token for an api
   //var accessToken = gapi.auth.getToken().access_token;
 
@@ -60,7 +31,8 @@ function Register_Page() {
       {/* <!-- Main Content of the Webpage --> */}
       {/* <!-- Items that will not be displayed with all width of the Page --> */}
 
-      <button onClick={getCookie}>Press Me</button>
+
+      {/* <!--  <button onClick={getCookie}>Press Me</button> --> */}
 
       <div className="col-md-12 text-center ">
         <br></br>
