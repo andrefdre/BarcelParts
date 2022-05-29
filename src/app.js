@@ -6,10 +6,16 @@ import Main_Page from './Pages/Main_Page';
 import Research_Page from './Pages/Research_Page';
 import Register_Page from './Pages/Register_Page'
 import About_Page from './Pages/About_Page'
+import Logout from "./Services/logout.js";
 
 //Creates the React function that will be rendered in the index Page
 function App() {
-    var user = null;
+
+    if(getCookie != ""){
+        var user = getCookie();
+    }else{
+        var user = null;
+    }
 
     //Variables for searching items
     const [search, setSearch] = useState("");
@@ -88,7 +94,7 @@ function App() {
 
                                             <li><a className="dropdown-item" href="#">Buying History</a></li>
 
-                                            <li><a className="dropdown-item" href="#">Sign Out</a></li>
+                                            <li><a className="dropdown-item" onClick={Logout} href="./">Sign Out</a></li>
                                         </ul>
                                     </li>
                                 ) : (
