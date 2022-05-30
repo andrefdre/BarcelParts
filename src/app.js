@@ -11,42 +11,46 @@ import Barcelparts from './Services/Barcelparts.js'
 import Product_Page from './Pages/Product_Page'
 import Cart_Page from './Pages/Cart_Page'
 
+
 //Creates the React function that will be rendered in the index Page
 function App() {
 
-    if (getCookie != "") {
-        var user = getCookie();
-        //console.log(user)
-        let data = `{
-            "_id":"`+ user + `"
-          }`;
-        //console.log("data =",data)
-        var queryResult = Barcelparts.findUser(data);
-
-        queryResult.then(function (result) {
-            // here you can use the result of promiseB
-            var userInfo = result.data                  //an object containing the information of the user
-            console.log(userInfo)
-
-        });
-    } else {
-        var user = null;
-    }
-
-
-    //get the user info from the cookie 
-    {
-
-    }
-
-
-
-
     //Variables for searching items
     const [search, setSearch] = useState("");
-    const [search_display, setSearch_display] = useState("");
     const [search_url, setSearch_url] = useState("/Research_Page");
+    const [user, setUser] = useState(null);
 
+    useEffect(() => {
+        if (getCookie != "") {
+            var userId = getCookie();
+            console.log(userId)
+            let data = `{
+                "_id":"`+ userId + `"
+              }`;
+            //console.log("data =",data)
+            Barcelparts.findUser(data)
+                .then(function (result) {
+                    // here you can use the result of promiseB
+                    if (result.data == null) {
+                        setUser(null)
+                    }
+                    else {
+                        setUser(result.data);                  //an object containing the information of the user
+                    }
+                    console.log(user)
+                })
+                .catch(e => {
+                    setUser(null)
+                    console.log(e);
+                });
+        } else {
+            setUser(null)
+        }
+    }, []) // <-- empty dependency array
+
+    useEffect(() => {
+        console.log(user)
+    });
     //Function to set the search variable when there is a change in the form
     const onChangeSearch = e => {
         const search = e.target.value;
@@ -54,13 +58,6 @@ function App() {
         //Sets the search url to retrieve the search parameters in the research page
         setSearch_url("/Research_Page?by=Design&query=" + search)
     }
-
-    //Function that handles the search click
-    const SearchHandler = () => {
-        //Calls the find function
-        //sets the Search_display variable 
-        setSearch_display(search)
-    };
 
     //function to get cookie from its name
     function getCookie() {
@@ -108,8 +105,8 @@ function App() {
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0 first-navbar">
                             <li className="nav-item ">
                                 {/* If there is a user display information about account if there is change to a button to create/login to account */}
-                                {user ? (
-                                    <li className="nav-item dropdown">
+                                {user != null
+                                    ? <li className="nav-item dropdown">
                                         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                             aria-expanded="false">
                                             My Account
@@ -122,9 +119,9 @@ function App() {
                                             <li><a className="dropdown-item" onClick={Logout} href="./">Sign Out</a></li>
                                         </ul>
                                     </li>
-                                ) : (
+                                    :
                                     <a className="nav-link first-navbar" aria-current="page" href="/Register_Page"> <i className="fa-solid fa-user"></i> Login/Register</a>
-                                )
+
                                 }
 
                             </li>
@@ -149,7 +146,7 @@ function App() {
                             {/* Form that will retrieve the search parameter to search the database */}
                             <form className="d-flex">
                                 <input className="form-control me-2" type="search" value={search} placeholder="Search" onChange={onChangeSearch} aria-label="Search"></input>
-                                <Link to={search_url} className="btn btn-outline-secondary align-items-center" onClick={SearchHandler} type="button">Search</Link>
+                                <Link to={search_url} className="btn btn-outline-secondary align-items-center" onClick={true} type="button">Search</Link>
                             </form>
                         </div>
                         {/* <!-- Adds the hamburger button that will appear when the page is shrunken to display the items in the navbar so it looks cleaner in small screens --> */}
@@ -202,13 +199,13 @@ function App() {
                         {/* <!-- Adds the research form  --> */}
                         <form className="d-flex d-md-none">
                             <input className="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
-                            <Link to={search_url} className="btn btn-outline-secondary" onClick={SearchHandler} type="button">Search</Link>
+                            <Link to={search_url} className="btn btn-outline-secondary" onClick={true} type="button">Search</Link>
                         </form>
                     </div>
                     {/* <!-- Adds the research form  --> */}
                     <form className="d-none d-lg-flex">
                         <input className="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
-                        <Link to={search_url} className="btn btn-outline-secondary" onClick={SearchHandler} type="button">Search</Link>
+                        <Link to={search_url} className="btn btn-outline-secondary" onClick={true} type="button">Search</Link>
                     </form>
                 </div>
             </nav>
@@ -218,11 +215,11 @@ function App() {
                 {/* Routes to the correct pages based on the path of the Page and passes the props to the child Pages */}
                 <Routes>
                     <Route path="/" element={<Main_Page />} />
-                    <Route path="/Research_Page" element={<Research_Page/>} />
-                    <Route path="/Catalog_Page" element={<Catalog_Page/>} />
+                    <Route path="/Research_Page" element={<Research_Page />} />
+                    <Route path="/Catalog_Page" element={<Catalog_Page />} />
                     <Route path='/Register_Page' element={<Register_Page />} />
                     <Route path='/About_Page' element={<About_Page />} />
-                    <Route path='/Product_Page' element={<Product_Page />} />
+                    <Route path='/Product_Page' element={<Product_Page user={user} />} />
                     <Route path='/Cart_Page' element={<Cart_Page />} />
                 </Routes>
             </div>

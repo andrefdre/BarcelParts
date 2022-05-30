@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import NumericInput from 'react-numeric-input';
-import ProductDataService from "../Services/Barcelparts.js"
+import Barcelparts from "../Services/Barcelparts.js"
 
-function Product_Page() {
+function Product_Page(props) {
 
   // Variables used to store the query parameters
   const queryString = window.location.search;
@@ -13,9 +13,10 @@ function Product_Page() {
   const [product, setProduct] = useState([]);
   const [number, setNumber] = useState(1);
 
+
   const findbyId = (id) => {
     //Call function that will send a get request to the backend
-    ProductDataService.get(id)
+    Barcelparts.get(id)
       .then(response => {
         //Console log for debugging and developing
         //console.log(response.data)
@@ -30,22 +31,26 @@ function Product_Page() {
 
   const onChangeNumber = (value) => {
     setNumber(value);
-    
   }
 
   const AddToCartHandler = () =>{
     console.log(number)
+    var tempUser=props.user;
+    console.log(tempUser)
+    tempUser.Carrinho.push({
+      Product_id: id,
+      Product_amount: number});
 
 
+    console.log(tempUser)
   }
-
 
 
   //useEffect to run a function only once since the dependency array is empty
   useEffect(() => {
     //Runs the getCategories function
-    findbyId(id)
-  }, [id]) // <-- empty dependency array
+    findbyId(id);
+  }, []) // <-- empty dependency array
 
 
   return (
