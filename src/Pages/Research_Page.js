@@ -50,9 +50,10 @@ const Research_Page = function () {
     ProductDataService.find(query, by, page, sort)
       .then(response => {
         //Console log for debugging and developing
-        console.log(response.data)
+        //console.log(response.data)
         //Stores the acquired data in the variable products
         setProducts([...products, ...response.data.products]);
+        setLoading(false)
         //See is there is more documents in the database
         setHasMore(parseInt(response.data.total_results) - (parseInt(page) + 1) * 28 > 0)
       })
@@ -67,26 +68,14 @@ const Research_Page = function () {
     ProductDataService.find(query, by, page, sort)
       .then(response => {
         //Console log for debugging and developing
-        console.log(response)
+        //console.log(response)
         //Stores the acquired data in the variable products
         setProducts(response.data.products);
+        setLoading(false)
         //See is there is more documents in the database
         setHasMore(parseInt(response.data.total_results) - (parseInt(page) + 1) * 20 > 0)
       })
       //If there is an error catches it and displays it in the console
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
-
-
-  //Function to get all the products
-  const getAll = () => {
-    ProductDataService.getAll()
-      .then(response => {
-        setProducts(response.data.products);
-      })
       .catch(e => {
         console.log(e);
       });
@@ -126,10 +115,9 @@ const Research_Page = function () {
     //Why don't the array get set to an empty one
     setProducts([]);
     //Displays the result for debugging
-    console.log(products)
+    //console.log(products)
     //Run function find
-    setPage('0');
-
+    setPage('1');
     find(query, by, page, Sort);
     console.log(page)
 
@@ -144,10 +132,6 @@ const Research_Page = function () {
     getCategories()
   }, []) // <-- empty dependency array
 
-  window.requestAnimationFrame(function () {
-    //When page finishes loading set Loading to false
-    setLoading(false)
-  })
 
   //Html that will be rendered 
   return (
@@ -167,13 +151,13 @@ const Research_Page = function () {
           <span className="p-2">Filters</span>
           <i className="fa-solid fa-sliders"></i>
         </div> */}
-        <div class="dropdown show col-3 d-flex justify-content-end align-items-center">
+        <div className="dropdown show col-3 d-flex justify-content-end align-items-center">
           <a className="nav-link text-decoration-none btn-secondary" href="#" id="filtersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span className="p-2">Filters</span>
             <i className="fa-solid fa-sliders"></i>
           </a>
 
-          <ul class="dropdown-menu " aria-labelledby="filtersDropdown">
+          <ul className="dropdown-menu " aria-labelledby="filtersDropdown">
             <li className="dropdown-item">
               <label>
                 <input type="checkbox" name="Sort" id="1" value="PriceAscending" onChange={handleChange} /> Price Increasing
@@ -214,7 +198,7 @@ const Research_Page = function () {
         {/* Creates a vertical line to split Categories and search results */}
         <div className="vr"></div>
         {/* Creates a row for displaying search results */}
-        <div className="col-9 row row-cols-2 row-cols-md-3 row-cols-lg-4 h-100 d-flex justify-content-end">
+        <div className="col-9 row row-cols-2 row-cols-md-3 row-cols-lg-4 h-100 d-flex justify-content-around">
           {/* Function that will loop through each element of Products array and print each Product information in the Page  */}
           {products.map((product, index) => {
             //Writes the last product of the array to have an ref to search more item
@@ -232,7 +216,7 @@ const Research_Page = function () {
                   </div>
                   {/* Place where information from each product will be displayed */}
                   <div className="card-body ">
-                    <a className="brand d-flex justify-content-center" href="#" style={{ 'fontSize': '0.9rem' }}>{product.Design}</a>
+                    <a className="brand d-flex justify-content-center" href={"/Product_Page?id=" + product._id} style={{ 'fontSize': '0.9rem' }}>{product.Design}</a>
                     <p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>
                       <strong >Producer: </strong>{product.Marca}</p>
                     {/* Checks if the product is available in store or not */}
@@ -261,7 +245,7 @@ const Research_Page = function () {
                   </div>
                   {/* Place where information from each product will be displayed */}
                   <div className="card-body ">
-                    <a className="brand d-flex justify-content-center" href="#" style={{ 'fontSize': '0.9rem' }}>{product.Design}</a>
+                    <a className="brand d-flex justify-content-center" href={"/Product_Page?id=" + product._id} style={{ 'fontSize': '0.9rem' }}>{product.Design}</a>
                     <p className="card-text d-flex justify-content-center" style={{ 'fontSize': '0.7rem' }}>
                       <strong >Producer: </strong>{product.Marca}</p>
                     {product.NumArmazem > 0
@@ -275,8 +259,15 @@ const Research_Page = function () {
             }
           })
           }
-          <div className="d-flex">{products.length == 0 && 'No products found'}</div>
-          <div>{Loading && 'Loading...'}</div>
+
+          {products.length == 0 && Loading == false
+            ? 'No products found'
+            : ''
+          }
+          {Loading == true
+            ? <i class="fa-solid fa-spinner"></i>
+            : ''
+          }
         </div>
       </div>
     </div>
