@@ -1,18 +1,46 @@
 //Declares the imports necessary for this page
 import React, { useState, useEffect } from "react";
 import { Link, Route, Routes } from "react-router-dom";
-import ProductDataService from "./Services/Barcelparts.js"
 import Main_Page from './Pages/Main_Page';
 import Research_Page from './Pages/Research_Page';
 import Catalog_Page from './Pages/Catalog_Page';
 import Register_Page from './Pages/Register_Page'
 import About_Page from './Pages/About_Page'
+import Logout from "./Services/logout.js";
+import Barcelparts from './Services/Barcelparts.js'
 import Product_Page from './Pages/Product_Page'
 import Cart_Page from './Pages/Cart_Page'
 
 //Creates the React function that will be rendered in the index Page
 function App() {
-    var user = null;
+
+    if (getCookie != "") {
+        var user = getCookie();
+        //console.log(user)
+        let data = `{
+            "_id":"`+ user + `"
+          }`;
+        //console.log("data =",data)
+        var queryResult = Barcelparts.findUser(data);
+
+        queryResult.then(function (result) {
+            // here you can use the result of promiseB
+            var userInfo = result.data                  //an object containing the information of the user
+            console.log(userInfo)
+
+        });
+    } else {
+        var user = null;
+    }
+
+
+    //get the user info from the cookie 
+    {
+
+    }
+
+
+
 
     //Variables for searching items
     const [search, setSearch] = useState("");
@@ -33,6 +61,34 @@ function App() {
         //sets the Search_display variable 
         setSearch_display(search)
     };
+
+    //function to get cookie from its name
+    function getCookie() {
+        let name = "userGoogleId=";
+
+        let ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+
+
+                var separatedCookie = c.substring(name.length, c.length)
+
+                //decrypt cookie
+                var CryptoJS = require("crypto-js");
+                var bytes = CryptoJS.AES.decrypt(separatedCookie, 'secret key 123');
+                var decodedCookie = bytes.toString(CryptoJS.enc.Utf8);
+
+                //console.log(decodedCookie)
+                return decodedCookie;
+            }
+        }
+        //console.log("")
+        return ""
+    }
 
     //Html that will be rendered 
     return (
@@ -63,7 +119,7 @@ function App() {
 
                                             <li><a className="dropdown-item" href="#">Buying History</a></li>
 
-                                            <li><a className="dropdown-item" href="#">Sign Out</a></li>
+                                            <li><a className="dropdown-item" onClick={Logout} href="./">Sign Out</a></li>
                                         </ul>
                                     </li>
                                 ) : (

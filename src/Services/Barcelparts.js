@@ -30,13 +30,13 @@ class ProductsDataService {
 
   //function to create a new user on the database
   createUser(data) {
-    return http.post('/CreateUser',data)    
+    return http.post('/CreateUser', data)
   }
 
-    //function to get the user in case it exists in the database
-    findUser(data) {
-      return http.post('/User',data)    
-    }
+  //function to get the user in case it exists in the database
+  findUser(data) {
+    return http.post('/User', data)
+  }
 
 }
 
