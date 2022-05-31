@@ -117,7 +117,7 @@ const Research_Page = function () {
     //Displays the result for debugging
     //console.log(products)
     //Run function find
-    setPage('1');
+    setPage('0');
     find(query, by, page, Sort);
     console.log(page)
 
