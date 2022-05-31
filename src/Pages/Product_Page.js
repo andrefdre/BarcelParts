@@ -34,15 +34,24 @@ function Product_Page(props) {
   }
 
   const AddToCartHandler = () =>{
-    console.log(number)
+    //Creates a temporary variable to edit the data from user
     var tempUser=props.user;
-    console.log(tempUser)
+    //Adds the new product to the existing in the users cart
     tempUser.Carrinho.push({
       Product_id: id,
       Product_amount: number});
-
-
-    console.log(tempUser)
+      //Creates the object to be sent to the database
+      let data = {
+        _id : tempUser._id,
+        Carrinho: tempUser.Carrinho
+      }
+      //Converts the object to JSON and sends it to the backend
+      Barcelparts.updateUser(JSON.stringify(data))
+      .then(function (result) {
+        //Prints the result
+        console.log(result)
+      })
+      window.location.reload(true)
   }
 
 
@@ -83,7 +92,7 @@ function Product_Page(props) {
             <p>{product.Description}</p>
           </div>
           <div className="qty  mb-1">
-          <NumericInput min={0} max={100} value={number} style={{ input:{ width: '4pc' , height:'2pc' } ,wrap: {marginRight: '2px'}}} onChange={onChangeNumber}/>
+          <NumericInput min={0} max={product.NumArmazem} value={number} style={{ input:{ width: '4pc' , height:'2pc' } ,wrap: {marginRight: '2px'}}} onChange={onChangeNumber}/>
           <button type="button" className="btn btn-outline-secondary" onClick={AddToCartHandler}>Add to cart</button>
           </div>
           {/* Checks if the product is available in store or not */}

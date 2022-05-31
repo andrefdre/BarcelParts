@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import NumericInput from 'react-numeric-input';
-import ProductDataService from "../Services/Barcelparts.js"
+import BarcelParts from "../Services/Barcelparts.js"
 
-function Cart_Page() {
-
+function Cart_Page(props) {
 
     var forms = document.querySelectorAll('.needs-validation')
 
@@ -19,6 +17,20 @@ function Cart_Page() {
             }, false)
         })
 
+    const QueryProduct = (id) => {
+        let product;
+        BarcelParts.get(id)
+            .then(response => {
+                //console.log(response.data)
+                product= response.data
+            })
+            //If there is an error catches it and displays it in the console
+            .catch(e => {
+                console.log(e);
+            });
+            return product
+    }
+
     return (
         <div className="container-md">
             <br></br>
@@ -26,34 +38,29 @@ function Cart_Page() {
                 <div className="col-md-5 col-lg-4 order-md-last">
                     <h4 className="d-flex justify-content-between align-items-center mb-3">
                         <span className="text-primary">Your cart</span>
-                        <span className="badge bg-primary rounded-pill">3</span>
+                        <span className="badge bg-primary rounded-pill">{props.user == null ? 0 : props.user.Carrinho.length}</span>
                     </h4>
                     <ul className="list-group mb-3">
-                        <li className="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 className="my-0">Product name</h6>
-                                <small className="text-muted">Brief description</small>
-                            </div>
-                            <span className="text-muted">$12</span>
-                        </li>
-                        <li className="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 className="my-0">Second product</h6>
-                                <small className="text-muted">Brief description</small>
-                            </div>
-                            <span className="text-muted">$8</span>
-                        </li>
-                        <li className="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 className="my-0">Third item</h6>
-                                <small className="text-muted">Brief description</small>
-                            </div>
-                            <span className="text-muted">$5</span>
-                        </li>
-                        <li className="list-group-item d-flex justify-content-between">
-                            <span>Total (EUR)</span>
-                            <strong>$20</strong>
-                        </li>
+                        {props.user.Carrinho.map((product_info, index) => {
+                            let product
+                            product=QueryProduct(product_info.Product_id)
+                            BarcelParts.get(id)
+                            .then(response => {
+                            return (
+                                <li className="list-group-item d-flex justify-content-between lh-sm" key={index}>
+                                    <div>
+                                        <h6 className="my-0"></h6>
+                                        <small className="text-muted">x{product_info.Product_amount}</small>
+                                    </div>
+                                    <span className="text-muted">$12</span>
+                                </li>
+                            )
+                        })
+                        //If there is an error catches it and displays it in the console
+                        .catch(e => {
+                            console.log(e);
+                        });
+                        })}
                     </ul>
 
                 </div>
@@ -62,31 +69,31 @@ function Cart_Page() {
                     <form className="needs-validation" noValidate>
                         <div className="row g-3">
                             <div className="col-sm-6">
-                                <label for="firstName" className="form-label">First name</label>
-                                <input type="text" className="form-control" id="firstName" placeholder="" value="" required></input>
+                                <label htmlFor="firstName" className="form-label">First name</label>
+                                <input type="text" className="form-control" id="firstName" placeholder="" defaultValue={props.user == null ? "" : props.user.User_FirstName} required></input>
                                 <div className="invalid-feedback">
                                     Valid first name is required.
                                 </div>
                             </div>
 
                             <div className="col-sm-6">
-                                <label for="lastName" className="form-label">Last name</label>
-                                <input type="text" className="form-control" id="lastName" placeholder="" value="" required></input>
+                                <label  htmlFor="lastName" className="form-label">Last name</label>
+                                <input type="text" className="form-control" id="lastName" placeholder="" defaultValue={props.user == null ? "" : props.user.User_LastName} required></input>
                                 <div className="invalid-feedback">
                                     Valid last name is required.
                                 </div>
                             </div>
 
                             <div className="col-12">
-                                <label for="email" className="form-label">Email <span className="text-muted">(Optional)</span></label>
-                                <input type="email" className="form-control" id="email" placeholder="you@example.com"></input>
+                                <label  htmlFor="email" className="form-label">Email <span className="text-muted">(Optional)</span></label>
+                                <input type="email" className="form-control" id="email" placeholder="you@example.com" defaultValue={props.user == null ? "" : props.user.Email} readOnly></input>
                                 <div className="invalid-feedback">
                                     Please enter a valid email address for shipping updates.
                                 </div>
                             </div>
 
                             <div className="col-12">
-                                <label for="address" className="form-label">Address</label>
+                                <label  htmlFor="address" className="form-label">Address</label>
                                 <input type="text" className="form-control" id="address" placeholder="1234 Main St" required></input>
                                 <div className="invalid-feedback">
                                     Please enter your shipping address.
@@ -94,8 +101,8 @@ function Cart_Page() {
                             </div>
 
                             <div className="col-md-5">
-                                <label for="country" className="form-label">Country</label>
-                                <select className="form-select" id="country" data-default-value="15" required>
+                                <label  htmlFor="country" className="form-label">Country</label>
+                                <select className="form-select" id="country" defaultValue="15" required>
                                     <option value="">Choose...</option>
                                     <option value="1" data-text="Alemanha" data-iso-code="DE">
                                         Alemanha
@@ -148,7 +155,7 @@ function Cart_Page() {
                                     <option value="14" data-text="Polónia" data-iso-code="PL">
                                         Polónia
                                     </option>
-                                    <option value="15" data-text="Portugal" data-iso-code="PT" selected>
+                                    <option value="15" data-text="Portugal" data-iso-code="PT">
                                         Portugal
                                     </option>
                                     <option value="17" data-text="Reino Unido" data-iso-code="GB">
@@ -167,7 +174,7 @@ function Cart_Page() {
                             </div>
 
                             <div className="col-md-3">
-                                <label for="zip" className="form-label">Zip</label>
+                                <label htmlFor="zip" className="form-label">Zip</label>
                                 <input type="text" className="form-control" id="zip" placeholder="" required></input>
                                 <div className="invalid-feedback">
                                     Zip code required.
@@ -182,16 +189,16 @@ function Cart_Page() {
 
                         <div className="my-3">
                             <div className="form-check">
-                                <input id="credit" name="paymentMethod" type="radio" className="form-check-input" checked required></input>
-                                <label className="form-check-label" for="credit">Credit card</label>
+                                <input id="credit" name="paymentMethod" type="radio" className="form-check-input" defaultChecked required></input>
+                                <label className="form-check-label" htmlFor="credit">Credit card</label>
                             </div>
                             <div className="form-check">
                                 <input id="debit" name="paymentMethod" type="radio" className="form-check-input" required></input>
-                                <label className="form-check-label" for="debit">Debit card</label>
+                                <label className="form-check-label" htmlFor="debit">Debit card</label>
                             </div>
                             <div className="form-check">
                                 <input id="paypal" name="paymentMethod" type="radio" className="form-check-input" required></input>
-                                <label className="form-check-label" for="paypal">PayPal</label>
+                                <label className="form-check-label" htmlFor="paypal">PayPal</label>
                             </div>
                         </div>
 

@@ -38,6 +38,10 @@ class ProductsDataService {
     return http.post('/User', data)
   }
 
+  updateUser(data) {
+    return http.post('/UpdateUser', data)
+  }
+
 }
 
 //Exportes the function to be used in other places

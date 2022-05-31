@@ -102,8 +102,7 @@ function App() {
                     </div>
                     {/* <!-- Creates the Components justified to the end of the page such as Account information and the cart item --> */}
                     <div className="justify-content-end">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0 first-navbar">
-                            <li className="nav-item ">
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0 first-navbar d-flex align-items-center">
                                 {/* If there is a user display information about account if there is change to a button to create/login to account */}
                                 {user != null
                                     ? <li className="nav-item dropdown">
@@ -120,14 +119,22 @@ function App() {
                                         </ul>
                                     </li>
                                     :
-                                    <a className="nav-link first-navbar" aria-current="page" href="/Register_Page"> <i className="fa-solid fa-user"></i> Login/Register</a>
+                                    <a className="nav-link first-navbar" aria-current="page" href="/Register_Page"> 
+                                    <div style={{ position: "relative" }}>
+                                    <i className="fa-solid fa-user"></i> 
+                                    Login/Register
+                                    </div>
+                                    </a>
 
                                 }
-
-                            </li>
                             {/* <!-- Cart icon --> */}
                             <li>
-                                <a className="nav-link first-navbar" aria-current="page" href="/Cart_Page"> <i className="fa-solid fa-cart-shopping"></i></a>
+                                <a className="nav-link first-navbar" aria-current="page" href="/Cart_Page">
+                                <div style={{ position: "relative" }}>
+                                <i className="fa-solid fa-cart-shopping" style={{border: "2px solid #00a1b6", "borderRadius": "50%", padding: "5px"}}></i>
+                                    <span style={{ position: "absolute", right: "-5px", bottom: "18px" }}>{user==null ? 0 : user.Carrinho.length }</span>
+                                </div>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -220,7 +227,7 @@ function App() {
                     <Route path='/Register_Page' element={<Register_Page />} />
                     <Route path='/About_Page' element={<About_Page />} />
                     <Route path='/Product_Page' element={<Product_Page user={user} />} />
-                    <Route path='/Cart_Page' element={<Cart_Page />} />
+                    { user ? <Route path='/Cart_Page' element={<Cart_Page user={user} />}/> : <Route path='/Register_Page' element={<Register_Page />} />}
                 </Routes>
             </div>
 
