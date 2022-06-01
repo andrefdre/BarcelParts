@@ -1,5 +1,6 @@
 //Declares the imports necessary
 import http from "../http-common";
+import $ from "jquery";
 
 // Creates a function that will be exported with a list of functions inside
 class ProductsDataService {
@@ -10,7 +11,15 @@ class ProductsDataService {
 
   //Function to send a get request to product by id
   get(id) {
-    return http.get(`Product?id=${id}`);
+    return http.get(`Product?id=${id}`)
+  }
+
+  getProduct(id){
+    let results
+    $.getJSON(`http://localhost:5000/api/routes/Product?id=${id}`,function(response,status,xhr){
+      results=response
+    })
+    return results
   }
 
   //Function to send a get request to find a product with a certain characteristic

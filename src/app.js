@@ -129,7 +129,7 @@ function App() {
                                 }
                             {/* <!-- Cart icon --> */}
                             <li>
-                                <a className="nav-link first-navbar" aria-current="page" href="/Cart_Page">
+                                <a className="nav-link first-navbar" aria-current="page" href={user ? "/Cart_Page" : "Register_Page"}>
                                 <div style={{ position: "relative" }}>
                                 <i className="fa-solid fa-cart-shopping" style={{border: "2px solid #00a1b6", "borderRadius": "50%", padding: "5px"}}></i>
                                     <span style={{ position: "absolute", right: "-5px", bottom: "18px" }}>{user==null ? 0 : user.Carrinho.length }</span>
@@ -227,7 +227,7 @@ function App() {
                     <Route path='/Register_Page' element={<Register_Page />} />
                     <Route path='/About_Page' element={<About_Page />} />
                     <Route path='/Product_Page' element={<Product_Page user={user} />} />
-                    { user ? <Route path='/Cart_Page' element={<Cart_Page user={user} />}/> : <Route path='/Register_Page' element={<Register_Page />} />}
+                    { user ? <Route path='/Cart_Page' element={<Cart_Page user={user} />}/> : null }
                 </Routes>
             </div>
 
