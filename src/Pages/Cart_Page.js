@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import BarcelParts from "../Services/Barcelparts.js"
+import NumericInput from 'react-numeric-input';
+import Barcelparts from "../Services/Barcelparts.js"
 
 function Cart_Page(props) {
 
@@ -19,19 +20,44 @@ function Cart_Page(props) {
             }, false)
         })
 
-    const productHandler = (element_id, id) => {
-        BarcelParts.get(id)
+    const productHandler = (element_id, product_info) => {
+        Barcelparts.get(product_info.Product_id)
             .then(response => {
                 var Design = document.getElementById('Design' + element_id);
                 Design.textContent = response.data.Design
                 var Preco = document.getElementById('Preco' + element_id);
                 Preco.textContent = response.data.PrecoCusto
                 var Total = document.getElementById('Total');
-                Total.textContent = parseFloat(Total.textContent) + parseFloat((response.data.PrecoCusto))
+                Total.textContent = parseFloat(Total.textContent) + parseFloat((response.data.PrecoCusto)) * parseInt(product_info.Product_amount)
             })
             .catch(e => {
                 console.log(e);
             });
+    }
+
+    //Handler to remove products from the shopping cart
+    const removeItemHandler = (e) => {
+        //Creates a temporary user to apply the alterations
+        var tempUser = props.user;
+        //Removes the product from the array
+        tempUser.Carrinho.splice(parseInt(e.target.id), parseInt(e.target.id) + 1)
+        //Creates the data structure to
+        let data = {
+            _id: tempUser._id,
+            Carrinho: tempUser.Carrinho
+        }
+        //Sends the data to the backend
+        Barcelparts.updateUser(JSON.stringify(data))
+            .then(function (result) {
+                //Prints the result
+                console.log(result)
+            })
+        //Reloads the page to show the results
+        window.location.reload(true)
+    }
+
+    const onChangeNumber = () => {
+        
     }
 
 
@@ -47,14 +73,17 @@ function Cart_Page(props) {
                     </h4>
                     <ul className="list-group mb-3">
                         {props.user.Carrinho.map((product_info, index) => {
-
                             return (
                                 <li className="list-group-item d-flex justify-content-between lh-sm" key={index}>
-                                    <div>
-                                        <h6 id={'Design' + index} className="my-0"></h6>
-                                        <small className="text-muted">x{product_info.Product_amount}</small>
+                                    <div className="d-flex justify-content-between">
+                                        <i id={index} className="fa-solid fa-trash-can" style={{ 'padding-right': '5px' }} onClick={removeItemHandler}></i>
+                                        <div>
+                                            <h6 id={'Design' + index} className="my-0"></h6>
+                                            <small className="text-muted">x{product_info.Product_amount}</small>
+                                        </div>
                                     </div>
-                                    <span id={'Preco' + index} className="text-muted" onLoad={productHandler(index, product_info.Product_id)}></span>
+                                    <span id={'Preco' + index} className="text-muted justify-content-end" onLoad={productHandler(index, product_info)}></span>
+
                                 </li>
                             )
                         })}
@@ -63,8 +92,8 @@ function Cart_Page(props) {
                             <strong>
                                 <span id="Total">0</span>
                                 <span>€</span>
-                                </strong>
-                            
+                            </strong>
+
                         </li>
                     </ul>
 
