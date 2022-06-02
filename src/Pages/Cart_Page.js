@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import NumericInput from 'react-numeric-input';
 import Barcelparts from "../Services/Barcelparts.js"
 
 function Cart_Page(props) {
-
-    const [TotalPrice, setTotalPrice] = useState(0);
 
     var forms = document.querySelectorAll('.needs-validation')
 
@@ -54,10 +51,6 @@ function Cart_Page(props) {
             })
         //Reloads the page to show the results
         window.location.reload(true)
-    }
-
-    const onChangeNumber = () => {
-        
     }
 
 
