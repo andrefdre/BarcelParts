@@ -4,8 +4,6 @@ import BarcelParts from "../Services/Barcelparts.js"
 
 function Cart_Page(props) {
 
-    const [products, setProducts] = useState([]);
-
     var forms = document.querySelectorAll('.needs-validation')
 
     Array.prototype.slice.call(forms)
@@ -20,23 +18,18 @@ function Cart_Page(props) {
             }, false)
         })
 
-
-
-    useEffect(() => {
-        props.user.Carrinho.map((product_info,index) => {
-            console.log(product_info)
-            BarcelParts.get(product_info.Product_id)
-                .then(response => {
-                    //console.log(response.data)
-                    var element = document.getElementById('Design0');
-                    console.log(element)
-                    setProducts(products => [...products, response.data])
-                })
-                .catch(e => {
-                    console.log(e);
-                });
+    const productHandler = (element_id,id) => {
+        BarcelParts.get(id)
+        .then(response => {
+            var Design = document.getElementById('Design'+element_id);
+            Design.textContent= response.data.Design
+            var Preco = document.getElementById('Preco'+element_id);
+            Preco.textContent= response.data.PrecoCusto
         })
-    }, [])
+        .catch(e => {
+            console.log(e);
+        });
+    }
 
 
 
@@ -51,21 +44,18 @@ function Cart_Page(props) {
                     </h4>
                     <ul className="list-group mb-3">
                         {props.user.Carrinho.map((product_info, index) => {
-                            console.log(products)
-                            console.log(products.length > 0)
-                            if (products.length == props.user.Carrinho.length) {
-                                return (
-                                    <li className="list-group-item d-flex justify-content-between lh-sm" key={index}>
-                                        <div>
-                                            <h6 id={'Design'+index} className="my-0">{products.length > 0 ? products[index].Design : null}</h6>
-                                            <small className="text-muted">x{product_info.Product_amount}</small>
-                                        </div>
-                                        <span className="text-muted">{products.length > 0 ? products[index].PrecoCusto : null}</span>
-                                    </li>
-                                )
-                            }
-                        })}
 
+                            return (
+                                <li className="list-group-item d-flex justify-content-between lh-sm" key={index}>
+                                    <div>
+                                        <h6 id={'Design' + index} className="my-0"></h6>
+                                        <small className="text-muted">x{product_info.Product_amount}</small>
+                                    </div>
+                                    <span id={'Preco' + index} className="text-muted" onLoad={productHandler(index,product_info.Product_id)}></span>
+                                </li>
+                            )
+
+                        })}
                     </ul>
 
                 </div>
