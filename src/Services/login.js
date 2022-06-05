@@ -7,15 +7,25 @@ const clientId = "1040605938120-vj3qmpjvouj820vrum6lu196p1j1p2jp.apps.googleuser
 
 function Login() {
 
+    // function that verifies if the user exists and if it doesn't creates a new user
     const verifyIfUserExists = (userData) => {
         ProductDataService.findUser(userData)
             .then(response => {
                 console.log(response.data)
-                if (response.data.length < 1) {              //if the user doesn't exist, we create it
+                //Verifies if the user exists in the database
+                if (response.data == null) {
+                    //If the user doesn't exist create a new user in the database              
                     ProductDataService.createUser(userData)
+                        .then(response => {
+                            //Receives the response and displays if the user was created or not
+                            console.log(response.data)
+                        })
+                        //If there is an error catches it and displays it in the console
+                        .catch(e => {
+                            console.log(e);
+                        });
                 }
             })
-
             //If there is an error catches it and displays it in the console
             .catch(e => {
                 console.log(e);
@@ -23,8 +33,6 @@ function Login() {
     }
 
     const onSuccess = (res) => {
-
-
         //we receive a token that we need to validate/decode to obtain the user info
         console.log("received token = " + res.tokenId)
 
@@ -49,7 +57,7 @@ function Login() {
 
                 var CryptoJS = require("crypto-js");
                 //Encrypt THE COOKIE and add it to the browser
-                document.cookie = "userGoogleId=" + CryptoJS.AES.encrypt(userData.email, 'secret key 123').toString();
+                document.cookie = "userGoogleId=" + CryptoJS.AES.encrypt(res.tokenId, 'secret key 123').toString();
                 //window.location.href = "/";
 
 

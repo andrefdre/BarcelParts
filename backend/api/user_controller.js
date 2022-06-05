@@ -4,9 +4,23 @@ class UserController {
 
     static async apiGetUserById(req, res, next) {
         try {
-            console.log(req.body)
             //Calls the function to retrieve the products brands
-            let user = await User.find({Email:req.body.Email})
+            let user = await User.findById(req.body._id)
+            //Stores the result in the res
+            res.json(user)
+        }
+        //Catches erros and displays them 
+        catch (e) {
+            console.log(`api, ${e}`)
+            res.status(500).json({ error: e })
+        }
+    }
+
+    //Queries the database to find the user with the specified email
+    static async apiGetUserByEmail(req, res, next) {
+        try {
+            //Calls the function to retrieve the products brands
+            let user = await User.findOne({Email:req.body.Email})
             //Stores the result in the res
             res.json(user)
         }

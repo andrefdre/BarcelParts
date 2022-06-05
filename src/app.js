@@ -10,37 +10,30 @@ import Logout from "./Services/logout.js";
 import Barcelparts from './Services/Barcelparts.js'
 import Product_Page from './Pages/Product_Page'
 import Cart_Page from './Pages/Cart_Page'
+import {getCookie, isAuthenticated} from './Services/auth'
 
 //Creates the React function that will be rendered in the index Page
 function App() {
 
-    if (getCookie != "") {
-        var user = getCookie();
-        //console.log(user)
-        let data = `{
-            "_id":"`+ user + `"
-          }`;
-        //console.log("data =",data)
-        var queryResult = Barcelparts.findUser(data);
+    isAuthenticated()
+    // if (getCookie != "") {
+    //     var user = getCookie();
+    //     //console.log(user)
+    //     let data = `{
+    //         "_id":"`+ user + `"
+    //       }`;
+    //     //console.log("data =",data)
+    //     var queryResult = Barcelparts.findUser(data);
 
-        queryResult.then(function (result) {
-            // here you can use the result of promiseB
-            var userInfo = result.data                  //an object containing the information of the user
-            console.log(userInfo)
+    //     queryResult.then(function (result) {
+    //         // here you can use the result of promiseB
+    //         var userInfo = result.data                  //an object containing the information of the user
+    //         console.log(userInfo)
 
-        });
-    } else {
-        var user = null;
-    }
-
-
-    //get the user info from the cookie 
-    {
-
-    }
-
-
-
+    //     });
+    // } else {
+    //     var user = null;
+    // }
 
     //Variables for searching items
     const [search, setSearch] = useState("");
@@ -62,33 +55,33 @@ function App() {
         setSearch_display(search)
     };
 
-    //function to get cookie from its name
-    function getCookie() {
-        let name = "userGoogleId=";
+    // //function to get cookie from its name
+    // function getCookie() {
+    //     let name = "userGoogleId=";
 
-        let ca = document.cookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
+    //     let ca = document.cookie.split(';');
+    //     for (let i = 0; i < ca.length; i++) {
+    //         let c = ca[i];
+    //         while (c.charAt(0) == ' ') {
+    //             c = c.substring(1);
+    //         }
+    //         if (c.indexOf(name) == 0) {
 
 
-                var separatedCookie = c.substring(name.length, c.length)
+    //             var separatedCookie = c.substring(name.length, c.length)
 
-                //decrypt cookie
-                var CryptoJS = require("crypto-js");
-                var bytes = CryptoJS.AES.decrypt(separatedCookie, 'secret key 123');
-                var decodedCookie = bytes.toString(CryptoJS.enc.Utf8);
+    //             //decrypt cookie
+    //             var CryptoJS = require("crypto-js");
+    //             var bytes = CryptoJS.AES.decrypt(separatedCookie, 'secret key 123');
+    //             var decodedCookie = bytes.toString(CryptoJS.enc.Utf8);
 
-                //console.log(decodedCookie)
-                return decodedCookie;
-            }
-        }
-        //console.log("")
-        return ""
-    }
+    //             //console.log(decodedCookie)
+    //             return decodedCookie;
+    //         }
+    //     }
+    //     //console.log("")
+    //     return ""
+    // }
 
     //Html that will be rendered 
     return (
@@ -108,7 +101,7 @@ function App() {
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0 first-navbar">
                             <li className="nav-item ">
                                 {/* If there is a user display information about account if there is change to a button to create/login to account */}
-                                {user ? (
+                                {isAuthenticated() ? (
                                     <li className="nav-item dropdown">
                                         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                             aria-expanded="false">
