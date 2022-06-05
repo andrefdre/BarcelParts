@@ -11,7 +11,7 @@ router.route("/").get(productsCtrl.apiGetProducts)
 router.route("/Product").get(productsCtrl.apiGetProductById)
 router.route("/Marcas").get(productsCtrl.apiGetProductsMarcas)
 router.route("/Categories").get(productsCtrl.apiGetProductsCategories)
-router.route("/User").post(userCtrl.apiGetUserById)
+router.route("/User").post(userCtrl.apiGetUserByEmail)
 router.route("/CreateUser").post(userCtrl.apiCreateUser)
 router.route("/UpdateUser").post(userCtrl.apiUpdateUser)
 

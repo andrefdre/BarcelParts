@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 
 //Creates the schema structure for products
 const UserSchema = new mongoose.Schema({
-    _id: {type:String, required:true},
     User_FirstName: {type:String,required:true},
     User_LastName: {type:String,required:true},
     User_Image: {type:String,required:true},
@@ -15,6 +14,6 @@ const UserSchema = new mongoose.Schema({
     }],
     Owner: {type:Boolean, default:false}
 },
-{ collection : 'Accounts', _id: false }); //Tells from what collection of mongodb to get the information
+{ collection : 'Accounts'}); //Tells from what collection of mongodb to get the information
 
 module.exports = mongoose.model("User", UserSchema);
