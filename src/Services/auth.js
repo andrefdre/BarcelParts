@@ -1,10 +1,10 @@
 import Barcelparts from './Barcelparts.js'
 import http from "../http-common";
 
-export const isAuthenticated = () => {
+export async function IsAuthenticated() {
     if (getCookie() != undefined) {
         let token = getCookie();
-        http.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=` + token)
+        return await http.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=` + token)
             .then(response => {
                 var userData = {
                     "Email": response.data.email,
@@ -12,11 +12,20 @@ export const isAuthenticated = () => {
                     "User_LastName": response.data.family_name,
                     "User_Image": response.data.picture,
                 }
-                Barcelparts.findUser(userData)
+
+                return Barcelparts.findUser(userData)
                     .then(response => {
-                        console.log(response.data)
+                        if (response.data != null) {
+                            return [true, response.data]
+                        }
+                        else {
+                            return [false, response.data]
+                        }
                     })
             })
+    }
+    else {
+        return [false, undefined]
     }
 }
 

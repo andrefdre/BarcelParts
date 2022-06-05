@@ -58,7 +58,7 @@ function Login() {
                 var CryptoJS = require("crypto-js");
                 //Encrypt THE COOKIE and add it to the browser
                 document.cookie = "userGoogleId=" + CryptoJS.AES.encrypt(res.tokenId, 'secret key 123').toString();
-                //window.location.href = "/";
+                window.location.href = "/";
 
 
             })
