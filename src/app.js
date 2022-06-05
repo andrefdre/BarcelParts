@@ -48,13 +48,6 @@ function App() {
         setSearch_url("/Research_Page?by=Design&query=" + search)
     }
 
-    // //Function that handles the search click
-    // const SearchHandler = () => {
-    //     //Calls the find function
-    //     //sets the Search_display variable 
-    //     setSearch_display(search)
-    // };
-
     
     //Html that will be rendered 
     if (isLoading == false) {
