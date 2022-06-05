@@ -4,8 +4,9 @@ class UserController {
 
     static async apiGetUserById(req, res, next) {
         try {
+            console.log(req.body)
             //Calls the function to retrieve the products brands
-            let user = await User.findById(req.body._id)
+            let user = await User.find({Email:req.body.Email})
             //Stores the result in the res
             res.json(user)
         }
@@ -20,7 +21,7 @@ class UserController {
         try {
             var user = req.body;
             //Calls the function to retrieve the products brands
-            console.log(user._id);
+            console.log(user.Email);
             User.create(user, function (err, doc) {
                 if (err) return err;
                 else { res.send("User Created"); }

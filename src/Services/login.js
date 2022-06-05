@@ -10,7 +10,8 @@ function Login() {
     const verifyIfUserExists = (userData) => {
         ProductDataService.findUser(userData)
             .then(response => {
-                if (response.data == null) {              //if the user doesn't exist, we create it
+                console.log(response.data)
+                if (response.data.length < 1) {              //if the user doesn't exist, we create it
                     ProductDataService.createUser(userData)
                 }
             })
@@ -37,11 +38,10 @@ function Login() {
 
                 //use the decoded token to get the user info
                 var userData = {
-                    "_id": response.data.googleId,
+                    "Email": response.data.email,
                     "User_FirstName": response.data.given_name,
                     "User_LastName": response.data.family_name,
                     "User_Image": response.data.picture,
-                    "Email": response.data.email
                 }
 
                 verifyIfUserExists(userData);
@@ -49,7 +49,7 @@ function Login() {
 
                 var CryptoJS = require("crypto-js");
                 //Encrypt THE COOKIE and add it to the browser
-                document.cookie = "userGoogleId=" + CryptoJS.AES.encrypt(userData.googleId, 'secret key 123').toString();
+                document.cookie = "userGoogleId=" + CryptoJS.AES.encrypt(userData.email, 'secret key 123').toString();
                 //window.location.href = "/";
 
 
