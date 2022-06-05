@@ -84,6 +84,7 @@ class ProductsController {
         try {
           //Calls the function to retrieve the products brands
           let response = await Product.findById(req.query.id)
+
           //Stores the result in the res
           res.json(response)
         }

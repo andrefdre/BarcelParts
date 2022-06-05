@@ -12,6 +12,7 @@ import Product_Page from './Pages/Product_Page'
 import Cart_Page from './Pages/Cart_Page'
 import { getCookie, IsAuthenticated } from './Services/auth'
 
+
 //Creates the React function that will be rendered in the index Page
 function App() {
 
@@ -20,7 +21,6 @@ function App() {
     const [user, setUser] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState("");
-    const [search_display, setSearch_display] = useState("");
     const [search_url, setSearch_url] = useState("/Research_Page");
 
 //Function that will only run once
@@ -47,13 +47,6 @@ function App() {
         //Sets the search url to retrieve the search parameters in the research page
         setSearch_url("/Research_Page?by=Design&query=" + search)
     }
-
-    //Function that handles the search click
-    const SearchHandler = () => {
-        //Calls the find function
-        //sets the Search_display variable 
-        setSearch_display(search)
-    };
 
     
     //Html that will be rendered 
@@ -90,15 +83,25 @@ function App() {
                                             </ul>
                                         </li>
                                     ) : (
-                                        <a className="nav-link first-navbar" aria-current="page" href="/Register_Page"> <i className="fa-solid fa-user"></i> Login/Register</a>
+                                        <a className="nav-link first-navbar" aria-current="page" href="/Register_Page"> 
+                                        <div style={{ position: "relative" }}>
+                                        <i className="fa-solid fa-user"></i> 
+                                        Login/Register
+                                        </div>
+                                        </a>
                                     )
                                     }
 
                                 </li>
                                 {/* <!-- Cart icon --> */}
-                                <li>
-                                    <a className="nav-link first-navbar" aria-current="page" href="/Cart_Page"> <i className="fa-solid fa-cart-shopping"></i></a>
-                                </li>
+                            <li>
+                                <a className="nav-link first-navbar" aria-current="page" href={user ? "/Cart_Page" : "Register_Page?redirect=Cart_Page"}>
+                                <div style={{ position: "relative" }}>
+                                <i className="fa-solid fa-cart-shopping" style={{border: "2px solid #00a1b6", "borderRadius": "50%", padding: "5px"}}></i>
+                                    <span style={{ position: "absolute", right: "-5px", bottom: "18px" }}>{user==null ? 0 : user.Carrinho.length }</span>
+                                </div>
+                                </a>
+                            </li>
                             </ul>
                         </div>
                     </div>
@@ -116,7 +119,7 @@ function App() {
                                 {/* Form that will retrieve the search parameter to search the database */}
                                 <form className="d-flex">
                                     <input className="form-control me-2" type="search" value={search} placeholder="Search" onChange={onChangeSearch} aria-label="Search"></input>
-                                    <Link to={search_url} className="btn btn-outline-secondary align-items-center" onClick={SearchHandler} type="button">Search</Link>
+                                    <Link to={search_url} className="btn btn-outline-secondary align-items-center" onClick={true} type="button">Search</Link>
                                 </form>
                             </div>
                             {/* <!-- Adds the hamburger button that will appear when the page is shrunken to display the items in the navbar so it looks cleaner in small screens --> */}
@@ -169,13 +172,13 @@ function App() {
                             {/* <!-- Adds the research form  --> */}
                             <form className="d-flex d-md-none">
                                 <input className="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
-                                <Link to={search_url} className="btn btn-outline-secondary" onClick={SearchHandler} type="button">Search</Link>
+                                <Link to={search_url} className="btn btn-outline-secondary" onClick={true} type="button">Search</Link>
                             </form>
                         </div>
                         {/* <!-- Adds the research form  --> */}
                         <form className="d-none d-lg-flex">
                             <input className="form-control me-2" type="search" value={search} onChange={onChangeSearch} placeholder="Search" aria-label="Search"></input>
-                            <Link to={search_url} className="btn btn-outline-secondary" onClick={SearchHandler} type="button">Search</Link>
+                            <Link to={search_url} className="btn btn-outline-secondary" onClick={true} type="button">Search</Link>
                         </form>
                     </div>
                 </nav>
@@ -189,13 +192,10 @@ function App() {
                         <Route path="/Catalog_Page" element={<Catalog_Page />} />
                         <Route path='/Register_Page' element={<Register_Page />} />
                         <Route path='/About_Page' element={<About_Page />} />
-                        <Route path='/Product_Page' element={<Product_Page />} />
-                        <Route path='/Cart_Page' element={<Cart_Page />} />
+                        <Route path='/Product_Page' element={<Product_Page user={user} />} />
+                    { user ? <Route path='/Cart_Page' element={<Cart_Page user={user} />}/> : null }
                     </Routes>
                 </div>
-
-
-
 
                 {/* <!-- Code for footer --> */}
                 <svg xmlns="http://www.w3.org/2000/svg" style={{ display: 'flow-root', height: '70px' }}>

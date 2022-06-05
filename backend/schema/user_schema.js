@@ -8,7 +8,10 @@ const UserSchema = new mongoose.Schema({
     User_Image: {type:String,required:true},
     Email: {type:String, required:true},
     Address: {type:String, default:""},
-    Carrinho: [{type:String, default:""}],
+    Carrinho: [{
+       Product_id: {type:String},
+       Product_amount: {type:String}
+    }],
     Owner: {type:Boolean, default:false}
 },
 { collection : 'Accounts'}); //Tells from what collection of mongodb to get the information

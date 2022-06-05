@@ -12,6 +12,7 @@
     "crypto-js": "^4.1.1",
     "express": "^4.17.3",
     "gapi-script": "^1.2.0",
+    "jquery": "^3.6.0",
     "mongodb": "^4.5.0",
     "mongoose": "^6.2.10",
     "morgan": "^1.10.0",

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import NumericInput from 'react-numeric-input';
-import ProductDataService from "../Services/Barcelparts.js"
+import Barcelparts from "../Services/Barcelparts.js"
 
-function Product_Page() {
+function Product_Page(props) {
 
   // Variables used to store the query parameters
   const queryString = window.location.search;
@@ -13,9 +13,10 @@ function Product_Page() {
   const [product, setProduct] = useState([]);
   const [number, setNumber] = useState(1);
 
+
   const findbyId = (id) => {
     //Call function that will send a get request to the backend
-    ProductDataService.get(id)
+    Barcelparts.get(id)
       .then(response => {
         //Console log for debugging and developing
         //console.log(response.data)
@@ -30,22 +31,35 @@ function Product_Page() {
 
   const onChangeNumber = (value) => {
     setNumber(value);
-    
   }
 
   const AddToCartHandler = () =>{
-    console.log(number)
-
-
+    //Creates a temporary variable to edit the data from user
+    var tempUser=props.user;
+    //Adds the new product to the existing in the users cart
+    tempUser.Carrinho.push({
+      Product_id: id,
+      Product_amount: number});
+      //Creates the object to be sent to the database
+      let data = {
+        _id : tempUser._id,
+        Carrinho: tempUser.Carrinho
+      }
+      //Converts the object to JSON and sends it to the backend
+      Barcelparts.updateUser(JSON.stringify(data))
+      .then(function (result) {
+        //Prints the result
+        console.log(result)
+      })
+      window.location.reload(true)
   }
-
 
 
   //useEffect to run a function only once since the dependency array is empty
   useEffect(() => {
     //Runs the getCategories function
-    findbyId(id)
-  }, [id]) // <-- empty dependency array
+    findbyId(id);
+  }, []) // <-- empty dependency array
 
 
   return (
@@ -78,7 +92,7 @@ function Product_Page() {
             <p>{product.Description}</p>
           </div>
           <div className="qty  mb-1">
-          <NumericInput min={0} max={100} value={number} style={{ input:{ width: '4pc' , height:'2pc' } ,wrap: {marginRight: '2px'}}} onChange={onChangeNumber}/>
+          <NumericInput min={0} max={product.NumArmazem} value={number} style={{ input:{ width: '4pc' , height:'2pc' } ,wrap: {marginRight: '2px'}}} onChange={onChangeNumber}/>
           <button type="button" className="btn btn-outline-secondary" onClick={AddToCartHandler}>Add to cart</button>
           </div>
           {/* Checks if the product is available in store or not */}
