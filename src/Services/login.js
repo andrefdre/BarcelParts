@@ -11,7 +11,6 @@ function Login() {
     const verifyIfUserExists = (userData) => {
         ProductDataService.findUser(userData)
             .then(response => {
-                console.log(response.data)
                 //Verifies if the user exists in the database
                 if (response.data == null) {
                     //If the user doesn't exist create a new user in the database              
@@ -40,9 +39,6 @@ function Login() {
         //send the token to google to be decoded
         http.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=` + res.tokenId)
             .then(response => {
-
-                console.log("here we go")
-                console.log(response.data)
 
                 //use the decoded token to get the user info
                 var userData = {
