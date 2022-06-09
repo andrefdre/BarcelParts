@@ -3,14 +3,14 @@ import Barcelparts from "../Services/Barcelparts";
 
 function MyData_Page(props) {
 
+      //Creates a variable with the user info
+      var tempUser = props.user;
 
   function sendNames() {
 
     var firstName = document.getElementById("fname").value;
     var lastName = document.getElementById("lname").value;
 
-    //Creates a temporary variable to edit the data from user
-    var tempUser = props.user;
     //Creates the object to be sent to the database
     let data = {
       _id: tempUser._id,
@@ -34,8 +34,6 @@ function MyData_Page(props) {
 
     var address = document.getElementById("address").value;
 
-    //Creates a temporary variable to edit the data from user
-    var tempUser = props.user;
     //Creates the object to be sent to the database
     let data = {
       _id: tempUser._id,
@@ -50,17 +48,33 @@ function MyData_Page(props) {
         console.log(result)
       })
 
-      alert("your address was succesfully updated!")
+    alert("your address was succesfully updated!")
 
   }
 
   return (
     <React.Fragment>
-
-      <div className="col-md-12 text-center ">
-        <div>
+      {/* left side of the screen*/}
+      <div className="text-center split left">
+      <h4>Current info:</h4>
+      <br></br>
         <img class="Logo" src={props.user.User_Image} alt=""></img>
-          <br></br>
+        <br></br>
+        <br></br>
+        <p>
+        First Name:{tempUser.User_LastName}<br></br>
+        Last Name:{tempUser.User_FirstName}<br></br>
+        Address: {tempUser.Address}<br></br>
+        Email: {tempUser.Email}<br></br>
+        </p>
+      </div>
+
+      {/* right side of the screen*/}
+      <div className="text-center split right">
+        <br></br>
+        <div>
+
+
           <h3>update your info:</h3>
           <br></br>
         </div>

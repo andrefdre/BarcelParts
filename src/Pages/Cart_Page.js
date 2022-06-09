@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Barcelparts from "../Services/Barcelparts.js"
 
 function Cart_Page(props) {

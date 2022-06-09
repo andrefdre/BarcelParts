@@ -11,7 +11,7 @@ import Logout from "./Services/logout.js";
 import Barcelparts from './Services/Barcelparts.js'
 import Product_Page from './Pages/Product_Page'
 import Cart_Page from './Pages/Cart_Page'
-import { getCookie, IsAuthenticated } from './Services/auth'
+import {IsAuthenticated } from './Services/auth'
 
 
 //Creates the React function that will be rendered in the index Page
@@ -60,14 +60,14 @@ function App() {
                     <div className="container-fluid ">
                         {/* <!--Creates the logo image --> */}
                         <a className="navbar-brand"><img className="Logo" src="./Assets/Images/logo.jpeg" alt=""></img></a>
-                        <div className="centerAlign">
+                        <div className="group-brand">
                             {isAuthenticated == true ? (
                                 <p>
                                     Group TRUSTAUTO - Welcome back, {user.User_FirstName}&nbsp;&nbsp;
                                     <img class="UserImage" src={user.User_Image} alt=""></img>
                                 </p>
                             ) : (
-                                <></>
+                                <>Group TRUSTAUTO</>
                             )
                             }
                         </div>
