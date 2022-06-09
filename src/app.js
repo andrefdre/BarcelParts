@@ -4,7 +4,8 @@ import { Link, Route, Routes } from "react-router-dom";
 import Main_Page from './Pages/Main_Page';
 import Research_Page from './Pages/Research_Page';
 import Catalog_Page from './Pages/Catalog_Page';
-import Register_Page from './Pages/Register_Page'
+import Register_Page from './Pages/Register_Page';
+import MyData_Page from './Pages/MyData_Page';
 import About_Page from './Pages/About_Page'
 import Logout from "./Services/logout.js";
 import Barcelparts from './Services/Barcelparts.js'
@@ -75,7 +76,7 @@ function App() {
                                                 My Account
                                             </a>
                                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <li><a className="dropdown-item" href="#">My data</a></li>
+                                                <li><a className="dropdown-item" href="/MyData_Page">My data</a></li>
 
                                                 <li><a className="dropdown-item" href="#">Buying History</a></li>
 
@@ -191,6 +192,7 @@ function App() {
                         <Route path="/Research_Page" element={<Research_Page />} />
                         <Route path="/Catalog_Page" element={<Catalog_Page />} />
                         <Route path='/Register_Page' element={<Register_Page />} />
+                        <Route path="/MyData_Page" element={<MyData_Page />} />
                         <Route path='/About_Page' element={<About_Page />} />
                         <Route path='/Product_Page' element={<Product_Page user={user} />} />
                     { user ? <Route path='/Cart_Page' element={<Cart_Page user={user} />}/> : null }
