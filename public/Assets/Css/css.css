@@ -366,3 +366,13 @@ a.item:hover{
   width:35%;
   border-radius: 25px;
 }
+
+.UserImage{
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+}
+
+.centerAlign{
+  text-align: center;
+}

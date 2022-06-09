@@ -24,7 +24,7 @@ function App() {
     const [search, setSearch] = useState("");
     const [search_url, setSearch_url] = useState("/Research_Page");
 
-//Function that will only run once
+    //Function that will only run once
     useEffect(() => {
         //Calls the function that verifies if the user is logged in and retrieves the user data
         IsAuthenticated()
@@ -49,7 +49,7 @@ function App() {
         setSearch_url("/Research_Page?by=Design&query=" + search)
     }
 
-    
+
     //Html that will be rendered 
     if (isLoading == false) {
         return (
@@ -60,9 +60,16 @@ function App() {
                     <div className="container-fluid ">
                         {/* <!--Creates the logo image --> */}
                         <a className="navbar-brand"><img className="Logo" src="./Assets/Images/logo.jpeg" alt=""></img></a>
-                        {/* <!-- Have a Separate div to add the Group name in the middle of the navbar --> */}
-                        <div className="navbar-nav first-navbar d-none d-md-block">
-                            <p className="group-brand">Group TRUSTAUTO</p>
+                        <div className="centerAlign">
+                            {isAuthenticated == true ? (
+                                <p>
+                                    Group TRUSTAUTO - Welcome back, {user.User_FirstName}&nbsp;&nbsp;
+                                    <img class="UserImage" src={user.User_Image} alt=""></img>
+                                </p>
+                            ) : (
+                                <></>
+                            )
+                            }
                         </div>
                         {/* <!-- Creates the Components justified to the end of the page such as Account information and the cart item --> */}
                         <div className="justify-content-end">
@@ -84,25 +91,25 @@ function App() {
                                             </ul>
                                         </li>
                                     ) : (
-                                        <a className="nav-link first-navbar" aria-current="page" href="/Register_Page"> 
-                                        <div style={{ position: "relative" }}>
-                                        <i className="fa-solid fa-user"></i> 
-                                        Login/Register
-                                        </div>
+                                        <a className="nav-link first-navbar" aria-current="page" href="/Register_Page">
+                                            <div style={{ position: "relative" }}>
+                                                <i className="fa-solid fa-user"></i>
+                                                Login/Register
+                                            </div>
                                         </a>
                                     )
                                     }
 
                                 </li>
                                 {/* <!-- Cart icon --> */}
-                            <li>
-                                <a className="nav-link first-navbar" aria-current="page" href={user ? "/Cart_Page" : "Register_Page?redirect=Cart_Page"}>
-                                <div style={{ position: "relative" }}>
-                                <i className="fa-solid fa-cart-shopping" style={{border: "2px solid #00a1b6", "borderRadius": "50%", padding: "5px"}}></i>
-                                    <span style={{ position: "absolute", right: "-5px", bottom: "18px" }}>{user==null ? 0 : user.Carrinho.length }</span>
-                                </div>
-                                </a>
-                            </li>
+                                <li>
+                                    <a className="nav-link first-navbar" aria-current="page" href={user ? "/Cart_Page" : "Register_Page?redirect=Cart_Page"}>
+                                        <div style={{ position: "relative" }}>
+                                            <i className="fa-solid fa-cart-shopping" style={{ border: "2px solid #00a1b6", "borderRadius": "50%", padding: "5px" }}></i>
+                                            <span style={{ position: "absolute", right: "-5px", bottom: "18px" }}>{user == null ? 0 : user.Carrinho.length}</span>
+                                        </div>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -192,10 +199,10 @@ function App() {
                         <Route path="/Research_Page" element={<Research_Page />} />
                         <Route path="/Catalog_Page" element={<Catalog_Page />} />
                         <Route path='/Register_Page' element={<Register_Page />} />
-                        <Route path="/MyData_Page" element={<MyData_Page  user={user}  />} />
+                        <Route path="/MyData_Page" element={<MyData_Page user={user} />} />
                         <Route path='/About_Page' element={<About_Page />} />
                         <Route path='/Product_Page' element={<Product_Page user={user} />} />
-                    { user ? <Route path='/Cart_Page' element={<Cart_Page user={user} />}/> : null }
+                        {user ? <Route path='/Cart_Page' element={<Cart_Page user={user} />} /> : null}
                     </Routes>
                 </div>
 
@@ -248,7 +255,7 @@ function App() {
         return (
             <div className="loader-wrapper">
                 <div className="loader">
-                    <img  src="./Assets/Images/logo_noBackground.svg" />
+                    <img src="./Assets/Images/logo_noBackground.svg" />
                 </div>
             </div>
         )

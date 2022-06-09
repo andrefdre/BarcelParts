@@ -49,7 +49,7 @@ function MyData_Page(props) {
         //Prints the result
         console.log(result)
       })
-      
+
       alert("your address was succesfully updated!")
 
   }
@@ -59,6 +59,7 @@ function MyData_Page(props) {
 
       <div className="col-md-12 text-center ">
         <div>
+        <img class="Logo" src={props.user.User_Image} alt=""></img>
           <br></br>
           <h3>update your info:</h3>
           <br></br>
