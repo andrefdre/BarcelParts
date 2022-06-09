@@ -1,5 +1,5 @@
 //Declares the imports necessary for this page
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 //Creates the React function that will be rendered in the app Page through routes
 function Main_Page() {
@@ -70,7 +70,7 @@ function Main_Page() {
               </svg>
             </div>
             <div className="card-body">
-              <a className="brand" href="#">Trust</a>
+              <a className="brand" href="/Research_Page?by=Marca&query=TRUSTAUTO">Trust</a>
             </div>
           </div>
           {/* <!-- Displayed item with the image and Title  --> */}
@@ -84,7 +84,7 @@ function Main_Page() {
               </svg>
             </div>
             <div className="card-body">
-              <a className="brand" href="#">SKF</a>
+              <a className="brand" href="/Research_Page?by=Marca&query=SKF">SKF</a>
             </div>
           </div>
           {/* <!-- Displayed item with the image and Title  --> */}
@@ -98,7 +98,7 @@ function Main_Page() {
               </svg>
             </div>
             <div className="card-body">
-              <a className="brand" href="#">SWAG</a>
+              <a className="brand" href="/Research_Page?by=Marca&query=SWAG">SWAG</a>
             </div>
           </div>
           {/* <!-- Displayed item with the image and Title  --> */}
@@ -112,7 +112,7 @@ function Main_Page() {
               </svg>
             </div>
             <div className="card-body">
-              <a className="brand" href="#">OCAP</a>
+              <a className="brand" href="/Research_Page?by=Marca&query=OCAP">OCAP</a>
             </div>
           </div>
           {/* <!-- Displayed item with the image and Title  --> */}
@@ -126,7 +126,7 @@ function Main_Page() {
               </svg>
             </div>
             <div className="card-body">
-              <a className="brand" href="#">Hengst</a>
+              <a className="brand" href="/Research_Page?by=Marca&query=HENGST FILTER">Hengst</a>
             </div>
           </div>
           {/* <!-- Displayed item with the image and Title  --> */}
@@ -140,7 +140,7 @@ function Main_Page() {
               </svg>
             </div>
             <div className="card-body">
-              <a className="brand" href="#">Pagid</a>
+              <a className="brand" href="/Research_Page?by=Marca&query=HELLA PAGID">Pagid</a>
             </div>
           </div>
         </div>

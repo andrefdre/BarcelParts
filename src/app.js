@@ -7,10 +7,10 @@ import Catalog_Page from './Pages/Catalog_Page';
 import Register_Page from './Pages/Register_Page'
 import About_Page from './Pages/About_Page'
 import Logout from "./Services/logout.js";
-import Barcelparts from './Services/Barcelparts.js'
 import Product_Page from './Pages/Product_Page'
 import Cart_Page from './Pages/Cart_Page'
-import { getCookie, IsAuthenticated } from './Services/auth'
+import { IsAuthenticated } from './Services/auth'
+import ProductDataService from "./Services/Barcelparts.js"
 
 
 //Creates the React function that will be rendered in the index Page
@@ -22,6 +22,20 @@ function App() {
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [search_url, setSearch_url] = useState("/Research_Page");
+    const [Categories, setCategories] = useState([]);
+
+  //Function that will send a get request to the backend to retrieve the categories to display in the page
+  async function getCategories() {
+    ProductDataService.getCategories()
+      .then(response => {
+        //Stores the acquired data in categories variable
+        setCategories(response.data);
+      })
+      //If there is any erros catch them and display them
+      .catch(e => {
+        console.log(e);
+      });
+  };
 
 //Function that will only run once
     useEffect(() => {
@@ -36,7 +50,10 @@ function App() {
                 else {
                     setIsAuthenticated(false)
                 }
-                setIsLoading(false)
+                getCategories()
+                .then(()=>{
+                    setIsLoading(false)
+                })
             })
     }, [])
 
@@ -66,7 +83,7 @@ function App() {
                         {/* <!-- Creates the Components justified to the end of the page such as Account information and the cart item --> */}
                         <div className="justify-content-end">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0 first-navbar">
-                                <li className="nav-item ">
+
                                     {/* If there is a user display information about account if there is change to a button to create/login to account */}
                                     {isAuthenticated == true ? (
                                         <li className="nav-item dropdown">
@@ -91,8 +108,6 @@ function App() {
                                         </a>
                                     )
                                     }
-
-                                </li>
                                 {/* <!-- Cart icon --> */}
                             <li>
                                 <a className="nav-link first-navbar" aria-current="page" href={user ? "/Cart_Page" : "Register_Page?redirect=Cart_Page"}>
@@ -140,11 +155,6 @@ function App() {
                                         Categories
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a className="dropdown-item" href="#">Motor</a></li>
-
-                                        <li><a className="dropdown-item" href="#">Transmission</a></li>
-
-                                        <li><a className="dropdown-item" href="#">Light</a></li>
                                         {/* Creates a submenu for the Sub-Categories  */}
                                         <li className="dropdown-submenu">
                                             <a href="#" className="dropdown-item dropdown-toggle" data-toggle="dropdown" role="button"
@@ -158,6 +168,11 @@ function App() {
                                                 <li><a className="dropdown-item" href="#">Motor</a></li>
                                             </ul>
                                         </li>
+                                        {Categories.map((Category) => {
+                                            return(
+                                                <li key={Category}><a className="dropdown-item" href={"/Research_Page?by=NomeFamilia&query=" + Category} >{Category}</a></li> 
+                                            )
+                                        })}
                                     </ul>
                                 </li>
 

@@ -267,7 +267,7 @@ const Research_Page = function () {
             })
             }
             {isLoadingProduct == true
-              ? <i class="fa-solid fa-spinner"></i>
+              ? <i className="fa-solid fa-spinner"></i>
               : ''
             }
             {products.length == 0 && isLoadingProduct == false

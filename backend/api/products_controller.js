@@ -9,10 +9,10 @@ class ProductsController {
         const page = req.query.page ? parseInt(req.query.page, 10) : 0
 
         let filters = {}
-        let query={}
-        let sort_buffer={}
-        let sort={};
-        
+        let query = {}
+        let sort_buffer = {}
+        let sort = {};
+
         //If filters are passed then create a structure with the filters
         if (req.query.Design) {
             filters.Design = req.query.Design
@@ -33,24 +33,24 @@ class ProductsController {
             }
         }
 
-         //If Sort filter is passed then create a buffer with the filters
-        if(req.query.sort){
-            sort_buffer=req.query.sort
+        //If Sort filter is passed then create a buffer with the filters
+        if (req.query.sort) {
+            sort_buffer = req.query.sort
         }
 
         //Sets the sort query based on sort filter
-        if (sort_buffer){
-            if("PriceAscending" == sort_buffer){
-                sort = {'PrecoCusto': 1}
+        if (sort_buffer) {
+            if ("PriceAscending" == sort_buffer) {
+                sort = { 'PrecoCusto': 1 }
             }
-            else if("PriceDescending" == sort_buffer){
-                sort = {'PrecoCusto': -1}
+            else if ("PriceDescending" == sort_buffer) {
+                sort = { 'PrecoCusto': -1 }
             }
-            else if("A-Z" == sort_buffer){
-                sort = {'Design': 1}
+            else if ("A-Z" == sort_buffer) {
+                sort = { 'Design': 1 }
             }
-            else if("Z-A" == sort_buffer){
-                sort = {'Design': -1}
+            else if ("Z-A" == sort_buffer) {
+                sort = { 'Design': -1 }
             }
         }
 
@@ -82,37 +82,40 @@ class ProductsController {
 
     static async apiGetProductById(req, res, next) {
         try {
-          //Calls the function to retrieve the products brands
-          let response = await Product.findById(req.query.id)
+            //Calls the function to retrieve the products brands
+            let response = await Product.findById(req.query.id)
 
-          //Stores the result in the res
-          res.json(response)
+            //Stores the result in the res
+            res.json(response)
         }
         //Catches erros and displays them 
         catch (e) {
-          console.log(`api, ${e}`)
-          res.status(500).json({ error: e })
+            console.log(`api, ${e}`)
+            res.status(500).json({ error: e })
         }
-      }
+    }
 
     static async apiGetProductsMarcas(req, res, next) {
         try {
-          //Calls the function to retrieve the products brands
-          let Marcas = await Products.distinct("Marca")
-          //Stores the result in the res
-          res.json(Marcas)
+            //Calls the function to retrieve the products brands
+            let Marcas = await Products.distinct("Marca")
+            //Stores the result in the res
+            res.json(Marcas)
         }
         //Catches erros and displays them 
         catch (e) {
-          console.log(`api, ${e}`)
-          res.status(500).json({ error: e })
+            console.log(`api, ${e}`)
+            res.status(500).json({ error: e })
         }
-      }
+    }
 
     static async apiGetProductsCategories(req, res, next) {
         try {
             //Calls the function to retrieve the products categories
             let Categories = await Product.distinct("NomeFamilia");
+            Categories.map((Category) => {
+
+            })
             //Stores the result in the res
             res.json(Categories)
         }
