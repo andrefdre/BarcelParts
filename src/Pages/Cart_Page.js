@@ -121,7 +121,7 @@ function Cart_Page(props) {
 
                             <div className="col-12">
                                 <label htmlFor="address" className="form-label">Address</label>
-                                <input type="text" className="form-control" id="address" placeholder="1234 Main St" required></input>
+                                <input type="text" className="form-control" id="address" placeholder="1234 Main St" defaultValue={props.user == null ? "" : props.user.Address} required></input>
                                 <div className="invalid-feedback">
                                     Please enter your shipping address.
                                 </div>
