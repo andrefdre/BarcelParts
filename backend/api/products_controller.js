@@ -112,12 +112,18 @@ class ProductsController {
     static async apiGetProductsCategories(req, res, next) {
         try {
             //Calls the function to retrieve the products categories
-            let Categories = await Product.distinct("NomeFamilia");
-            Categories.map((Category) => {
+            let Category = {
+                Categories: [],
+                SubCategory: []
+            }
+            Category.Categories = await Product.distinct("NomeFamilia");
 
-            })
+            // for (let i = 0; i < Category.Categories.length; i++) {
+            //     let SubCategory = await Product.find({ NomeFamilia: Category.Categories[i] }).distinct("SubFamilia");
+            //     Category.SubCategory[i] = SubCategory
+            // }
             //Stores the result in the res
-            res.json(Categories)
+            res.json(Category)
         }
         //Catches erros and displays them 
         catch (e) {

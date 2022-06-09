@@ -87,6 +87,7 @@ const Research_Page = function () {
       .then(response => {
         //Stores the acquired data in categories variable
         setCategories(response.data);
+        setIsLoading(false)
       })
       //If there is any erros catch them and display them
       .catch(e => {
@@ -133,10 +134,6 @@ const Research_Page = function () {
   useEffect(() => {
     //Runs the getCategories function
     getCategories()
-      .then(() => {
-        setIsLoading(false)
-      })
-
   }, []) // <-- empty dependency array
 
   if (isLoading == false) {
@@ -192,15 +189,33 @@ const Research_Page = function () {
         <div className="row">
           <div className="col-3">
             {/* Function that will loop through each element of Categories array and print each Category in the Page  */}
-            {Categories.map((Category) => {
-              return (
-                <div key={Category}>
-                  {/* Display each Category */}
-                  <a className="item" href={"/Research_Page?by=NomeFamilia&query=" + Category} >{Category}</a>
-                  <br></br>
-                </div>
-              )
-            })}
+            <div aria-labelledby="Categories">
+              {/* Creates a submenu for the Sub-Categories  */}
+              {Categories.Categories.map((Category, index) => {
+                if (Categories.SubCategory.length > 0) {
+                  return (
+                    <div className="dropdown-submenu" key={Category}>
+                      <a className="dropdown-item" href={"/Research_Page?by=NomeFamilia&query=" + Category} >{Category}</a>
+                      <ul className="dropdown-menu">
+                        {Categories.SubCategory[index].map((SubCategory) => {
+                          return (
+                            <li key={Category + SubCategory}><a className="dropdown-item" href={"/Research_Page?by=NomeFamilia&query=" + SubCategory}>{SubCategory}</a></li>
+                          )
+                        })
+
+                        }
+                      </ul>
+                    </div>
+
+                  )
+                }
+                else {
+                  return (
+                    <div key={Category}><a className="dropdown-item" href={"/Research_Page?by=NomeFamilia&query=" + Category} >{Category}</a></div>
+                  )
+                }
+              })}
+            </div>
           </div>
           {/* Creates a vertical line to split Categories and search results */}
           <div className="vr"></div>
