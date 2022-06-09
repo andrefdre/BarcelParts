@@ -59,6 +59,12 @@ class UserController {
             if (req.body.Carrinho) {
                 user.Carrinho = req.body.Carrinho
             }
+            if (req.body.User_FirstName){
+                user.User_FirstName = req.body.User_FirstName
+            }
+            if(req.body.User_LastName){
+                user.User_LastName = req.body.User_LastName
+            }
 
             await user.save();
             //Stores the result in the res

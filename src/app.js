@@ -29,7 +29,7 @@ function App() {
         //Calls the function that verifies if the user is logged in and retrieves the user data
         IsAuthenticated()
             .then(response => {
-                console.log(response[0])
+                //console.log(response[0])
                 if (response[0] == true) {
                     setIsAuthenticated(true)
                     setUser(response[1])
@@ -192,7 +192,7 @@ function App() {
                         <Route path="/Research_Page" element={<Research_Page />} />
                         <Route path="/Catalog_Page" element={<Catalog_Page />} />
                         <Route path='/Register_Page' element={<Register_Page />} />
-                        <Route path="/MyData_Page" element={<MyData_Page />} />
+                        <Route path="/MyData_Page" element={<MyData_Page  user={user}  />} />
                         <Route path='/About_Page' element={<About_Page />} />
                         <Route path='/Product_Page' element={<Product_Page user={user} />} />
                     { user ? <Route path='/Cart_Page' element={<Cart_Page user={user} />}/> : null }
