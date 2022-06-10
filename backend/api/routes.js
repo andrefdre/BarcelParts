@@ -2,6 +2,7 @@
 const express = require("express")
 const productsCtrl = require("./products_controller.js")
 const userCtrl = require("./user_controller.js")
+const orderCtrl = require("./orders_controller.js")
 
 //Declaration of all the routes to make the requests
 const router = express.Router()
@@ -16,5 +17,6 @@ router.route("/Categories").get(productsCtrl.apiGetProductsCategories)
 router.route("/User").post(userCtrl.apiGetUserByEmail)
 router.route("/CreateUser").post(userCtrl.apiCreateUser)
 router.route("/UpdateUser").post(userCtrl.apiUpdateUser)
+router.route("/CreateOrder").post(orderCtrl.apiCreateOrder)
 
 module.exports = router

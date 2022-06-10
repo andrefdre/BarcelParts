@@ -1,21 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import Barcelparts from "../Services/Barcelparts.js"
 
 function Cart_Page(props) {
 
+    useEffect(() => {
     var forms = document.querySelectorAll('.needs-validation')
-
     Array.prototype.slice.call(forms)
         .forEach(function (form) {
-            form.addEventListener('submit', function (event) {
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault()
                 if (!form.checkValidity()) {
                     event.preventDefault()
                     event.stopPropagation()
                 }
+                else{
+                    let CarrinhoTemp=[];
+                    let TotalPrice=0;
+    
+                    TotalPrice=await Promise.all(props.user.Carrinho.map(async (product) => {
+                    return await Barcelparts.get(product.Product_id)
+                            .then(response => {
+                                TotalPrice = TotalPrice + parseFloat((response.data.PrecoCusto)) * parseInt(product.Product_amount)
+                                let CarrinhoTemporary = {}
+                                CarrinhoTemporary.Product_id=product.Product_id
+                                CarrinhoTemporary.Product_reference=response.data.Ref
+                                CarrinhoTemporary.Product_amount=product.Product_amount
+                                CarrinhoTemp.push(CarrinhoTemporary)
+                                return TotalPrice
+                            })
+                            
+                    }))
+    
+                    let Order = {
+                        User_FirstName: (new FormData(forms[0])).get("firstName"),
+                        User_LastName: (new FormData(forms[0])).get("lastName"),
+                        User_Id: props.user._id,
+                        Email: props.user.Email,
+                        Carrinho: CarrinhoTemp,
+                        TotalPrice: TotalPrice[TotalPrice.length-1],
+                        Payment_Method: (new FormData(forms[0])).get("paymentMethod")
+                    }
 
+                    console.log(Order)
+    
+                    await Barcelparts.createOrder(JSON.stringify(Order))
+                    .then(response => {
+                        console.log(response)
+                    })
+    
+                    
+                }
                 form.classList.add('was-validated')
             }, false)
         })
+    })
 
     const productHandler = (element_id, product_info) => {
         Barcelparts.get(product_info.Product_id)
@@ -97,7 +135,7 @@ function Cart_Page(props) {
                         <div className="row g-3">
                             <div className="col-sm-6">
                                 <label htmlFor="firstName" className="form-label">First name</label>
-                                <input type="text" className="form-control" id="firstName" placeholder="" defaultValue={props.user == null ? "" : props.user.User_FirstName} required></input>
+                                <input type="text" className="form-control" name="firstName" id="firstName" placeholder="" defaultValue={props.user == null ? "" : props.user.User_FirstName} required></input>
                                 <div className="invalid-feedback">
                                     Valid first name is required.
                                 </div>
@@ -105,7 +143,7 @@ function Cart_Page(props) {
 
                             <div className="col-sm-6">
                                 <label htmlFor="lastName" className="form-label">Last name</label>
-                                <input type="text" className="form-control" id="lastName" placeholder="" defaultValue={props.user == null ? "" : props.user.User_LastName} required></input>
+                                <input type="text" className="form-control" name="lastName" id="lastName" placeholder="" defaultValue={props.user == null ? "" : props.user.User_LastName} required></input>
                                 <div className="invalid-feedback">
                                     Valid last name is required.
                                 </div>
@@ -113,7 +151,7 @@ function Cart_Page(props) {
 
                             <div className="col-12">
                                 <label htmlFor="email" className="form-label">Email <span className="text-muted">(Optional)</span></label>
-                                <input type="email" className="form-control" id="email" placeholder="you@example.com" defaultValue={props.user == null ? "" : props.user.Email} readOnly></input>
+                                <input type="email" className="form-control" name="email" id="email" placeholder="you@example.com" defaultValue={props.user == null ? "" : props.user.Email} readOnly></input>
                                 <div className="invalid-feedback">
                                     Please enter a valid email address for shipping updates.
                                 </div>
@@ -121,7 +159,7 @@ function Cart_Page(props) {
 
                             <div className="col-12">
                                 <label htmlFor="address" className="form-label">Address</label>
-                                <input type="text" className="form-control" id="address" placeholder="1234 Main St" required></input>
+                                <input type="text" className="form-control" name="address" id="address" placeholder="1234 Main St" required></input>
                                 <div className="invalid-feedback">
                                     Please enter your shipping address.
                                 </div>
@@ -129,7 +167,7 @@ function Cart_Page(props) {
 
                             <div className="col-md-5">
                                 <label htmlFor="country" className="form-label">Country</label>
-                                <select className="form-select" id="country" defaultValue="15" required>
+                                <select className="form-select" name="country" id="country" defaultValue="15" required>
                                     <option value="">Choose...</option>
                                     <option value="1" data-text="Alemanha" data-iso-code="DE">
                                         Alemanha
@@ -202,7 +240,7 @@ function Cart_Page(props) {
 
                             <div className="col-md-3">
                                 <label htmlFor="zip" className="form-label">Zip</label>
-                                <input type="text" className="form-control" id="zip" placeholder="" required></input>
+                                <input type="text" className="form-control" name="zip" id="zip" placeholder="" required></input>
                                 <div className="invalid-feedback">
                                     Zip code required.
                                 </div>
@@ -217,6 +255,10 @@ function Cart_Page(props) {
                         <div className="my-3">
                             <div className="form-check">
                                 <input id="credit" name="paymentMethod" type="radio" className="form-check-input" defaultChecked required></input>
+                                <label className="form-check-label" htmlFor="bankTransfer">Bank Transfer</label>
+                            </div>
+                            <div className="form-check">
+                                <input id="credit" name="paymentMethod" type="radio" className="form-check-input" required></input>
                                 <label className="form-check-label" htmlFor="credit">Credit card</label>
                             </div>
                             <div className="form-check">

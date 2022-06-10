@@ -61,6 +61,11 @@ class ProductsDataService {
     return http.post('/UpdateUser', data)
   }
 
+  //function to create a new user on the database
+  createOrder(data) {
+    return http.post('/CreateOrder', data)
+  }
+
 }
 
 //Exportes the function to be used in other places

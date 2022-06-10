@@ -6,46 +6,44 @@ import BarcelParts from "../../Services/Barcelparts.js"
 //Creates the React function that will be rendered in the app Page through routes
 const Product = function () {
 
-    (function () {
-        'use strict'
-
+        useEffect(() => {
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.querySelectorAll('.needs-validation')
-
-
         // Loop over them and prevent submission
         Array.prototype.slice.call(forms)
             .forEach(function (form) {
                 form.addEventListener('submit', async function (event) {
-                    event.preventDefault();
                     if (!form.checkValidity()) {
                         event.preventDefault()
                         event.stopPropagation()
                     }
-
-                    let Product = {
-                        "Fornecedor": (new FormData (forms[0])).get("Fornecedor"),
-                        "Marca":(new FormData (forms[0])).get("Marca"),
-                        "Ref": (new FormData (forms[0])).get("Ref"),
-                        "Design": (new FormData (forms[0])).get("Design"), 
-                        "Ref_Tecdoc": (new FormData (forms[0])).get("Ref_Tecdoc"),
-                        "NomeFamilia": (new FormData (forms[0])).get("NomeFamilia"),
-                        "SubFamilia": (new FormData (forms[0])).get("SubFamilia"),
-                        "PFU": (new FormData (forms[0])).get("PFU"),
-                        "CASCO": (new FormData (forms[0])).get("CASCO"),
-                        "PrecoCusto": (new FormData (forms[0])).get("PrecoCusto"),
-                        "NumArmazem": (new FormData (forms[0])).get("NumArmazem")
-                    }
-                    
-                    await BarcelParts.createProduct(Product)
-                    .then(response => {
-                        if (response.data) {
-                            form.classList.add('was-validated')
+                    else {
+                        let Product = {
+                            "Fornecedor": (new FormData (forms[0])).get("Fornecedor"),
+                            "Marca":(new FormData (forms[0])).get("Marca"),
+                            "Ref": (new FormData (forms[0])).get("Ref"),
+                            "Design": (new FormData (forms[0])).get("Design"), 
+                            "Ref_Tecdoc": (new FormData (forms[0])).get("Ref_Tecdoc"),
+                            "NomeFamilia": (new FormData (forms[0])).get("NomeFamilia"),
+                            "SubFamilia": (new FormData (forms[0])).get("SubFamilia"),
+                            "PFU": (new FormData (forms[0])).get("PFU"),
+                            "CASCO": (new FormData (forms[0])).get("CASCO"),
+                            "PrecoCusto": (new FormData (forms[0])).get("PrecoCusto"),
+                            "NumArmazem": (new FormData (forms[0])).get("NumArmazem")
                         }
-                    })
+                        
+                        await BarcelParts.createProduct(Product)
+                        .then(response => {
+                            if (response.data) {
+    
+                            }
+                        })
+                    }
+                    form.classList.add('was-validated')
                 }, false)
             })
-    })()
+    })
+
 
     return (
         <div>
