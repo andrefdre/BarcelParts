@@ -132,6 +132,36 @@ class ProductsController {
         }
     }
 
+    static async apiCreateProduct(req, res, next) {
+        try {
+            let ProductTemp = req.body;
+            Product.create(ProductTemp, function (err, doc) {
+                if (err) return err;
+                else { res.send(true); }
+                console.log(ProductTemp)
+            });
+        }
+        //Catches erros and displays them 
+        catch (e) {
+            console.log(`api, ${e}`)
+            res.status(500).json({ error: e })
+        }
+    }
+
+    static async apiDeleteProduct(req, res, next) {
+        try {
+            Product.findByIdAndDelete(req.body._Id, function (err, doc) {
+                if (err) return err;
+                else { res.send("Product Deleted"); }
+            })
+        }
+        //Catches erros and displays them 
+        catch (e) {
+            console.log(`api, ${e}`)
+            res.status(500).json({ error: e })
+        }
+    }
+
 }
 
 module.exports = ProductsController

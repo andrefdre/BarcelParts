@@ -1,14 +1,27 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Link, Route, Routes, Navigate } from "react-router-dom";
-import { Chart } from "chart.js";
-import ProductDataService from "../Services/Barcelparts.js"
-import DashBoard from "./Dashboard.js";
+import { Link, Route, Routes} from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import DashBoard from "./Owner_Panel/Dashboard.js";
+import Product from "./Owner_Panel/Product.js";
 
 //Creates the React function that will be rendered in the app Page through routes
 const Owner_Panel = function (props) {
+
+    const [content, setContent] = useState('DashBoard');
+
     if (!props.user.Owner) {
         return <Navigate to="/" replace />;
     }
+
+    //Function to set the search variable when there is a change in the form
+    const ChangeContentHandler = e => {
+        const contentTemp = e.target.innerText;
+        console.log(content)
+        setContent(contentTemp)
+
+    }
+
+
 
     return (
         <div className="container-fluid">
@@ -17,39 +30,33 @@ const Owner_Panel = function (props) {
                     <div className="position-sticky pt-3">
                         <ul className="nav flex-column">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="/Owner_Panel/">
+                                <a className="nav-link active" aria-current="page" href="/Owner_Panel" onClick={ChangeContentHandler}>
                                     <span data-feather="home" className="align-text-bottom"></span>
-                                    Dashboard
+                                    DashBoard
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">
+                                <a className="nav-link" href="#" onClick={ChangeContentHandler}>
                                     <span data-feather="file" className="align-text-bottom"></span>
                                     Orders
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">
+                                <a className="nav-link" href="/Owner_Panel/Product_Creation" onClick={ChangeContentHandler}>
                                     <span data-feather="shopping-cart" className="align-text-bottom"></span>
                                     Products
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">
+                                <a className="nav-link" href="#" onClick={ChangeContentHandler}>
                                     <span data-feather="users" className="align-text-bottom"></span>
                                     Customers
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">
+                                <a className="nav-link" href="#" onClick={ChangeContentHandler}>
                                     <span data-feather="bar-chart-2" className="align-text-bottom"></span>
                                     Reports
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">
-                                    <span data-feather="layers" className="align-text-bottom"></span>
-                                    Integrations
                                 </a>
                             </li>
                         </ul>
@@ -88,9 +95,16 @@ const Owner_Panel = function (props) {
                         </ul>
                     </div>
                 </nav>
-                
-                    <DashBoard />
 
+                <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    {/* {content == "DashBoard" ? <DashBoard /> : null}
+                    {content == "Products" ? <Product/> : null} */}
+
+                    <Routes>
+                        <Route path="/" element={<DashBoard />} />
+                        <Route path={'/Product_Creation'} element={<Product/>} />
+                    </Routes>
+                </main>
 
             </div>
         </div>

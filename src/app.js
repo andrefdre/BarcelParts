@@ -75,7 +75,7 @@ function App() {
                     {/* <!-- Uses the className container fluid to have the navbar expand all the page --> */}
                     <div className="container-fluid ">
                         {/* <!--Creates the logo image --> */}
-                        <a className="navbar-brand"><img className="Logo" src="./Assets/Images/logo.jpeg" alt=""></img></a>
+                        <a className="navbar-brand"><img className="Logo" src="/Assets/Images/logo.jpeg" alt=""></img></a>
                         {/* <!-- Have a Separate div to add the Group name in the middle of the navbar --> */}
                         <div className="navbar-nav first-navbar d-none d-md-block">
                             <p className="group-brand">Group TRUSTAUTO</p>
@@ -253,7 +253,7 @@ function App() {
                         {/* <!-- Adds the logo and company name  --> */}
                         <div className="col-md-2 d-flex align-items-center">
                             <a href="/" className="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1 navbar-brand">
-                                <img className="Logo-footer" src="./Assets/Images/Logo.jpeg" alt=""></img>
+                                <img className="Logo-footer" src="/Assets/Images/Logo.jpeg" alt=""></img>
                             </a>
                             <span className="text-muted">BarcelParts</span>
                         </div>
@@ -278,7 +278,7 @@ function App() {
         return (
             <div className="loader-wrapper">
                 <div className="loader">
-                    <img src="./Assets/Images/logo_noBackground.svg" />
+                    <img src="/Assets/Images/logo_noBackground.svg" />
                 </div>
             </div>
         )

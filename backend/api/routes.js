@@ -9,6 +9,8 @@ const router = express.Router()
 //Routes
 router.route("/").get(productsCtrl.apiGetProducts)
 router.route("/Product").get(productsCtrl.apiGetProductById)
+router.route("/Create_Product").post(productsCtrl.apiCreateProduct)
+router.route("/Delete_Product").post(productsCtrl.apiDeleteProduct)
 router.route("/Marcas").get(productsCtrl.apiGetProductsMarcas)
 router.route("/Categories").get(productsCtrl.apiGetProductsCategories)
 router.route("/User").post(userCtrl.apiGetUserByEmail)
