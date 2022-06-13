@@ -20,7 +20,7 @@ function MyData_Page(props) {
     }
     //Sends the data to the backend
 
-    console.log(data)
+    //console.log(data)
     Barcelparts.updateUser(JSON.stringify(data))
       .then(function (result) {
         //Prints the result
