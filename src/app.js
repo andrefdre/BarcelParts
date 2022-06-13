@@ -1,6 +1,6 @@
 //Declares the imports necessary for this page
 import React, { useState, useEffect } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes} from "react-router-dom";
 import Main_Page from './Pages/Main_Page';
 import Research_Page from './Pages/Research_Page';
 import Catalog_Page from './Pages/Catalog_Page';
@@ -10,7 +10,9 @@ import About_Page from './Pages/About_Page'
 import Logout from "./Services/logout.js";
 import Product_Page from './Pages/Product_Page'
 import Cart_Page from './Pages/Cart_Page'
-import {IsAuthenticated } from './Services/auth'
+import Owner_Panel from "./Pages/Owner_Panel";
+import { IsAuthenticated } from './Services/auth'
+import ProductDataService from "./Services/Barcelparts.js"
 
 
 //Creates the React function that will be rendered in the index Page
@@ -22,6 +24,22 @@ function App() {
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [search_url, setSearch_url] = useState("/Research_Page");
+    const [Categories, setCategories] = useState([]);
+
+    //Function that will send a get request to the backend to retrieve the categories to display in the page
+    async function getCategories() {
+        ProductDataService.getCategories()
+            .then(response => {
+                //Stores the acquired data in categories variable
+                console.log(response.data)
+                setCategories(response.data);
+                setIsLoading(false)
+            })
+            //If there is any erros catch them and display them
+            .catch(e => {
+                console.log(e);
+            });
+    };
 
     //Function that will only run once
     useEffect(() => {
@@ -36,7 +54,7 @@ function App() {
                 else {
                     setIsAuthenticated(false)
                 }
-                setIsLoading(false)
+                getCategories()
             })
     }, [])
 
@@ -73,33 +91,38 @@ function App() {
                         {/* <!-- Creates the Components justified to the end of the page such as Account information and the cart item --> */}
                         <div className="justify-content-end">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0 first-navbar">
-                                <li className="nav-item ">
-                                    {/* If there is a user display information about account if there is change to a button to create/login to account */}
-                                    {isAuthenticated == true ? (
-                                        <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                My Account
-                                            </a>
-                                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <li><a className="dropdown-item" href="/MyData_Page">My data</a></li>
-
-                                                <li><a className="dropdown-item" href="#">Buying History</a></li>
-
-                                                <li><a className="dropdown-item" onClick={Logout} href="./">Sign Out</a></li>
-                                            </ul>
-                                        </li>
-                                    ) : (
-                                        <a className="nav-link first-navbar" aria-current="page" href="/Register_Page">
-                                            <div style={{ position: "relative" }}>
-                                                <i className="fa-solid fa-user"></i>
-                                                Login/Register
-                                            </div>
+                                {/* If there is a user display information about account if there is change to a button to create/login to account */}
+                                {isAuthenticated == true ? (
+                                    <li className="nav-item dropdown">
+                                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            My Account
                                         </a>
-                                    )
-                                    }
+                                        <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><a className="dropdown-item" href="#">My data</a></li>
 
-                                </li>
+                                            <li><a className="dropdown-item" href="#">Buying History</a></li>
+                                            {user.Owner ? (
+                                                <li><a className="dropdown-item" href="/Owner_Panel">Owner Panel</a></li>
+                                            )
+                                                : (
+                                                    <li></li>
+                                                )
+
+                                            }
+
+                                            <li><a className="dropdown-item" onClick={Logout} href="./">Sign Out</a></li>
+                                        </ul>
+                                    </li>
+                                ) : (
+                                    <a className="nav-link first-navbar" aria-current="page" href="/Register_Page">
+                                        <div style={{ position: "relative" }}>
+                                            <i className="fa-solid fa-user"></i>
+                                            Login/Register
+                                        </div>
+                                    </a>
+                                )
+                                }
                                 {/* <!-- Cart icon --> */}
                                 <li>
                                     <a className="nav-link first-navbar" aria-current="page" href={user ? "/Cart_Page" : "Register_Page?redirect=Cart_Page"}>
@@ -147,24 +170,31 @@ function App() {
                                         Categories
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a className="dropdown-item" href="#">Motor</a></li>
-
-                                        <li><a className="dropdown-item" href="#">Transmission</a></li>
-
-                                        <li><a className="dropdown-item" href="#">Light</a></li>
                                         {/* Creates a submenu for the Sub-Categories  */}
-                                        <li className="dropdown-submenu">
-                                            <a href="#" className="dropdown-item dropdown-toggle" data-toggle="dropdown" role="button"
-                                                aria-haspopup="true" aria-expanded="false"> <span className="nav-label">Service C</span><span
-                                                    className="caret"></span></a>
-                                            <ul className="dropdown-menu">
-                                                <li><a className="dropdown-item" href="#">Motor</a></li>
-                                                <li><a className="dropdown-item" href="#">Motor</a></li>
-                                                <li><a className="dropdown-item" href="#">Motor</a></li>
-                                                <li><a className="dropdown-item" href="#">Motor</a></li>
-                                                <li><a className="dropdown-item" href="#">Motor</a></li>
-                                            </ul>
-                                        </li>
+                                        {Categories.Categories.map((Category, index) => {
+                                            if (Categories.SubCategory.length > 0) {
+                                                return (
+                                                    <li className="dropdown-submenu" key={Category}>
+                                                        <a className="dropdown-item" href={"/Research_Page?by=NomeFamilia&query=" + Category} >{Category}</a>
+                                                        <ul className="dropdown-menu">
+                                                            {Categories.SubCategory[index].map((SubCategory) => {
+                                                                return (
+                                                                    <li key={Category + SubCategory}><a className="dropdown-item" href={"/Research_Page?by=NomeFamilia&query=" + SubCategory}>{SubCategory}</a></li>
+                                                                )
+                                                            })
+
+                                                            }
+                                                        </ul>
+                                                    </li>
+
+                                                )
+                                            }
+                                            else {
+                                                return (
+                                                    <li key={Category}><a className="dropdown-item" href={"/Research_Page?by=NomeFamilia&query=" + Category} >{Category}</a></li>
+                                                )
+                                            }
+                                        })}
                                     </ul>
                                 </li>
 
@@ -199,9 +229,11 @@ function App() {
                         <Route path="/Catalog_Page" element={<Catalog_Page />} />
                         <Route path='/Register_Page' element={<Register_Page />} />
                         <Route path="/MyData_Page" element={<MyData_Page user={user} />} />
-                        <Route path='/About_Page' element={<About_Page />} />
+                        <Route exact path='/About_Page' element={<About_Page />} />
                         <Route path='/Product_Page' element={<Product_Page user={user} />} />
-                        {user ? <Route path='/Cart_Page' element={<Cart_Page user={user} />} /> : null}
+                        {user ? <Route path='/Owner_Panel/*' element={<Owner_Panel user={user} />} /> : null}
+                        {user ? <Route exact path='/Cart_Page' element={<Cart_Page user={user} />} /> : null}
+                        <Route path="*" element={<p>There's nothing here: 404!</p>} />
                     </Routes>
                 </div>
 
@@ -229,7 +261,7 @@ function App() {
                         {/* <!-- Adds the logo and company name  --> */}
                         <div className="col-md-2 d-flex align-items-center">
                             <a href="/" className="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1 navbar-brand">
-                                <img className="Logo-footer" src="./Assets/Images/Logo.jpeg" alt=""></img>
+                                <img className="Logo-footer" src="/Assets/Images/Logo.jpeg" alt=""></img>
                             </a>
                             <span className="text-muted">BarcelParts</span>
                         </div>
@@ -254,7 +286,7 @@ function App() {
         return (
             <div className="loader-wrapper">
                 <div className="loader">
-                    <img src="./Assets/Images/logo_noBackground.svg" />
+                    <img src="/Assets/Images/logo_noBackground.svg" />
                 </div>
             </div>
         )

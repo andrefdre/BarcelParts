@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link} from "react-router-dom";
 import NumericInput from 'react-numeric-input';
 import Barcelparts from "../Services/Barcelparts.js"
 
@@ -54,6 +55,21 @@ function Product_Page(props) {
       window.location.reload(true)
   }
 
+  const DeleteProductHandler = () => {
+    if(props.user.Owner == true) {
+      let ProductTemp = {
+        "_Id":id
+      }
+      console.log(ProductTemp)
+      Barcelparts.deleteProduct(ProductTemp)
+      .then(response=>{
+        console.log(response)
+        window.location.search = ""
+        window.location.pathname="/"
+      })
+    }
+  }
+
 
   //useEffect to run a function only once since the dependency array is empty
   useEffect(() => {
@@ -77,6 +93,16 @@ function Product_Page(props) {
         <div className="col-8">
           <h2>{product.Design}</h2>
           <h3 style={{ 'color': '#00a1b6' }}>{product.PrecoCusto} €</h3>
+
+          {props.user ?
+          props.user.Owner == true ?
+          <h5><i class="fa-solid fa-trash" onClick={DeleteProductHandler}></i> Delete Product</h5>
+          :
+          null
+          :
+          null
+          }
+
           <hr className="break-line"></hr>
           <div className="Product-Brand">
             <label style={{ 'fontSize': '1.2rem', 'color': '#00a1b6', 'fontWeight': 'bold' }}>Brand</label> <span>{product.Marca}</span>

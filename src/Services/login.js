@@ -11,7 +11,6 @@ function Login() {
     const verifyIfUserExists = (userData) => {
         ProductDataService.findUser(userData)
             .then(response => {
-                //console.log(response.data)
                 //Verifies if the user exists in the database
                 if (response.data == null) {
                     //If the user doesn't exist create a new user in the database              
