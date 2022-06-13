@@ -73,7 +73,7 @@ function Cart_Page(props) {
                 var Preco = document.getElementById('Preco' + element_id);
                 Preco.textContent = response.data.PrecoCusto
                 var Total = document.getElementById('Total');
-                Total.textContent = parseFloat(Total.textContent) + parseFloat(response.data.PrecoCusto) * parseInt(product_info.Product_amount)
+                Total.textContent = (parseFloat(Total.textContent) + parseFloat(response.data.PrecoCusto) * parseInt(product_info.Product_amount)).toFixed(2)
             })
             .catch(e => {
                 console.log(e);
@@ -169,7 +169,7 @@ function Cart_Page(props) {
 
                             <div className="col-12">
                                 <label htmlFor="address" className="form-label">Address</label>
-                                <input type="text" className="form-control" name="address" id="address" placeholder="1234 Main St" required></input>
+                                <input type="text" className="form-control" id="address" placeholder="1234 Main St" defaultValue={props.user == null ? "" : props.user.Address} required></input>
                                 <div className="invalid-feedback">
                                     Please enter your shipping address.
                                 </div>

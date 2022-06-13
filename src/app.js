@@ -4,7 +4,8 @@ import { Link, Route, Routes} from "react-router-dom";
 import Main_Page from './Pages/Main_Page';
 import Research_Page from './Pages/Research_Page';
 import Catalog_Page from './Pages/Catalog_Page';
-import Register_Page from './Pages/Register_Page'
+import Register_Page from './Pages/Register_Page';
+import MyData_Page from './Pages/MyData_Page';
 import About_Page from './Pages/About_Page'
 import Logout from "./Services/logout.js";
 import Product_Page from './Pages/Product_Page'
@@ -45,7 +46,7 @@ function App() {
         //Calls the function that verifies if the user is logged in and retrieves the user data
         IsAuthenticated()
             .then(response => {
-                console.log(response[0])
+                //console.log(response[0])
                 if (response[0] == true) {
                     setIsAuthenticated(true)
                     setUser(response[1])
@@ -76,14 +77,20 @@ function App() {
                     <div className="container-fluid ">
                         {/* <!--Creates the logo image --> */}
                         <a className="navbar-brand"><img className="Logo" src="/Assets/Images/logo.jpeg" alt=""></img></a>
-                        {/* <!-- Have a Separate div to add the Group name in the middle of the navbar --> */}
-                        <div className="navbar-nav first-navbar d-none d-md-block">
-                            <p className="group-brand">Group TRUSTAUTO</p>
+                        <div className="group-brand">
+                            {isAuthenticated == true ? (
+                                <p>
+                                    Group TRUSTAUTO - Welcome back, {user.User_FirstName}&nbsp;&nbsp;
+                                    <img className="UserImage" src={user.User_Image} alt=""></img>
+                                </p>
+                            ) : (
+                                <>Group TRUSTAUTO</>
+                            )
+                            }
                         </div>
                         {/* <!-- Creates the Components justified to the end of the page such as Account information and the cart item --> */}
                         <div className="justify-content-end">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0 first-navbar">
-
                                 {/* If there is a user display information about account if there is change to a button to create/login to account */}
                                 {isAuthenticated == true ? (
                                     <li className="nav-item dropdown">
@@ -92,7 +99,7 @@ function App() {
                                             My Account
                                         </a>
                                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <li><a className="dropdown-item" href="#">My data</a></li>
+                                            <li><a className="dropdown-item" href="/MyData_Page">My data</a></li>
 
                                             <li><a className="dropdown-item" href="#">Buying History</a></li>
                                             {user.Owner ? (
@@ -219,8 +226,9 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Main_Page />} />
                         <Route path="/Research_Page" element={<Research_Page />} />
-                        <Route exact path="/Catalog_Page" element={<Catalog_Page />} />
-                        <Route exact path='/Register_Page' element={<Register_Page />} />
+                        <Route path="/Catalog_Page" element={<Catalog_Page />} />
+                        <Route path='/Register_Page' element={<Register_Page />} />
+                        <Route path="/MyData_Page" element={<MyData_Page user={user} />} />
                         <Route exact path='/About_Page' element={<About_Page />} />
                         <Route path='/Product_Page' element={<Product_Page user={user} />} />
                         {user ? <Route path='/Owner_Panel/*' element={<Owner_Panel user={user} />} /> : null}
