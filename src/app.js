@@ -8,7 +8,6 @@ import Register_Page from './Pages/Register_Page';
 import MyData_Page from './Pages/MyData_Page';
 import About_Page from './Pages/About_Page'
 import Logout from "./Services/logout.js";
-import Barcelparts from './Services/Barcelparts.js'
 import Product_Page from './Pages/Product_Page'
 import Cart_Page from './Pages/Cart_Page'
 import {IsAuthenticated } from './Services/auth'

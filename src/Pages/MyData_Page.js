@@ -28,6 +28,7 @@ function MyData_Page(props) {
       })
 
     alert("your name info was succesfully updated!")
+    window.location.reload(true)
   }
 
   function sendAddress() {
@@ -49,6 +50,7 @@ function MyData_Page(props) {
       })
 
     alert("your address was succesfully updated!")
+    window.location.reload(true)
 
   }
 
@@ -62,8 +64,8 @@ function MyData_Page(props) {
         <br></br>
         <br></br>
         <p>
-        First Name:{tempUser.User_LastName}<br></br>
-        Last Name:{tempUser.User_FirstName}<br></br>
+        First Name:{tempUser.User_FirstName}<br></br>
+        Last Name:{tempUser.User_LastName}<br></br>
         Address: {tempUser.Address}<br></br>
         Email: {tempUser.Email}<br></br>
         </p>

@@ -11,7 +11,7 @@ function Login() {
     const verifyIfUserExists = (userData) => {
         ProductDataService.findUser(userData)
             .then(response => {
-                console.log(response.data)
+                //console.log(response.data)
                 //Verifies if the user exists in the database
                 if (response.data == null) {
                     //If the user doesn't exist create a new user in the database              
@@ -34,15 +34,12 @@ function Login() {
 
     const onSuccess = (res) => {
         //we receive a token that we need to validate/decode to obtain the user info
-        console.log("received token = " + res.tokenId)
+        //console.log("received token = " + res.tokenId)
 
         // TODO this should be done by the server I believe, not in the frontend
         //send the token to google to be decoded
         http.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=` + res.tokenId)
             .then(response => {
-
-                console.log("here we go")
-                console.log(response.data)
 
                 //use the decoded token to get the user info
                 var userData = {
@@ -53,14 +50,13 @@ function Login() {
                 }
 
                 verifyIfUserExists(userData);
-                console.log("LOGIN SUCCESS! CUrrent user: ", userData)
+                console.log("LOGIN SUCCESS!")
 
                 var CryptoJS = require("crypto-js");
                 //Encrypt THE COOKIE and add it to the browser
                 document.cookie = "userGoogleId=" + CryptoJS.AES.encrypt(res.tokenId, 'secret key 123').toString();
-                window.location.href = "/";
-
-
+                //window.location.href = "/";
+                //this line would redirect the user to the main page after login, but the  it doesn't create a user if it doesn't exist
             })
     }
 
