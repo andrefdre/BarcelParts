@@ -1,58 +1,68 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Barcelparts from "../Services/Barcelparts.js"
 
 function Cart_Page(props) {
 
     useEffect(() => {
-    var forms = document.querySelectorAll('.needs-validation')
-    Array.prototype.slice.call(forms)
-        .forEach(function (form) {
-            form.addEventListener('submit', async function (event) {
-                event.preventDefault()
-                if (!form.checkValidity()) {
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', async function (event) {
                     event.preventDefault()
-                    event.stopPropagation()
-                }
-                else{
-                    let CarrinhoTemp=[];
-                    let TotalPrice=0;
-    
-                    TotalPrice=await Promise.all(props.user.Carrinho.map(async (product) => {
-                    return await Barcelparts.get(product.Product_id)
-                            .then(response => {
-                                TotalPrice = TotalPrice + parseFloat((response.data.PrecoCusto)) * parseInt(product.Product_amount)
-                                let CarrinhoTemporary = {}
-                                CarrinhoTemporary.Product_id=product.Product_id
-                                CarrinhoTemporary.Product_reference=response.data.Ref
-                                CarrinhoTemporary.Product_amount=product.Product_amount
-                                CarrinhoTemp.push(CarrinhoTemporary)
-                                return TotalPrice
-                            })
-                            
-                    }))
-    
-                    let Order = {
-                        User_FirstName: (new FormData(forms[0])).get("firstName"),
-                        User_LastName: (new FormData(forms[0])).get("lastName"),
-                        User_Id: props.user._id,
-                        Email: props.user.Email,
-                        Carrinho: CarrinhoTemp,
-                        TotalPrice: TotalPrice[TotalPrice.length-1],
-                        Payment_Method: (new FormData(forms[0])).get("paymentMethod")
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
                     }
+                    else {
+                        let CarrinhoTemp = [];
+                        let TotalPrice = 0;
 
-                    console.log(Order)
-    
-                    await Barcelparts.createOrder(JSON.stringify(Order))
-                    .then(response => {
-                        console.log(response)
-                    })
-    
-                    
-                }
-                form.classList.add('was-validated')
-            }, false)
-        })
+                        TotalPrice = await Promise.all(props.user.Carrinho.map(async (product) => {
+                            return await Barcelparts.get(product.Product_id)
+                                .then(response => {
+                                    TotalPrice = TotalPrice + parseFloat((response.data.PrecoCusto)) * parseInt(product.Product_amount)
+                                    let CarrinhoTemporary = {}
+                                    CarrinhoTemporary.Product_id = product.Product_id
+                                    CarrinhoTemporary.Product_reference = response.data.Ref
+                                    CarrinhoTemporary.Product_amount = product.Product_amount
+                                    CarrinhoTemp.push(CarrinhoTemporary)
+                                    return TotalPrice
+                                })
+
+                        }))
+
+                        let Order = {
+                            User_FirstName: (new FormData(forms[0])).get("firstName"),
+                            User_LastName: (new FormData(forms[0])).get("lastName"),
+                            User_Id: props.user._id,
+                            Email: props.user.Email,
+                            Carrinho: CarrinhoTemp,
+                            TotalPrice: TotalPrice[TotalPrice.length - 1],
+                            Payment_Method: (new FormData(forms[0])).get("paymentMethod")
+                        }
+
+                        console.log(Order)
+
+                        await Barcelparts.createOrder(JSON.stringify(Order))
+                            .then(response => {
+                                console.log(response)
+                            })
+
+                        var tempUser=props.user;
+
+                        tempUser.Carrinho= [];
+
+                        Barcelparts.updateUser(JSON.stringify(tempUser))
+                            .then(function (result) {
+                                //Prints the result
+                                console.log(result)
+                            })
+
+
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
     })
 
     const productHandler = (element_id, product_info) => {
@@ -63,7 +73,7 @@ function Cart_Page(props) {
                 var Preco = document.getElementById('Preco' + element_id);
                 Preco.textContent = response.data.PrecoCusto
                 var Total = document.getElementById('Total');
-                Total.textContent = parseFloat(Total.textContent) + parseFloat((response.data.PrecoCusto)) * parseInt(product_info.Product_amount)
+                Total.textContent = parseFloat(Total.textContent) + parseFloat(response.data.PrecoCusto) * parseInt(product_info.Product_amount)
             })
             .catch(e => {
                 console.log(e);

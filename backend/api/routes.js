@@ -18,5 +18,6 @@ router.route("/User").post(userCtrl.apiGetUserByEmail)
 router.route("/CreateUser").post(userCtrl.apiCreateUser)
 router.route("/UpdateUser").post(userCtrl.apiUpdateUser)
 router.route("/CreateOrder").post(orderCtrl.apiCreateOrder)
+router.route("/GetOrder").post(orderCtrl.apiGetOrders)
 
 module.exports = router
