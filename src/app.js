@@ -76,12 +76,12 @@ function App() {
                     {/* <!-- Uses the className container fluid to have the navbar expand all the page --> */}
                     <div className="container-fluid ">
                         {/* <!--Creates the logo image --> */}
-                        <a className="navbar-brand"><img className="Logo" src="./Assets/Images/logo.jpeg" alt=""></img></a>
+                        <a className="navbar-brand"><img className="Logo" src="/Assets/Images/logo.jpeg" alt=""></img></a>
                         <div className="group-brand">
                             {isAuthenticated == true ? (
                                 <p>
                                     Group TRUSTAUTO - Welcome back, {user.User_FirstName}&nbsp;&nbsp;
-                                    <img class="UserImage" src={user.User_Image} alt=""></img>
+                                    <img className="UserImage" src={user.User_Image} alt=""></img>
                                 </p>
                             ) : (
                                 <>Group TRUSTAUTO</>
@@ -99,7 +99,7 @@ function App() {
                                             My Account
                                         </a>
                                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <li><a className="dropdown-item" href="#">My data</a></li>
+                                            <li><a className="dropdown-item" href="/MyData_Page">My data</a></li>
 
                                             <li><a className="dropdown-item" href="#">Buying History</a></li>
                                             {user.Owner ? (

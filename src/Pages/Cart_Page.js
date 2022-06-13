@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Barcelparts from "../Services/Barcelparts.js"
 
 function Cart_Page(props) {
@@ -73,7 +73,7 @@ function Cart_Page(props) {
                 var Preco = document.getElementById('Preco' + element_id);
                 Preco.textContent = response.data.PrecoCusto
                 var Total = document.getElementById('Total');
-                Total.textContent = parseFloat(Total.textContent) + parseFloat(response.data.PrecoCusto) * parseInt(product_info.Product_amount)
+                Total.textContent = (parseFloat(Total.textContent) + parseFloat(response.data.PrecoCusto) * parseInt(product_info.Product_amount)).toFixed(2)
             })
             .catch(e => {
                 console.log(e);
