@@ -1,5 +1,4 @@
-import { get } from "jquery";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect} from "react";
 import BarcelParts from "../../Services/Barcelparts.js"
 
 //Creates the React function that will be rendered in the app Page through routes

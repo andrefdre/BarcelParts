@@ -1,7 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Link, Route, Routes, Navigate} from "react-router-dom";
-import { Chart } from "chart.js";
-import ProductDataService from "../../Services/Barcelparts.js"
+import React from "react";
 
 //Creates the React function that will be rendered in the app Page through routes
 const DashBoard = function () {
