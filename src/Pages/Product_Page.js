@@ -24,7 +24,7 @@ function Product_Page(props) {
         //Stores the response message in the Product variable
         setProduct(response.data);
         // Call the Google Image Api 
-        triggerearch(response.data)
+        triggerSearch(response.data)
       })
       //If there is an error catches it and displays it in the console
       .catch(e => {
@@ -41,7 +41,7 @@ function Product_Page(props) {
   //Google custom search engine id
   var cse = "53879c7ef6d345597";
   //Image Api Function
-  async function triggerearch(product) {
+  async function triggerSearch(product) {
     //Queries the google api with the product reference
     await fetch(`https://www.googleapis.com/customsearch/v1?key=${key}&cx=${cse}&q=${product.Ref_Tecdoc}` + '&searchType=image&num=1')
       .then(response => {
