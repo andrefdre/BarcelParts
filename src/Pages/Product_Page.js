@@ -13,6 +13,8 @@ function Product_Page(props) {
 
   const [product, setProduct] = useState([]);
   const [number, setNumber] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [productImage, setProductImage] = useState("");
 
 
   const findbyId = (id) => {
@@ -23,6 +25,7 @@ function Product_Page(props) {
         //console.log(response.data)
 
         setProduct(response.data);
+        triggersearch(response.data)
       })
       //If there is an error catches it and displays it in the console
       .catch(e => {
@@ -32,6 +35,22 @@ function Product_Page(props) {
 
   const onChangeNumber = (value) => {
     setNumber(value);
+  }
+
+  var key = "AIzaSyBVX_BmLiBLGxaKjpH-tu2OK3DzIJ2Ie4E";
+  var cse = "53879c7ef6d345597";
+  //Image Api Function
+  async function triggersearch(product) {
+    await fetch(`https://www.googleapis.com/customsearch/v1?key=${key}&cx=${cse}&q=${product.Ref_Tecdoc}` + '&searchType=image')
+      .then(response => {
+        return response.json()
+      })
+      .then(response => {
+        console.log(response)
+        setProductImage(response.items[0]['link']);
+        setIsLoading(false);
+       // setProductImage("https://cdn.appuals.com/wp-content/uploads/2019/08/0aCjoLy.png");
+      });
   }
 
   const AddToCartHandler = () =>{
@@ -78,6 +97,7 @@ function Product_Page(props) {
   }, []) // <-- empty dependency array
 
 
+  if(isLoading == false) {
   return (
     <div className="container-md">
       <br></br>
@@ -87,7 +107,7 @@ function Product_Page(props) {
             role="img" viewBox="0 0 250 250" aria-label="Placeholder: Thumbnail" preserveAspectRatio="none"
             focusable="false">
             <title>Placeholder</title>
-            <image width="100%" xlinkHref="./Assets/Images/Blueprint_logo.svg" x="0" y="0" />
+            <image width="100%" xlinkHref={productImage} x="0" y="0" />
           </svg>
         </div>
         <div className="col-8">
@@ -132,7 +152,7 @@ function Product_Page(props) {
 
     </div>
   )
-
+}
 }
 
 export default Product_Page;

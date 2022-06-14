@@ -66,11 +66,18 @@ const Research_Page = function () {
   const find = (query, by, page, sort) => {
     //Call function that will send a get request to the backend
     ProductDataService.find(query, by, page, sort)
-      .then(response => {
+      .then(async response => {
         //Console log for debugging and developing
         //console.log(response)
         //Stores the acquired data in the variable products
-        setProducts(response.data.products);
+        let productTemp = response.data.products
+        for(let i=0;i<productTemp.length;i++){
+         await triggerSearch(productTemp[i])
+            .then((responseImage) => {
+              productTemp[i].image = responseImage
+            })
+          }
+        setProducts(productTemp);
         setIsLoadingProduct(false)
         //See is there is more documents in the database
         setHasMore(parseInt(response.data.total_results) - (parseInt(page) + 1) * 20 > 0)
@@ -80,6 +87,19 @@ const Research_Page = function () {
         console.log(e);
       });
   };
+
+  var key = "AIzaSyBVX_BmLiBLGxaKjpH-tu2OK3DzIJ2Ie4E";
+  var cse = "53879c7ef6d345597";
+  //Image Api Function
+  async function triggerSearch(product) {
+    return await fetch(`https://www.googleapis.com/customsearch/v1?key=${key}&cx=${cse}&q=${product.Ref_Tecdoc}` + '&searchType=image&num=1')
+      .then(response => {
+        return response.json().items[0]['link']
+      })
+      .catch(e => {
+        return "https://cdn.appuals.com/wp-content/uploads/2019/08/0aCjoLy.png"
+      })
+  }
 
   //Function that will send a get request to the backend to retrieve the categories to display in the page
   async function getCategories() {
@@ -233,7 +253,7 @@ const Research_Page = function () {
                         role="img" viewBox="0 0 250 250" aria-label="Placeholder: Thumbnail" preserveAspectRatio="none"
                         focusable="false">
                         <title>Placeholder</title>
-                        <image width="100%" xlinkHref="./Assets/Images/Blueprint_logo.svg" x="0" y="0" />
+                        <image width="100%" xlinkHref={product.image} x="0" y="0" />
                       </svg>
                     </div>
                     {/* Place where information from each product will be displayed */}
@@ -262,7 +282,7 @@ const Research_Page = function () {
                         role="img" viewBox="0 0 250 250" aria-label="Placeholder: Thumbnail" preserveAspectRatio="none"
                         focusable="false">
                         <title>Placeholder</title>
-                        <image width="100%" xlinkHref="./Assets/Images/Blueprint_logo.svg" x="0" y="0" />
+                        <image width="100%" xlinkHref={product.image} x="0" y="0" />
                       </svg>
                     </div>
                     {/* Place where information from each product will be displayed */}
