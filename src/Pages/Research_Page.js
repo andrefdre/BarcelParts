@@ -48,11 +48,16 @@ const Research_Page = function () {
   const scroll_find = (query, by, page, sort) => {
     //Call function that will send a get request to the backend
     ProductDataService.find(query, by, page, sort)
-      .then(response => {
-        //Console log for debugging and developing
-        //console.log(response.data)
+      .then(async response => {
+        let productTemp = response.data.products
+        for(let i=0;i<productTemp.length;i++){
+         await triggerSearch(productTemp[i])
+            .then((responseImage) => {
+              productTemp[i].image = responseImage
+            })
+          }
         //Stores the acquired data in the variable products
-        setProducts([...products, ...response.data.products]);
+        setProducts([...products, ...productTemp]);
         setIsLoadingProduct(false)
         //See is there is more documents in the database
         setHasMore(parseInt(response.data.total_results) - (parseInt(page) + 1) * 28 > 0)

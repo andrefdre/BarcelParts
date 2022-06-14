@@ -38,7 +38,7 @@ function Login() {
         // TODO this should be done by the server I believe, not in the frontend
         //send the token to google to be decoded
         http.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=` + res.tokenId)
-            .then(response => {
+            .then(async response => {
 
                 //use the decoded token to get the user info
                 var userData = {
@@ -48,14 +48,13 @@ function Login() {
                     "User_Image": response.data.picture,
                 }
 
-                verifyIfUserExists(userData);
+                await verifyIfUserExists(userData);
                 console.log("LOGIN SUCCESS!")
 
                 var CryptoJS = require("crypto-js");
                 //Encrypt THE COOKIE and add it to the browser
                 document.cookie = "userGoogleId=" + CryptoJS.AES.encrypt(res.tokenId, 'secret key 123').toString();
-                //window.location.href = "/";
-                //this line would redirect the user to the main page after login, but the  it doesn't create a user if it doesn't exist
+                window.location.href = "/";
             })
     }
 
