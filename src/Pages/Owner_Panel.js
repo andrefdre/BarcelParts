@@ -30,7 +30,7 @@ const Owner_Panel = function (props) {
                             <li className="nav-item">
                                 <a className="nav-link" href="/Owner_Panel/Orders">
                                     <span data-feather="file" className="align-text-bottom"></span>
-                                    Orders
+                                    All Orders
                                 </a>
                             </li>
                             <li className="nav-item">

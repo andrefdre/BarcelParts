@@ -109,9 +109,10 @@ const Research_Page = function () {
   async function triggerSearch(product) {
     //Queries the google api with the product reference
     return await fetch(`https://www.googleapis.com/customsearch/v1?key=${key}&cx=${cse}&q=${product.Ref_Tecdoc}` + '&searchType=image&num=1')
+    .then(response => response.json())
       .then(response => {
         //Returns the image Url
-        return response.json().items[0]['link']
+        return response.items[0]['link']
       })
       .catch(() => {
         //In case of error return a error image

@@ -1,44 +1,53 @@
 import React, { useState, useEffect} from "react";
-import BarcelParts from "../../Services/Barcelparts.js"
+import Barcelparts from "../../Services/Barcelparts.js"
 
 //Creates the React function that will be rendered in the app Page through routes
 const Orders = function () {
 
-    const [Orders, setOrders] = useState([]);
-    const [Loading, setLoading] = useState(true);
+  const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-    const getOrders = () => {
-        //Call function that will send a get request to the backend
-        BarcelParts.getOrders()
+  //Function that will send a get request to the backend to retrieve the categories to display in the page
+  const getOrders = () => {
+
+      Barcelparts.getOrders()
           .then(response => {
-            //Console log for debugging and developing
-            setOrders(response.data.Orders)
-            setLoading(false)
+              setOrders(response.data.Orders)
+              setIsLoading(false)
           })
-          //If there is an error catches it and displays it in the console
+          //If there is any erros catch them and display them
           .catch(e => {
-            console.log(e);
+              console.log(e);
           });
-      };
+  };
 
-      useEffect(() => {
-        getOrders()
-      })
+  //this runs once after doing the return
+  useEffect(() => {
+      getOrders()
+  }, [])
 
-    if (Loading == false) {
-        return (
-            <div>
-                {Orders.map((Order,index)=>{
-                    return(
-                        <div>
-                            
-                        </div>
-                    )
-                })}
+  if (isLoading == false) {
+      return (
+              <div>
+                  <br></br>
+                  { orders.map((order) => {
+                          return (
+                              <div>
+                                  <div className="card">
+                                      <ul className="list-group list-group-flush">
+                                          <li className="card-body">{"order id = " + order._id}</li>
+                                          <li className="list-group-item">{"price =" + order.TotalPrice}</li>
+                                      </ul>
+                                  </div>
+                                  <br></br>
+                              </div>
+                          )
+                      })
+                  }
+              </div>
+      )
+  }
 
-            </div>
-        )
-    }
 
 }
 

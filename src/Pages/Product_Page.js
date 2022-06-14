@@ -37,16 +37,17 @@ function Product_Page(props) {
   }
 
   //Google user key
-  var key = "AIzaSyBVX_BmLiBLGxaKjpH-tu2OK3DzIJ2Ie4E";
+  var key = "AIzaSyAYkgxyk1iTzA-XfqSiAU_4H2JwNJGPVTU";
   //Google custom search engine id
-  var cse = "53879c7ef6d345597";
+  var cse = "77c4558f38a94503c";
   //Image Api Function
   async function triggerSearch(product) {
     //Queries the google api with the product reference
     await fetch(`https://www.googleapis.com/customsearch/v1?key=${key}&cx=${cse}&q=${product.Ref_Tecdoc}` + '&searchType=image&num=1')
+    .then(response => response.json())
       .then(response => {
         //Stores the acquired Url 
-        setProductImage(response.json().items[0]['link']);
+        setProductImage(response.items[0]['link']);
         // Sets the isLoading variable to let the page display the contents
         setIsLoading(false);
       })
