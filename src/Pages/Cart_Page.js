@@ -1,22 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Barcelparts from "../Services/Barcelparts.js"
 
 function Cart_Page(props) {
 
+    //This function will set the function on the forms when it's submitted when the page loads
     useEffect(() => {
+        //Selects the forms
         var forms = document.querySelectorAll('.needs-validation')
+        //For each form insert the function
         Array.prototype.slice.call(forms)
             .forEach(function (form) {
                 form.addEventListener('submit', async function (event) {
                     event.preventDefault()
+                    //If the form isn't valid stop it from continuing 
                     if (!form.checkValidity()) {
                         event.preventDefault()
                         event.stopPropagation()
                     }
                     else {
+                        //Creates the temporary variables
                         let CarrinhoTemp = [];
                         let TotalPrice = 0;
 
+                        //Gets the products in the cart and the total price by querying the database
                         TotalPrice = await Promise.all(props.user.Carrinho.map(async (product) => {
                             return await Barcelparts.get(product.Product_id)
                                 .then(response => {
@@ -28,9 +34,9 @@ function Cart_Page(props) {
                                     CarrinhoTemp.push(CarrinhoTemporary)
                                     return TotalPrice
                                 })
-
                         }))
 
+                        //Creates the order variable to be sent to the database
                         let Order = {
                             User_FirstName: (new FormData(forms[0])).get("firstName"),
                             User_LastName: (new FormData(forms[0])).get("lastName"),
@@ -40,32 +46,32 @@ function Cart_Page(props) {
                             TotalPrice: TotalPrice[TotalPrice.length - 1],
                             Payment_Method: (new FormData(forms[0])).get("paymentMethod")
                         }
-
-                        console.log(Order)
-
+                        //Creates the order in the database
                         await Barcelparts.createOrder(JSON.stringify(Order))
                             .then(response => {
                                 console.log(response)
                             })
 
-                        var tempUser=props.user;
-
-                        tempUser.Carrinho= [];
-
+                        //Creates the temporary user to empty it's cart
+                        var tempUser = props.user;
+                        //Empties the cart
+                        tempUser.Carrinho = [];
+                        //Updates the user's cart
                         Barcelparts.updateUser(JSON.stringify(tempUser))
                             .then(function (result) {
                                 //Prints the result
                                 console.log(result)
+                                window.location.reload(true)
                             })
-
-
                     }
                     form.classList.add('was-validated')
                 }, false)
             })
     })
 
+    //Function that will display the products information on the page
     const productHandler = (element_id, product_info) => {
+        //Queries the database for the product information
         Barcelparts.get(product_info.Product_id)
             .then(response => {
                 var Design = document.getElementById('Design' + element_id);
@@ -86,7 +92,7 @@ function Cart_Page(props) {
         var tempUser = props.user;
         //Removes the product from the array
         tempUser.Carrinho.splice(parseInt(e.target.id), parseInt(e.target.id) + 1)
-        //Creates the data structure to
+        //Creates the data structure to be sent to the backend
         let data = {
             _id: tempUser._id,
             Carrinho: tempUser.Carrinho
@@ -102,17 +108,21 @@ function Cart_Page(props) {
     }
 
 
-
+    //Content that will be displayed to the user
     return (
         <div className="container-md">
+            {/* Adds space to the top */}
             <br></br>
+            {/* Div where products will be displayed */}
             <div className="row g-5">
                 <div className="col-md-5 col-lg-4 order-md-last">
                     <h4 className="d-flex justify-content-between align-items-center mb-3">
                         <span className="text-primary">Your cart</span>
                         <span className="badge bg-primary rounded-pill">{props.user == null ? 0 : props.user.Carrinho.length}</span>
                     </h4>
+                    {/* List of all products in cart */}
                     <ul className="list-group mb-3">
+                        {/* Will loop all user's products in cart to display it in the website */}
                         {props.user.Carrinho.map((product_info, index) => {
                             return (
                                 <li className="list-group-item d-flex justify-content-between lh-sm" key={index}>
@@ -128,17 +138,18 @@ function Cart_Page(props) {
                                 </li>
                             )
                         })}
+                        {/* Displays the Total */}
                         <li className="list-group-item d-flex justify-content-between">
                             <span>Total (Eur)</span>
                             <strong>
                                 <span id="Total">0</span>
                                 <span>€</span>
                             </strong>
-
                         </li>
                     </ul>
-
                 </div>
+
+                {/* Order information */}
                 <div className="col-md-7 col-lg-8">
                     <h4 className="mb-3">Billing address</h4>
                     <form className="needs-validation" noValidate>

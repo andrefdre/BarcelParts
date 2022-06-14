@@ -28,10 +28,14 @@ class OrdersController {
         const ProductsPerPage = req.query.OrdersPerPage ? parseInt(req.query.OrdersPerPage, 10) : 28
         //Gets the Page from the url if not inserted default value is 0
         const page = req.query.page ? parseInt(req.query.page, 10) : 0
-
         try {
+            let query = {}
+
+            if (req.body.Email ) {
+                query = { "Email": req.body.Email }
+            }
             //Calls the function to retrieve the products sorted with the established limit and paginates it with skip
-            let OrderList = await Order.find().limit(ProductsPerPage).skip(ProductsPerPage * page);
+            let OrderList = await Order.find(query).limit(ProductsPerPage).skip(ProductsPerPage * page);
             //Gets the total number of documents in the database for pagination
             const totalNumOrders = await Order.countDocuments()
 

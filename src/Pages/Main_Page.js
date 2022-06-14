@@ -1,5 +1,5 @@
 //Declares the imports necessary for this page
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 //Creates the React function that will be rendered in the app Page through routes
 function Main_Page() {

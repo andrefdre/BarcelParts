@@ -1,6 +1,6 @@
 //Declares the imports necessary for this page
 import React, { useState, useEffect } from "react";
-import { Link, Route, Routes} from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import Main_Page from './Pages/Main_Page';
 import Research_Page from './Pages/Research_Page';
 import Catalog_Page from './Pages/Catalog_Page';
@@ -10,6 +10,7 @@ import About_Page from './Pages/About_Page'
 import Logout from "./Services/logout.js";
 import Product_Page from './Pages/Product_Page'
 import Cart_Page from './Pages/Cart_Page'
+import OrderHistory_Page from './Pages/OrderHistory_Page'
 import Owner_Panel from "./Pages/Owner_Panel";
 import { IsAuthenticated } from './Services/auth'
 import ProductDataService from "./Services/Barcelparts.js"
@@ -18,7 +19,7 @@ import ProductDataService from "./Services/Barcelparts.js"
 //Creates the React function that will be rendered in the index Page
 function App() {
 
-    //Variables for searching items
+    // Declares the Global variables
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState();
     const [isLoading, setIsLoading] = useState(true);
@@ -31,8 +32,8 @@ function App() {
         ProductDataService.getCategories()
             .then(response => {
                 //Stores the acquired data in categories variable
-                console.log(response.data)
                 setCategories(response.data);
+                //Set isLoading variable to display the contents in the page
                 setIsLoading(false)
             })
             //If there is any erros catch them and display them
@@ -48,12 +49,15 @@ function App() {
             .then(response => {
                 //console.log(response[0])
                 if (response[0] == true) {
+                    // If the User is authenticated sets the user and IsAuthenticated variable
                     setIsAuthenticated(true)
                     setUser(response[1])
                 }
                 else {
+                    //If the User isn't authenticated set it to false
                     setIsAuthenticated(false)
                 }
+                //Calls the function to retrieve the categories
                 getCategories()
             })
     }, [])
@@ -67,7 +71,7 @@ function App() {
     }
 
 
-    //Html that will be rendered 
+    //Verifies if the page is still Loading if not display the contents
     if (isLoading == false) {
         return (
             <div>
@@ -101,7 +105,7 @@ function App() {
                                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <li><a className="dropdown-item" href="/MyData_Page">My data</a></li>
 
-                                            <li><a className="dropdown-item" href="#">Buying History</a></li>
+                                            <li><a className="dropdown-item" href="/OrderHistory_Page">Buying History</a></li>
                                             {user.Owner ? (
                                                 <li><a className="dropdown-item" href="/Owner_Panel">Owner Panel</a></li>
                                             )
@@ -182,11 +186,9 @@ function App() {
                                                                     <li key={Category + SubCategory}><a className="dropdown-item" href={"/Research_Page?by=NomeFamilia&query=" + SubCategory}>{SubCategory}</a></li>
                                                                 )
                                                             })
-
                                                             }
                                                         </ul>
                                                     </li>
-
                                                 )
                                             }
                                             else {
@@ -229,6 +231,7 @@ function App() {
                         <Route path="/Catalog_Page" element={<Catalog_Page />} />
                         <Route path='/Register_Page' element={<Register_Page />} />
                         <Route path="/MyData_Page" element={<MyData_Page user={user} />} />
+                        <Route path="/OrderHistory_Page" element={<OrderHistory_Page user={user} />} />
                         <Route exact path='/About_Page' element={<About_Page />} />
                         <Route path='/Product_Page' element={<Product_Page user={user} />} />
                         {user ? <Route path='/Owner_Panel/*' element={<Owner_Panel user={user} />} /> : null}

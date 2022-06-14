@@ -49,6 +49,7 @@ class UserController {
         }
     }
 
+    //Function that will Update the user information
     static async apiUpdateUser(req, res, next) {
         try {
             var user = await User.findById(req.body._id);
@@ -66,6 +67,7 @@ class UserController {
                 user.User_LastName = req.body.User_LastName
             }
 
+            // Updates the user information in the database
             await user.save();
             //Stores the result in the res
             res.send(user)

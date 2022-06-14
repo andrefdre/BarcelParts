@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import NumericInput from 'react-numeric-input';
 import Barcelparts from "../Services/Barcelparts.js"
 
@@ -11,21 +10,21 @@ function Product_Page(props) {
   //Getting the query and search name from the link
   const id = urlParams.get('id')
 
+  // Global Variables
   const [product, setProduct] = useState([]);
   const [number, setNumber] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [productImage, setProductImage] = useState("");
 
-
-  const findbyId = (id) => {
+  // Function to find the product by id
+  const findById = (id) => {
     //Call function that will send a get request to the backend
     Barcelparts.get(id)
       .then(response => {
-        //Console log for debugging and developing
-        //console.log(response.data)
-
+        //Stores the response message in the Product variable
         setProduct(response.data);
-        triggersearch(response.data)
+        // Call the Google Image Api 
+        triggerearch(response.data)
       })
       //If there is an error catches it and displays it in the console
       .catch(e => {
@@ -37,21 +36,30 @@ function Product_Page(props) {
     setNumber(value);
   }
 
+  //Google user key
   var key = "AIzaSyBVX_BmLiBLGxaKjpH-tu2OK3DzIJ2Ie4E";
+  //Google custom search engine id
   var cse = "53879c7ef6d345597";
   //Image Api Function
-  async function triggersearch(product) {
+  async function triggerearch(product) {
+    //Queries the google api with the product reference
     await fetch(`https://www.googleapis.com/customsearch/v1?key=${key}&cx=${cse}&q=${product.Ref_Tecdoc}` + '&searchType=image&num=1')
       .then(response => {
+        //Stores the acquired Url 
         setProductImage(response.json().items[0]['link']);
+        // Sets the isLoading variable to let the page display the contents
         setIsLoading(false);
       })
+      //Catch erros and sets the Image accordingly
       .catch(() => {
+        //Stores the error Url 
         setProductImage("https://cdn.appuals.com/wp-content/uploads/2019/08/0aCjoLy.png");
+        // Sets the isLoading variable to let the page display the contents
         setIsLoading(false);
       })
   }
 
+  //Handler function that will add the product to User's cart
   const AddToCartHandler = () => {
     //Creates a temporary variable to edit the data from user
     var tempUser = props.user;
@@ -71,38 +79,41 @@ function Product_Page(props) {
         //Prints the result
         console.log(result)
       })
+    //Reloads the page to display the updated content
     window.location.reload(true)
   }
 
+  //Handler function that will let the Owner delete the product from the database
   const DeleteProductHandler = () => {
+    //Checks if the user is a Owner
     if (props.user.Owner == true) {
+      // Creates a temporary variable that will be sent to the backend
       let ProductTemp = {
         "_Id": id
       }
-      console.log(ProductTemp)
+      // Sends the Product information that will be deleted
       Barcelparts.deleteProduct(ProductTemp)
-        .then(response => {
-          console.log(response)
-          window.location.search = ""
-          window.location.pathname = "/"
+        .then(() => {
+          //Sends the User to the Main Page
+          window.location.href = "/";
         })
     }
   }
 
-
   //useEffect to run a function only once since the dependency array is empty
   useEffect(() => {
     //Runs the getCategories function
-    findbyId(id);
+    findById(id);
   }, []) // <-- empty dependency array
 
-
+//IF the page is still loading don't display anything
   if (isLoading == false) {
     return (
       <div className="container-md">
         <br></br>
         <div className="row">
           <div className="col-4">
+            {/* Display the Product Image */}
             <svg className="bd-placeholder-img card-img-top" width="100%" xmlns="http://www.w3.org/2000/svg"
               role="img" viewBox="0 0 250 250" aria-label="Placeholder: Thumbnail" preserveAspectRatio="none"
               focusable="false">
@@ -110,10 +121,11 @@ function Product_Page(props) {
               <image width="100%" xlinkHref={productImage} x="0" y="0" />
             </svg>
           </div>
+          {/* Display Product information */}
           <div className="col-8">
             <h2>{product.Design}</h2>
             <h3 style={{ 'color': '#00a1b6' }}>{product.PrecoCusto} €</h3>
-
+            {/* If the user is the Owner display the deleting product Button */}
             {props.user ?
               props.user.Owner == true ?
                 <h5><i class="fa-solid fa-trash" onClick={DeleteProductHandler}></i> Delete Product</h5>
@@ -122,7 +134,6 @@ function Product_Page(props) {
               :
               null
             }
-
             <hr className="break-line"></hr>
             <div className="Product-Brand">
               <label style={{ 'fontSize': '1.2rem', 'color': '#00a1b6', 'fontWeight': 'bold' }}>Brand</label> <span>{product.Marca}</span>
@@ -137,6 +148,7 @@ function Product_Page(props) {
             <div className="Product-Description">
               <p>{product.Description}</p>
             </div>
+            {/* Button to add product to the Cart */}
             <div className="qty  mb-1">
               <NumericInput min={0} max={product.NumArmazem} value={number} style={{ input: { width: '4pc', height: '2pc' }, wrap: { marginRight: '2px' } }} onChange={onChangeNumber} />
               <button type="button" className="btn btn-outline-secondary" onClick={AddToCartHandler}>Add to cart</button>
@@ -147,9 +159,7 @@ function Product_Page(props) {
               : <p><strong className="d-flex" style={{ 'fontSize': '0.7rem' }}>Not available in Store</strong></p>
             }
           </div>
-
         </div>
-
       </div>
     )
   }

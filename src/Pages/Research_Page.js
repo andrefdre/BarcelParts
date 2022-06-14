@@ -16,7 +16,7 @@ const Research_Page = function () {
   const by = urlParams.get('by')
 
 
-  //Creates the variables
+  //Creates the Global variables
   const [products, setProducts] = useState([]);
   const [Sort, setSort] = useState('');
   const [page, setPage] = useState('0');
@@ -43,21 +43,25 @@ const Research_Page = function () {
     })
     if (node) observer.current.observe(node)
   }, [products])
-
   //Function that will search the database for the information asked and adds it to the previous information
   const scroll_find = (query, by, page, sort) => {
     //Call function that will send a get request to the backend
     ProductDataService.find(query, by, page, sort)
       .then(async response => {
+        //Creates a temporary Products variable to add the image from the api
         let productTemp = response.data.products
-        for(let i=0;i<productTemp.length;i++){
-         await triggerSearch(productTemp[i])
+        //Loops over the products to add the image parameter
+        for (let i = 0; i < productTemp.length; i++) {
+          //Queries the google api
+          await triggerSearch(productTemp[i])
             .then((responseImage) => {
+              //Sets the Product image
               productTemp[i].image = responseImage
             })
-          }
+        }
         //Stores the acquired data in the variable products
         setProducts([...products, ...productTemp]);
+        //Set is Loading to remove the loading products icon
         setIsLoadingProduct(false)
         //See is there is more documents in the database
         setHasMore(parseInt(response.data.total_results) - (parseInt(page) + 1) * 28 > 0)
@@ -68,21 +72,25 @@ const Research_Page = function () {
       });
   };
 
+  //Function that will find the Products 
   const find = (query, by, page, sort) => {
     //Call function that will send a get request to the backend
     ProductDataService.find(query, by, page, sort)
       .then(async response => {
-        //Console log for debugging and developing
-        //console.log(response)
-        //Stores the acquired data in the variable products
+        //Creates a temporary Products variable to add the image from the api
         let productTemp = response.data.products
-        for(let i=0;i<productTemp.length;i++){
-         await triggerSearch(productTemp[i])
+        //Loops over the products to add the image parameter
+        for (let i = 0; i < productTemp.length; i++) {
+          //Queries the google api
+          await triggerSearch(productTemp[i])
             .then((responseImage) => {
+              //Sets the Product image
               productTemp[i].image = responseImage
             })
-          }
+        }
+        //Stores the acquired data in the variable products
         setProducts(productTemp);
+        //Set is Loading to remove the loading products icon
         setIsLoadingProduct(false)
         //See is there is more documents in the database
         setHasMore(parseInt(response.data.total_results) - (parseInt(page) + 1) * 20 > 0)
@@ -93,25 +101,32 @@ const Research_Page = function () {
       });
   };
 
+  //Google user key
   var key = "AIzaSyBVX_BmLiBLGxaKjpH-tu2OK3DzIJ2Ie4E";
+  //Google custom search engine id
   var cse = "53879c7ef6d345597";
   //Image Api Function
   async function triggerSearch(product) {
+    //Queries the google api with the product reference
     return await fetch(`https://www.googleapis.com/customsearch/v1?key=${key}&cx=${cse}&q=${product.Ref_Tecdoc}` + '&searchType=image&num=1')
       .then(response => {
+        //Returns the image Url
         return response.json().items[0]['link']
       })
-      .catch(e => {
+      .catch(() => {
+        //In case of error return a error image
         return "https://cdn.appuals.com/wp-content/uploads/2019/08/0aCjoLy.png"
       })
   }
 
   //Function that will send a get request to the backend to retrieve the categories to display in the page
-  async function getCategories() {
+  const getCategories = () => {
+    //Queries the backend to get the categories
     ProductDataService.getCategories()
       .then(response => {
         //Stores the acquired data in categories variable
         setCategories(response.data);
+        //Set the isLoading variable to false to display the page content
         setIsLoading(false)
       })
       //If there is any erros catch them and display them
@@ -120,17 +135,15 @@ const Research_Page = function () {
       });
   };
 
-
   // Handle Sort changes
   const handleChange = (e) => {
     // Creates a loop for setting the other checkboxes to false so only one can be activated
     for (var i = 1; i <= 4; i++) {
+      //Disables all the checked in all the checkboxes
       document.getElementById(i).checked = false;
     }
     // Sets the current checkbox to checked
     document.getElementById(e.target.id).checked = true;
-    // to get the checked name
-
     // Sets the sort value with the value from checkbox
     setSort(e.target.value);
   };
@@ -148,9 +161,11 @@ const Research_Page = function () {
   }, [query, by, Sort]); //dependency array
 
 
+  //Function that will load more products when the page number changes
   useEffect(() => {
+    //If page is bigger than zero call the scroll_find function
     if (page > 0) {
-      scroll_find(query, by, page, Sort);
+      scroll_find("", "Design", page, Sort);
     }
   }, [page])
 
@@ -161,6 +176,7 @@ const Research_Page = function () {
     getCategories()
   }, []) // <-- empty dependency array
 
+  //If the page has stopped loading display content
   if (isLoading == false) {
     //Html that will be rendered 
     return (
@@ -217,23 +233,25 @@ const Research_Page = function () {
             <div aria-labelledby="Categories">
               {/* Creates a submenu for the Sub-Categories  */}
               {Categories.Categories.map((Category, index) => {
+                //If categories has subcategories print it with dropdown menu
                 if (Categories.SubCategory.length > 0) {
                   return (
                     <div className="dropdown-submenu" key={Category}>
+                      {/* Creates the Category Dropdown button */}
                       <a className="dropdown-item" href={"/Research_Page?by=NomeFamilia&query=" + Category} >{Category}</a>
                       <ul className="dropdown-menu">
+                        {/* Prints the Subcategories */}
                         {Categories.SubCategory[index].map((SubCategory) => {
                           return (
                             <li key={Category + SubCategory}><a className="dropdown-item" href={"/Research_Page?by=NomeFamilia&query=" + SubCategory}>{SubCategory}</a></li>
                           )
                         })
-
                         }
                       </ul>
                     </div>
-
                   )
                 }
+                // If the categories doesn't have subcategories just print it without dropdown menu
                 else {
                   return (
                     <div key={Category}><a className="dropdown-item" href={"/Research_Page?by=NomeFamilia&query=" + Category} >{Category}</a></div>
@@ -276,7 +294,6 @@ const Research_Page = function () {
                   </div>
                 )
               }
-
               //Writes the other products
               else {
                 return (
@@ -306,10 +323,12 @@ const Research_Page = function () {
               }
             })
             }
+            {/* If the Page is Loading products display Loading */}
             {isLoadingProduct == true
               ? <i className="fa-solid fa-spinner"></i>
               : ''
             }
+            {/* If the products array length is 0 then say it didn't found any products */}
             {products.length == 0 && isLoadingProduct == false
               ? 'No products found'
               : ''
