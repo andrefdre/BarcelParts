@@ -41,7 +41,7 @@ function Product_Page(props) {
   var cse = "53879c7ef6d345597";
   //Image Api Function
   async function triggersearch(product) {
-    await fetch(`https://www.googleapis.com/customsearch/v1?key=${key}&cx=${cse}&q=${product.Ref_Tecdoc}` + '&searchType=image')
+    await fetch(`https://www.googleapis.com/customsearch/v1?key=${key}&cx=${cse}&q=${product.Ref_Tecdoc}` + '&searchType=image&num=1')
       .then(response => {
         setProductImage(response.json().items[0]['link']);
         setIsLoading(false);
