@@ -230,8 +230,8 @@ function App() {
                         <Route path="/Research_Page" element={<Research_Page />} />
                         <Route path="/Catalog_Page" element={<Catalog_Page />} />
                         <Route path='/Register_Page' element={<Register_Page />} />
-                        <Route path="/MyData_Page" element={<MyData_Page user={user} />} />
-                        <Route path="/OrderHistory_Page" element={<OrderHistory_Page user={user} />} />
+                        {user ? <Route path="/MyData_Page" element={<MyData_Page user={user} />} /> : null }
+                        {user ? <Route path="/OrderHistory_Page" element={<OrderHistory_Page user={user} />}/> : null}
                         <Route exact path='/About_Page' element={<About_Page />} />
                         <Route path='/Product_Page' element={<Product_Page user={user} />} />
                         {user ? <Route path='/Owner_Panel/*' element={<Owner_Panel user={user} />} /> : null}

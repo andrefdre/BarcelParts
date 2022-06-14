@@ -61,26 +61,32 @@ function Product_Page(props) {
 
   //Handler function that will add the product to User's cart
   const AddToCartHandler = () => {
-    //Creates a temporary variable to edit the data from user
-    var tempUser = props.user;
-    //Adds the new product to the existing in the users cart
-    tempUser.Carrinho.push({
-      Product_id: id,
-      Product_amount: number
-    });
-    //Creates the object to be sent to the database
-    let data = {
-      _id: tempUser._id,
-      Carrinho: tempUser.Carrinho
+    //Verifies if the user exists if it doesn't sends to the register page
+    if (props.user) {
+          //Creates a temporary variable to edit the data from user
+      var tempUser = props.user;
+      //Adds the new product to the existing in the users cart
+      tempUser.Carrinho.push({
+        Product_id: id,
+        Product_amount: number
+      });
+      //Creates the object to be sent to the database
+      let data = {
+        _id: tempUser._id,
+        Carrinho: tempUser.Carrinho
+      }
+      //Converts the object to JSON and sends it to the backend
+      Barcelparts.updateUser(JSON.stringify(data))
+        .then(function (result) {
+          //Prints the result
+          console.log(result)
+        })
+      //Reloads the page to display the updated content
+      window.location.reload(true)
     }
-    //Converts the object to JSON and sends it to the backend
-    Barcelparts.updateUser(JSON.stringify(data))
-      .then(function (result) {
-        //Prints the result
-        console.log(result)
-      })
-    //Reloads the page to display the updated content
-    window.location.reload(true)
+    else {
+      window.location.href = "/Register_Page";
+    }
   }
 
   //Handler function that will let the Owner delete the product from the database
