@@ -3,9 +3,6 @@ import Barcelparts from "../Services/Barcelparts.js"
 
 function OrderHistory_Page(props) {
 
-    //Creates a variable with the user info
-    let tempUser = props.user;
-
     const [orders, setOrders] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -16,7 +13,6 @@ function OrderHistory_Page(props) {
         }
         Barcelparts.getOrders(JSON.stringify(data))
             .then(response => {
-                //console.log(response.data.Orders)
                 setOrders(response.data.Orders)
                 setIsLoading(false)
             })
@@ -33,17 +29,10 @@ function OrderHistory_Page(props) {
 
     if (isLoading == false) {
         return (
-            <React.Fragment>
                 <div>
                     <br></br>
-
-                    {
-
-                        orders.map((order, index) => {
-
-                            console.log(order)
+                    { orders.map((order) => {
                             return (
-
                                 <div>
                                     <div className="card">
                                         <ul className="list-group list-group-flush">
@@ -53,16 +42,10 @@ function OrderHistory_Page(props) {
                                     </div>
                                     <br></br>
                                 </div>
-
-
                             )
                         })
-
-
                     }
                 </div>
-
-            </React.Fragment>
         )
     }
 
