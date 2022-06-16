@@ -1,4 +1,9 @@
+require('dotenv').config()
 const User = require("../schema/user_schema.js");
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
+let refreshTokens=[];
 
 class UserController {
 
@@ -20,7 +25,7 @@ class UserController {
     static async apiGetUserByEmail(req, res, next) {
         try {
             //Calls the function to retrieve the products brands
-            let user = await User.findOne({Email:req.body.Email})
+            let user = await User.findOne({ Email: req.body.Email })
             //Stores the result in the res
             res.json(user)
         }
@@ -31,7 +36,7 @@ class UserController {
         }
     }
 
-    static async apiCreateUser(req, res, next) {
+    static async apiCreateUser_old(req, res, next) {
         try {
             var user = req.body;
             //Calls the function to retrieve the products brands
@@ -56,14 +61,14 @@ class UserController {
 
             if (req.body.Address) {
                 user.Address = req.body.Address;
-            } 
+            }
             if (req.body.Carrinho) {
                 user.Carrinho = req.body.Carrinho
             }
-            if (req.body.User_FirstName){
+            if (req.body.User_FirstName) {
                 user.User_FirstName = req.body.User_FirstName
             }
-            if(req.body.User_LastName){
+            if (req.body.User_LastName) {
                 user.User_LastName = req.body.User_LastName
             }
 
@@ -79,6 +84,102 @@ class UserController {
         }
     }
 
+    //New code
+    static async apiUserLogin(req, res, next) {
+        const user = await User.findOne({ UserName: req.body.UserName })
+        if (user == null) {
+            return res.status(400).send('User not found')
+        }
+        try {
+            if (await bcrypt.compare(req.body.Password, user.Password)){
+                const accessToken = apiGenerateAccessToken({user})
+                const refreshToken = jwt.sign({user},process.env.REFRESH_TOKEN_SECRET)
+                refreshTokens.push(refreshToken)
+                res.json({accessToken:accessToken ,refreshToken:refreshToken})
+            }
+            else {
+                res.send('Not allowed')
+            }
+        }
+        //Catches erros and displays them 
+        catch (e) {
+            console.log(`api, ${e}`)
+            res.status(500).json({ error: e })
+        }
+    }
+
+    static apiUserLogout(req, res, next) {
+            refreshTokens= refreshTokens.filter(token => token !== req.body.token)
+            res.sendStatus(204)
+    }
+
+    static async apiCreateUser(req, res, next) {
+        try {
+            const hashedPassword = await bcrypt.hash(req.body.Password, 10)
+            const user = {
+                UserName: req.body.UserName,
+                Password: hashedPassword,
+                User_FirstName: req.body.User_FirstName,
+                User_LastName: req.body.User_LastName,
+                Email: req.body.Email,
+                Carrinho: req.body.Carrinho
+            }
+            User.create(user, function (err, doc) {
+                if (err) return err;
+                else {
+                    res.status(201).send()
+                }
+            });
+        }
+        //Catches erros and displays them 
+        catch (e) {
+            console.log(`api, ${e}`)
+            res.status(500).json({ error: e })
+        }
+    }
+
+    static apiAuthenticateToken(req, res, next) {
+        const authHeader = req.headers['authorization']
+        const token = authHeader && authHeader.split(' ')[1]
+        if (token == null) return res.sendStatus(401)
+    
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
+            if(err) return res.sendStatus(403)
+            req.User= user
+            next()
+        })
+    }
+
+    //Queries the database to find the user with the specified email
+    static apiToken(req, res, next) {
+        const refreshToken= req.body.token
+        if(refreshToken==null) return res.sendStatus(401)
+        if(!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
+        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err,user) => {
+            if(err) return res.sendStatus(403)
+            console.log(user)
+            const accessToken = apiGenerateAccessToken({user})
+            res.json({accessToken:accessToken})
+        })
+        
+    }
+
+        //Queries the database to find the user with the specified email
+        static async apiGetUser(req, res, next) {
+            try {
+
+                res.send(req.User)
+            }
+            //Catches erros and displays them 
+            catch (e) {
+                console.log(`api, ${e}`)
+                res.status(500).json({ error: e })
+            }
+        }
+}
+
+function apiGenerateAccessToken(user) {
+    return jwt.sign(user,process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15s'})
 }
 
 module.exports = UserController

@@ -1,11 +1,11 @@
-const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 
 //Creates the schema structure for products
 const UserSchema = new mongoose.Schema({
+    UserName: {type:String,required:true},
+    Password: {type:String,required:true},
     User_FirstName: {type:String,required:true},
     User_LastName: {type:String,required:true},
-    User_Image: {type:String,required:true},
     Email: {type:String, required:true},
     Address: {type:String, default:""},
     Carrinho: [{
