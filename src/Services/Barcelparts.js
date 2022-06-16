@@ -37,17 +37,7 @@ class ProductsDataService {
   getCategories() {
     return http.get(`/Categories`);
   }
-
-  //Function to create a new user on the database
-  createUser(data) {
-    return http.post('/CreateUser', data)
-  }
-
-  //Function to get the user in case it exists in the database
-  findUser(data) {
-    return http.post('/User', data)
-  }
-
+  
   //Function to update the user information
   updateUser(data) {
     return http.post('/UpdateUser', data)
@@ -62,6 +52,13 @@ class ProductsDataService {
   getOrders(data) {
     return http.post('/GetOrder',data)
   }
+
+  //Users
+ //Function to create a new user on the database
+ registerUser(data) {
+  return http.post('/register', data)
+}
+
 
 }
 

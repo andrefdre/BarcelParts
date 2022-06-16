@@ -1,63 +1,129 @@
-import React from "react";
-import LoginButton from "../Services/login";
-import { useEffect } from 'react';
-import { gapi } from 'gapi-script';
-
+import React, { useEffect, useState } from "react";
+import Barcelparts from "../Services/Barcelparts";
 
 function Register_Page() {
+    const [UserName, setUserName] = useState('');
+    const [FirstName, setFirstName] = useState('');
+    const [LastName, setLastName] = useState('');
+    const [Email, setEmail] = useState('');
+    const [Password, setPassword] = useState('');
+    const [Password2, setPassword2] = useState('');
 
-  //client id given by the google Google Cloud Platform
-  const clientId = "1040605938120-vj3qmpjvouj820vrum6lu196p1j1p2jp.apps.googleusercontent.com";
+    async function registerUser(event) {
+        event.preventDefault()
+        const user = {
+            UserName: UserName,
+            Password: Password,
+            User_FirstName: FirstName,
+            User_LastName: LastName,
+            Email: Email,
+            Carrinho: []
+        }
+       const response = await Barcelparts.registerUser(JSON.stringify(user))
+       console.log(response)
+    }
 
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: clientId,
-        scope: ""
-      })
-    };
 
-    gapi.load('client:auth2', start);
-  });
+return (
+    <div className="vh-100">
+        <div className="container-fluid h-custom">
+            <div className="row d-flex justify-content-center align-items-center h-100">
+                <div className="col-md-9 col-lg-6 col-xl-5">
+                    <svg height="500px" width="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                        focusable="false">
+                        <image height="100%" width="100%" xlinkHref=".\Assets\Images\voiture.svg" style={{ "mixBlendBode": "multiply" }} x="0" y="0" />
+                    </svg>
+                </div>
+                <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                    <form onSubmit={registerUser}>
+                        <h3 className=" fw-normal mb-0 me-2">Register</h3>
+                        <br></br>
+                        {/* <!-- Email input --> */}
+                        <div className="form-outline mb-2">
+                            <input
+                                value={UserName}
+                                onChange={e => { setUserName(e.target.value) }}
+                                type="text"
+                                id="UserName"
+                                name="UserName"
+                                className="form-control form-control-lg"
+                                placeholder="Enter a valid User Name" />
+                            <label className="form-label" htmlFor="UserName">User Name</label>
+                        </div>
 
-  return (
-    <React.Fragment>
-      {/* <!-- Main Content of the Webpage --> */}
-      {/* <!-- Items that will not be displayed with all width of the Page --> */}
+                        <div className="form-outline mb-2">
+                            <input
+                                value={FirstName}
+                                onChange={e => { setFirstName(e.target.value) }}
+                                type="text"
+                                id="FistName"
+                                name="FirstName"
+                                className="form-control form-control-lg"
+                                placeholder="Enter your First Name" />
+                            <label className="form-label" htmlFor="FirstName">First Name</label>
+                        </div>
 
-      <div className="col-md-12 text-center ">
-        <br></br>
-        <div>
-          <h3>Welcome to the official Barcelparts webpage!</h3>
-          <br></br>
+                        <div className="form-outline mb-2">
+                            <input
+                                value={LastName}
+                                onChange={e => { setLastName(e.target.value) }}
+                                type="text"
+                                id="LastName"
+                                name="LastName"
+                                className="form-control form-control-lg"
+                                placeholder="Enter your Last Name" />
+                            <label className="form-label" htmlFor="LastName">Last Name</label>
+                        </div>
+
+                        {/* <!-- Password input --> */}
+                        <div className="form-outline mb-2">
+                            <input
+                                value={Email}
+                                onChange={e => { setEmail(e.target.value) }}
+                                type="email"
+                                id="email" name="email"
+                                className="form-control form-control-lg"
+                                placeholder="Enter a valid Email" />
+                            <label className="form-label" htmlFor="Email">Email</label>
+                        </div>
+
+                        <div className="form-outline mb-2">
+                            <input
+                                value={Password}
+                                onChange={e => { setPassword(e.target.value) }}
+                                type="password"
+                                id="Password"
+                                name="Password"
+                                className="form-control form-control-lg"
+                                placeholder="Enter Password" />
+                            <label className="form-label" htmlFor="Password">Password</label>
+                        </div>
+
+                        <div className="form-outline mb-2">
+                            <input
+                                value={Password2}
+                                onChange={e => { setPassword2(e.target.value) }}
+                                type="password"
+                                id="Password2"
+                                name="Password2"
+                                className="form-control form-control-lg"
+                                placeholder="Enter the same Password" />
+                            <label className="form-label" htmlFor="Password2">Password again</label>
+                        </div>
+
+                        <div className="text-center text-lg-start mt-4 pt-2">
+                            <button type="submit" className="btn btn-primary btn-lg"
+                                style={{ "paddingLeft": "2.5rem", "paddingRight": "2.5rem" }}>Register</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
         </div>
-        < div className="LoginPageButtons">
-          <br></br>
-          <h4>Please log in with google:</h4>
-          <br></br>
-          {/* <!-- call the buttons to login and logout with Google OAuth --> */}
-          <LoginButton />
-          <br></br>
-          {/*<LogoutButton /> */}
-          <br></br>
-          <h4> Or visit us in: </h4>
-          {/* Google maps information about the store location */}
 
-          {
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2986.5255358040135!2d-8.612765484569596!3d41.53621707925083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd24530465e45c5b%3A0xb21c57b050c53689!2sBarcelParts%20-%20Pe%C3%A7as%20e%20acess%C3%B3rios%20para%20autom%C3%B3veis!5e0!3m2!1spt-PT!2spl!4v1650558610448!5m2!1spt-PT!2spl"
-              width="400" height="300" style={{ 'border': '0', 'marginTop': '20px' }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
-          }
-
-          <br></br>
-          <br></br>
-        </div>
-      </div>
-
-    </React.Fragment>
-  )
-
-
-
+    </div>
+)
 }
+
 
 export default Register_Page;

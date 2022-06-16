@@ -5,9 +5,9 @@ import Main_Page from './Pages/Main_Page';
 import Research_Page from './Pages/Research_Page';
 import Catalog_Page from './Pages/Catalog_Page';
 import Register_Page from './Pages/Register_Page';
+import Login_Page from "./Pages/Login_Page";
 import MyData_Page from './Pages/MyData_Page';
 import About_Page from './Pages/About_Page'
-import Logout from "./Services/logout.js";
 import Product_Page from './Pages/Product_Page'
 import Cart_Page from './Pages/Cart_Page'
 import OrderHistory_Page from './Pages/OrderHistory_Page'
@@ -115,11 +115,11 @@ function App() {
 
                                             }
 
-                                            <li><a className="dropdown-item" onClick={Logout} href="./">Sign Out</a></li>
+                                            <li><a className="dropdown-item" onClick="" href="./">Sign Out</a></li>
                                         </ul>
                                     </li>
                                 ) : (
-                                    <a className="nav-link first-navbar" aria-current="page" href="/Register_Page">
+                                    <a className="nav-link first-navbar" aria-current="page" href="/Login_Page">
                                         <div style={{ position: "relative" }}>
                                             <i className="fa-solid fa-user"></i>
                                             Login/Register
@@ -230,6 +230,7 @@ function App() {
                         <Route path="/Research_Page" element={<Research_Page />} />
                         <Route path="/Catalog_Page" element={<Catalog_Page />} />
                         <Route path='/Register_Page' element={<Register_Page />} />
+                        <Route path='/Login_Page' element={<Login_Page />} />
                         {user ? <Route path="/MyData_Page" element={<MyData_Page user={user} />} /> : null }
                         {user ? <Route path="/OrderHistory_Page" element={<OrderHistory_Page user={user} />}/> : null}
                         <Route exact path='/About_Page' element={<About_Page />} />
