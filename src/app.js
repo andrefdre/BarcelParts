@@ -12,8 +12,10 @@ import Product_Page from './Pages/Product_Page'
 import Cart_Page from './Pages/Cart_Page'
 import OrderHistory_Page from './Pages/OrderHistory_Page'
 import Owner_Panel from "./Pages/Owner_Panel";
-import { IsAuthenticated } from './Services/auth'
+import { IsAuthenticated } from './Services/authentication'
 import ProductDataService from "./Services/Barcelparts.js"
+import Barcelparts from "./Services/Barcelparts.js";
+import {getRefreshToken, removeTokens} from './Services/authentication'
 
 
 //Creates the React function that will be rendered in the index Page
@@ -61,6 +63,12 @@ function App() {
                 getCategories()
             })
     }, [])
+
+    const Logout = () => {
+        const refreshToken =getRefreshToken()
+        Barcelparts.logoutUser(refreshToken)
+        removeTokens()
+    } 
 
     //Function to set the search variable when there is a change in the form
     const onChangeSearch = e => {
@@ -115,7 +123,7 @@ function App() {
 
                                             }
 
-                                            <li><a className="dropdown-item" onClick="" href="./">Sign Out</a></li>
+                                            <li><a className="dropdown-item" onClick={Logout} href="./">Sign Out</a></li>
                                         </ul>
                                     </li>
                                 ) : (

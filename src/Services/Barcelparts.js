@@ -59,6 +59,21 @@ class ProductsDataService {
   return http.post('/register', data)
 }
 
+loginUser(refreshToken) {
+  return http.post('/login', refreshToken)
+}
+
+logoutUser(data) {
+  return http.post('/logout', data)
+}
+
+getUser(token) {
+  return http.get('/getUser',{headers: { "authorization": `Bearer ${token}` }})
+}
+
+getNewToken(refreshToken) {
+  return http.post('/token', refreshToken)
+}
 
 }
 
