@@ -14,8 +14,8 @@ router.route("/Create_Product").post(productsCtrl.apiCreateProduct)
 router.route("/Delete_Product").post(productsCtrl.apiDeleteProduct)
 router.route("/Marcas").get(productsCtrl.apiGetProductsMarcas)
 router.route("/Categories").get(productsCtrl.apiGetProductsCategories)
-router.route("/CreateOrder").post(orderCtrl.apiCreateOrder)
-router.route("/GetOrder").post(orderCtrl.apiGetOrders)
+router.route("/CreateOrder").post(userCtrl.apiAuthenticateToken,orderCtrl.apiCreateOrder)
+router.route("/GetOrder").post(userCtrl.apiAuthenticateToken,orderCtrl.apiGetOrders)
 
 //Users
 router.route("/login").post(userCtrl.apiUserLogin)

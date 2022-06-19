@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Barcelparts from "../Services/Barcelparts.js"
+import {getJwtToken} from '../Services/authentication'
 
 function OrderHistory_Page(props) {
 
@@ -11,7 +12,7 @@ function OrderHistory_Page(props) {
         let data = {
             Email: props.user.Email
         }
-        Barcelparts.getOrders(JSON.stringify(data))
+        Barcelparts.getOrders(JSON.stringify(data),getJwtToken())
             .then(response => {
                 setOrders(response.data.Orders)
                 setIsLoading(false)

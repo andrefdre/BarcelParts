@@ -21,7 +21,7 @@ function MyData_Page(props) {
     //Sends the data to the backend
 
     //console.log(data)
-    Barcelparts.updateUser(JSON.stringify(data,getJwtToken()))
+    Barcelparts.updateUser(JSON.stringify(data),getJwtToken())
       .then(function (result) {
         //Prints the result
         console.log(result)
@@ -43,13 +43,14 @@ function MyData_Page(props) {
     //Sends the data to the backend
 
     console.log(data)
-    Barcelparts.updateUser(JSON.stringify(data))
+ 
+    Barcelparts.updateUser(JSON.stringify(data),getJwtToken())
       .then(function (result) {
         //Prints the result
         console.log(result)
       })
 
-    alert("your address was succesfully updated!")
+    alert("your address was successfully updated!")
     window.location.reload(true)
 
   }

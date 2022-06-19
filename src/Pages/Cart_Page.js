@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Barcelparts from "../Services/Barcelparts.js"
+import {getJwtToken} from '../Services/authentication'
 
 function Cart_Page(props) {
 
@@ -47,7 +48,7 @@ function Cart_Page(props) {
                             Payment_Method: (new FormData(forms[0])).get("paymentMethod")
                         }
                         //Creates the order in the database
-                        await Barcelparts.createOrder(JSON.stringify(Order))
+                        await Barcelparts.createOrder(JSON.stringify(Order),getJwtToken())
                             .then(response => {
                                 console.log(response)
                             })
@@ -57,7 +58,7 @@ function Cart_Page(props) {
                         //Empties the cart
                         tempUser.Carrinho = [];
                         //Updates the user's cart
-                        Barcelparts.updateUser(JSON.stringify(tempUser))
+                        Barcelparts.updateUser(JSON.stringify(tempUser),getJwtToken())
                             .then(function (result) {
                                 //Prints the result
                                 console.log(result)
@@ -98,7 +99,7 @@ function Cart_Page(props) {
             Carrinho: tempUser.Carrinho
         }
         //Sends the data to the backend
-        Barcelparts.updateUser(JSON.stringify(data))
+        Barcelparts.updateUser(JSON.stringify(data),getJwtToken(),getJwtToken())
             .then(function (result) {
                 //Prints the result
                 console.log(result)

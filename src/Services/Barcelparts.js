@@ -40,13 +40,13 @@ class ProductsDataService {
 
   //Orders
   //Function to create a new order on the database
-  createOrder(data) {
-    return http.post('/CreateOrder', data)
+  createOrder(data,token) {
+    return http.post('/CreateOrder', data, { headers: { "Authorization": `Bearer ${token}`} })
   }
 
   //Function to get the orders from the database
-  getOrders(data) {
-    return http.post('/GetOrder', data)
+  getOrders(data,token) {
+    return http.post('/GetOrder', data, { headers: { "Authorization": `Bearer ${token}`} })
   }
 
   //Users
@@ -55,8 +55,8 @@ class ProductsDataService {
     return http.post('/register', data)
   }
 
-  loginUser(refreshToken) {
-    return http.post('/login', refreshToken)
+  loginUser(Email) {
+    return http.post('/login', Email , {})
   }
 
   logoutUser(data) {
@@ -64,7 +64,7 @@ class ProductsDataService {
   }
 
   getUser(token) {
-    return http.get('/getUser', { headers: { "authorization": `Bearer ${token}` } })
+    return http.get('/getUser', { headers: { "Authorization": `Bearer ${token}` } })
   }
 
   getNewToken(refreshToken) {
@@ -73,7 +73,7 @@ class ProductsDataService {
 
     //Function to update the user information
     updateUser(data,token) {
-      return http.post('/UpdateUser', data, { headers: { "authorization": `Bearer ${token}` } })
+      return http.post('/UpdateUser', data , { headers: { "Authorization": `Bearer ${token}`} })
     }
 
 }

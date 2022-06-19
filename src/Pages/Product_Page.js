@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NumericInput from 'react-numeric-input';
 import Barcelparts from "../Services/Barcelparts.js"
+import {getJwtToken} from '../Services/authentication'
 
 function Product_Page(props) {
 
@@ -77,7 +78,7 @@ function Product_Page(props) {
         Carrinho: tempUser.Carrinho
       }
       //Converts the object to JSON and sends it to the backend
-      Barcelparts.updateUser(JSON.stringify(data))
+      Barcelparts.updateUser(JSON.stringify(data),getJwtToken())
         .then(function (result) {
           //Prints the result
           console.log(result)

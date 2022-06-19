@@ -3,6 +3,7 @@ const User = require("../schema/user_schema.js");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+
 let refreshTokens = [];
 
 class UserController {
@@ -38,9 +39,8 @@ class UserController {
         }
     }
 
-
-    static async apiUserLogin(req, res, next) {
-        const user = await User.findOne({ UserName: req.body.Email })
+       static async apiUserLogin(req, res, next) {
+        const user = await User.findOne({ Email: req.body.Email })
         if (user == null || user.Email != req.body.Email) {
             return res.status(400).send('User not found')
         }
