@@ -7,57 +7,11 @@ let refreshTokens = [];
 
 class UserController {
 
-    static async apiGetUserById(req, res, next) {
-        try {
-            //Calls the function to retrieve the products brands
-            let user = await User.findById(req.body._id)
-            //Stores the result in the res
-            res.json(user)
-        }
-        //Catches erros and displays them 
-        catch (e) {
-            console.log(`api, ${e}`)
-            res.status(500).json({ error: e })
-        }
-    }
-
-    //Queries the database to find the user with the specified email
-    static async apiGetUserByEmail(req, res, next) {
-        try {
-            //Calls the function to retrieve the products brands
-            let user = await User.findOne({ Email: req.body.Email })
-            //Stores the result in the res
-            res.json(user)
-        }
-        //Catches erros and displays them 
-        catch (e) {
-            console.log(`api, ${e}`)
-            res.status(500).json({ error: e })
-        }
-    }
-
-    static async apiCreateUser_old(req, res, next) {
-        try {
-            var user = req.body;
-            //Calls the function to retrieve the products brands
-            console.log(user.Email);
-            User.create(user, function (err, doc) {
-                if (err) return err;
-                else { res.send("User Created"); }
-            });
-            //Stores the result in the res
-        }
-        //Catches erros and displays them 
-        catch (e) {
-            console.log(`api, ${e}`)
-            res.status(500).json({ error: e })
-        }
-    }
-
     //Function that will Update the user information
     static async apiUpdateUser(req, res, next) {
         try {
-            var user = await User.findById(req.body._id);
+            console.log(req.User,req.body)
+            let user = await User.findById(req.User._id)
 
             if (req.body.Address) {
                 user.Address = req.body.Address;
@@ -85,8 +39,6 @@ class UserController {
     }
 
 
-
-    //New code
     static async apiUserLogin(req, res, next) {
         const user = await User.findOne({ UserName: req.body.Email })
         if (user == null || user.Email != req.body.Email) {
@@ -110,10 +62,12 @@ class UserController {
         }
     }
 
+
     static apiUserLogout(req, res, next) {
         refreshTokens = refreshTokens.filter(token => token !== req.body.token)
         res.sendStatus(204)
     }
+
 
     static async apiCreateUser(req, res, next) {
         try {
@@ -142,6 +96,7 @@ class UserController {
         }
     }
 
+
     static apiAuthenticateToken(req, res, next) {
         const authHeader = req.headers['authorization']
         const token = authHeader && authHeader.split(' ')[1]
@@ -149,6 +104,7 @@ class UserController {
 
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
             if (err) return res.sendStatus(403)
+            //console.log(user)
             req.User = user
             next()
         })
@@ -161,7 +117,6 @@ class UserController {
         if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
             if (err) return res.sendStatus(403)
-            console.log(user)
             const accessToken = apiGenerateAccessToken({ _id: user._id })
             res.json({ accessToken: accessToken })
         })

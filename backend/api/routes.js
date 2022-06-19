@@ -14,9 +14,6 @@ router.route("/Create_Product").post(productsCtrl.apiCreateProduct)
 router.route("/Delete_Product").post(productsCtrl.apiDeleteProduct)
 router.route("/Marcas").get(productsCtrl.apiGetProductsMarcas)
 router.route("/Categories").get(productsCtrl.apiGetProductsCategories)
-router.route("/User").post(userCtrl.apiGetUserByEmail)
-router.route("/CreateUser").post(userCtrl.apiCreateUser_old)
-router.route("/UpdateUser").post(userCtrl.apiUpdateUser)
 router.route("/CreateOrder").post(orderCtrl.apiCreateOrder)
 router.route("/GetOrder").post(orderCtrl.apiGetOrders)
 
@@ -26,5 +23,6 @@ router.route("/logout").delete(userCtrl.apiUserLogout)
 router.route("/register").post(userCtrl.apiCreateUser)
 router.route("/getUser").get(userCtrl.apiAuthenticateToken,userCtrl.apiGetUser)
 router.route("/token").post(userCtrl.apiToken)
+router.route("/UpdateUser").post(userCtrl.apiAuthenticateToken,userCtrl.apiUpdateUser)
 
 module.exports = router

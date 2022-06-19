@@ -1,5 +1,6 @@
 import React from "react";
 import Barcelparts from "../Services/Barcelparts";
+import {getJwtToken} from '../Services/authentication'
 
 function MyData_Page(props) {
 
@@ -13,7 +14,6 @@ function MyData_Page(props) {
 
     //Creates the object to be sent to the database
     let data = {
-      _id: tempUser._id,
       User_FirstName: firstName,
       User_LastName: lastName
 
@@ -21,7 +21,7 @@ function MyData_Page(props) {
     //Sends the data to the backend
 
     //console.log(data)
-    Barcelparts.updateUser(JSON.stringify(data))
+    Barcelparts.updateUser(JSON.stringify(data,getJwtToken()))
       .then(function (result) {
         //Prints the result
         console.log(result)
@@ -60,7 +60,7 @@ function MyData_Page(props) {
       <div className="text-center split left">
       <h4>Current info:</h4>
       <br></br>
-        <img class="Logo" src={props.user.User_Image} alt=""></img>
+        <img className="Logo" src={props.user.User_Image} alt=""></img>
         <br></br>
         <br></br>
         <p>
